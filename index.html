@@ -288,10 +288,108 @@ flujo[0]();
 }
 
 // ===== HAMBURGUESAS =====
-function hamb(){ alert("Hamburguesas ya funcionan, puedes agregar igual que papas"); }
+function hamb(){
+paso=0;data={};
 
-// ===== HOTDOGS =====
-function hot(){ alert("Hot dogs igual, ya puedes adaptarlo como papas"); }
+flujo=[
+()=>abrir("Tipo de Hamburguesa",["Clásica","Hawaiana","Especial"],"radio"),
+()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Ninguna"],"checkbox"),
+()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
+()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio")
+];
+
+flujo[0].key="tipo";
+flujo[1].key="sin";
+flujo[2].key="extra";
+flujo[3].key="papas";
+
+flujo.fin=function(){
+
+function finalizar(ad=[]){
+
+let precios,abrev;
+
+if(data.tipo[0]=="Clásica"){precios={"Sin papas":55,"Con papas":65};abrev="H. Clásica";}
+else if(data.tipo[0]=="Hawaiana"){precios={"Sin papas":60,"Con papas":70};abrev="H. Hawaiana";}
+else{precios={"Sin papas":65,"Con papas":75};abrev="H. Especial";}
+
+let precio=precios[data.papas[0]];
+
+(data.extra||[]).forEach(e=>{
+if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+});
+
+let txt=abrev;
+
+if(data.papas[0]=="Con papas") txt+=" con papas";
+
+let sin=(data.sin||[]).filter(x=>x!="Ninguna");
+if(sin.length) txt+="\nSin: "+sin.join(", ");
+
+let ex=(data.extra||[]).filter(x=>x!="Ninguna");
+if(ex.length) txt+="\nExtras: "+ex.join(", ");
+
+if(ad.length) txt+="\nAderezos de papas: "+ad.filter(x=>x!="Ninguna").join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+}
+
+if(data.papas[0]=="Con papas"){
+abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
+flujo=[];
+flujo.push(()=>{});
+flujo.fin=function(){
+let ad=getSel();
+cerrar();
+finalizar(ad);
+};
+}else{
+finalizar([]);
+}
+
+};
+
+flujo[0]();
+}
+
+// ===== HOT DOGS =====
+function hot(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Sencillo","Especial"],"radio"),
+()=>abrir("Cantidad",["1","2","3"],"radio"),
+()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Ninguna"],"checkbox")
+];
+
+flujo[0].key="tipo";
+flujo[1].key="cant";
+flujo[2].key="sin";
+
+flujo.fin=function(){
+
+let precios={
+"Sencillo":{1:20,2:40,3:55},
+"Especial":{1:25,2:50,3:70}
+};
+
+let tipo=data.tipo[0];
+let cant=parseInt(data.cant[0]);
+
+let precio=precios[tipo][cant];
+
+let txt=`Hot Dog ${tipo} x${cant}`;
+
+let sin=(data.sin||[]).filter(x=>x!="Ninguna");
+if(sin.length) txt+="\nSin: "+sin.join(", ");
+
+txt+=`\nPrecio: $${precio}`;
+add(txt,precio);
+};
+
+flujo[0]();
+}
 
 // ===== FRAPPES =====
 function frap(){
