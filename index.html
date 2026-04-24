@@ -8,16 +8,9 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
-body{
-font-family:Arial;
-background:#c9daf8;
-}
+body{font-family:Arial;background:#c9daf8;}
 
-.container{
-max-width:500px;
-margin:auto;
-padding:10px;
-}
+.container{max-width:500px;margin:auto;padding:10px;}
 
 h1{text-align:center;margin:10px;}
 h2{text-align:center;}
@@ -65,10 +58,7 @@ overflow:auto;
 
 .modal-content{padding:15px;}
 
-.top-bar{
-display:flex;
-justify-content:space-between;
-}
+.top-bar{display:flex;justify-content:space-between;}
 
 label{
 display:block;
@@ -114,7 +104,6 @@ font-size:16px;
 </div>
 
 <script>
-
 let carrito=[], seleccionado=null;
 let paso=0, flujo=[], data={}, maxSel=null;
 
@@ -141,7 +130,6 @@ return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 function control(input){
 let checks=document.querySelectorAll("#ops input");
 
-// Ninguna
 if(input.value==="Ninguna"||input.value==="Ninguno"){
 if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
 }else{
@@ -150,7 +138,6 @@ if(c.value==="Ninguna"||c.value==="Ninguno") c.checked=false;
 });
 }
 
-// límite
 if(maxSel && getSel().length>maxSel) input.checked=false;
 }
 
@@ -287,7 +274,7 @@ add(txt,precios[t]);
 flujo[0]();
 }
 
-// ===== HAMBURGUESAS =====
+// ===== HAMBURGUESAS (ARREGLADO) =====
 function hamb(){
 paso=0;data={};
 
@@ -295,17 +282,23 @@ flujo=[
 ()=>abrir("Tipo de Hamburguesa",["Clásica","Hawaiana","Especial"],"radio"),
 ()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Ninguna"],"checkbox"),
 ()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
-()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio")
+()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio"),
+()=> {
+if(data.papas[0]==="Con papas"){
+abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
+}else{
+flujo.fin();
+}
+}
 ];
 
 flujo[0].key="tipo";
 flujo[1].key="sin";
 flujo[2].key="extra";
 flujo[3].key="papas";
+flujo[4].key="aderezos";
 
 flujo.fin=function(){
-
-function finalizar(ad=[]){
 
 let precios,abrev;
 
@@ -320,7 +313,6 @@ if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
 });
 
 let txt=abrev;
-
 if(data.papas[0]=="Con papas") txt+=" con papas";
 
 let sin=(data.sin||[]).filter(x=>x!="Ninguna");
@@ -329,31 +321,19 @@ if(sin.length) txt+="\nSin: "+sin.join(", ");
 let ex=(data.extra||[]).filter(x=>x!="Ninguna");
 if(ex.length) txt+="\nExtras: "+ex.join(", ");
 
-if(ad.length) txt+="\nAderezos de papas: "+ad.filter(x=>x!="Ninguna").join(", ");
+if(data.aderezos){
+let ad=data.aderezos.filter(x=>x!="Ninguna");
+if(ad.length) txt+="\nAderezos de papas: "+ad.join(", ");
+}
 
 txt+="\nPrecio: $"+precio;
 add(txt,precio);
-}
-
-if(data.papas[0]=="Con papas"){
-abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
-flujo=[];
-flujo.push(()=>{});
-flujo.fin=function(){
-let ad=getSel();
-cerrar();
-finalizar(ad);
-};
-}else{
-finalizar([]);
-}
-
 };
 
 flujo[0]();
 }
 
-// ===== HOT DOGS =====
+// ===== HOTDOGS =====
 function hot(){
 paso=0;data={};
 
@@ -368,19 +348,13 @@ flujo[1].key="cant";
 flujo[2].key="sin";
 
 flujo.fin=function(){
-
-let precios={
-"Sencillo":{1:20,2:40,3:55},
-"Especial":{1:25,2:50,3:70}
-};
-
+let precios={"Sencillo":{1:20,2:40,3:55},"Especial":{1:25,2:50,3:70}};
 let tipo=data.tipo[0];
 let cant=parseInt(data.cant[0]);
 
 let precio=precios[tipo][cant];
 
 let txt=`Hot Dog ${tipo} x${cant}`;
-
 let sin=(data.sin||[]).filter(x=>x!="Ninguna");
 if(sin.length) txt+="\nSin: "+sin.join(", ");
 
