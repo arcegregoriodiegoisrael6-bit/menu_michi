@@ -443,22 +443,27 @@ flujo[1].key="cant";
 flujo[2].key="sin";
 
 flujo.fin=function(){
-let precio=parseInt(data.cant[0].match(/\d+/)[0]);
 
-let txt=`Hot Dog ${data.tipo[0]} x${data.cant[0][0]}`;
+// 🔥 obtener cantidad real (1,2,3)
+let cantidad = data.cant[0].split(" ")[0];
 
-// 🔥 MOSTRAR INGREDIENTES
+// 🔥 obtener precio correcto (20,40,55...)
+let precio = parseInt(data.cant[0].match(/\d+/g).pop());
+
+let txt = `Hot Dog ${data.tipo[0]} x${cantidad}`;
+
+// 🔥 ingredientes
 if(data.sin){
 if(data.sin.includes("Con Todo")){
-txt+="\nCon todo";
+txt += "\nCon todo";
 }else{
-txt+="\nSin: "+data.sin.join(", ");
+txt += "\nSin: " + data.sin.join(", ");
 }
 }
 
-txt+=`\nPrecio: $${precio}`;
+txt += "\nPrecio: $" + precio;
 
-add(txt,precio);
+add(txt, precio);
 };
 
 flujo[0]();
