@@ -133,24 +133,28 @@ document.getElementById("modal").style.display="block";
 
 /* EMOJIS */
 function getEmoji(nombre){
-if(nombre.includes("Crepa")) return "🥞";
-if(nombre.includes("Plátanos")) return "🍌";
+nombre = nombre.toLowerCase();
+
+if(nombre.includes("crepa")) return "🥞";
+if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
 
 if(
-nombre.includes("Papas") ||
-nombre.includes("Salchipulpos") ||
-nombre.includes("Banderilla")
+nombre.includes("papas") ||
+nombre.includes("salchipulpos") ||
+nombre.includes("banderilla")
 ) return "🍟";
 
 if(
-nombre.includes("Hamburguesa") ||
-nombre.includes("Clásica") ||
-nombre.includes("Hawaiana") ||
-nombre.includes("Especial")
+nombre.includes("hamburguesa") ||
+nombre.includes("clásica") ||
+nombre.includes("hawaiana") ||
+nombre.includes("especial")
 ) return "🍔";
 
-if(nombre.includes("Hot Dog")) return "🌭";
-if(nombre.includes("Frappé")) return "🥤";
+// 🔥 AQUÍ EL FIX REAL
+if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
+
+if(nombre.includes("frappé") || nombre.includes("frappe")) return "🥤";
 
 return "🍽️";
 }
@@ -443,10 +447,17 @@ let precio=parseInt(data.cant[0].match(/\d+/)[0]);
 
 let txt=`Hot Dog ${data.tipo[0]} x${data.cant[0][0]}`;
 
-if(data.sin && !data.sin.includes("Con Todo"))
+// 🔥 MOSTRAR INGREDIENTES
+if(data.sin){
+if(data.sin.includes("Con Todo")){
+txt+="\nCon todo";
+}else{
 txt+="\nSin: "+data.sin.join(", ");
+}
+}
 
 txt+=`\nPrecio: $${precio}`;
+
 add(txt,precio);
 };
 
