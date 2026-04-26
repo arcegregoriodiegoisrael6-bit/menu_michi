@@ -126,10 +126,24 @@ document.getElementById("modal").style.display="block";
 function getEmoji(nombre){
 if(nombre.includes("Crepa")) return "🥞";
 if(nombre.includes("Plátanos")) return "🍌";
-if(nombre.includes("Papas")||nombre.includes("Salchipulpos")||nombre.includes("Banderilla")) return "🍟";
-if(nombre.includes("H.")) return "🍔";
+
+if(
+nombre.includes("Papas") ||
+nombre.includes("Salchipulpos") ||
+nombre.includes("Banderilla")
+) return "🍟";
+
+// 🔥 AQUÍ EL FIX DE HAMBURGUESAS
+if(
+nombre.includes("Hamburguesa") ||
+nombre.includes("Clásica") ||
+nombre.includes("Hawaiana") ||
+nombre.includes("Especial")
+) return "🍔";
+
 if(nombre.includes("Hot Dog")) return "🌭";
 if(nombre.includes("Frappé")) return "🥤";
+
 return "🍽️";
 }
 
