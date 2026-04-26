@@ -239,7 +239,7 @@ let b=data.bases||[];
 let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
 if(b.length>=2 && f.length>=4){
-alert("⚠️ Máximo 1 base si eliges muchas frutas");
+alert("⚠️ PARA LA CREPA FRUTAL MAXIMO 1 BASE");
 paso=0;data={};flujo[0]();return;
 }
 
@@ -340,7 +340,7 @@ flujo=[
 "Mayonesa",
 "Mostaza",
 "Catsup",
-"Ninguna"
+"Con Todo"
 ],"checkbox"),
 
 ()=>abrir("Extras",[
@@ -352,7 +352,7 @@ flujo=[
 ],"checkbox"),
 
 ()=>abrir("¿Con papas o sin papas?",[
-"Con papas (+10)",
+"Con papas (+$10)",
 "Sin papas"
 ],"radio"),
 
@@ -433,7 +433,7 @@ abrir("¿Qué cantidad?",["1 $25","2 $50","3 $70"],"radio");
 abrir("¿Qué cantidad?",["1 $20","2 $40","3 $55"],"radio");
 }
 },
-()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Ninguna"],"checkbox")
+()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Con Todo"],"checkbox")
 ];
 
 flujo[0].key="tipo";
