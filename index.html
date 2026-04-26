@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -313,7 +312,7 @@ flujo[2].key="top";
 flujo.fin=function(){
 let precio=data.tipo[0].includes("30")?30:40;
 
-let txt="Plátanos "+data.tipo[0];
+let txt="Plátanos "+data.tipo[0].split(" - ")[0];
 if(data.comp && !data.comp.includes("Ninguna"))
 txt+="\nComplementos: "+data.comp.join(", ");
 if(data.top && !data.top.includes("Ninguno"))
@@ -346,7 +345,7 @@ flujo[1].key="ad";
 flujo.fin=function(){
 let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
 
-let txt=data.tipo[0];
+let txt=data.tipo[0].split(" - ")[0];
 if(data.ad && !data.ad.includes("Ninguna"))
 txt+="\nAderezos: "+data.ad.join(", ");
 
@@ -412,7 +411,8 @@ if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
 });
 
 // texto
-let txt="Hamburguesa "+data.tipo[0];
+let nombreHamb = data.tipo[0].split(" - ")[0];
+let txt="Hamburguesa " + nombreHamb;
 
 if(data.papas[0].includes("Con papas")){
 txt+="\nCon papas";
@@ -464,7 +464,7 @@ setCategoria("hot");paso=0;data={};
 flujo=[
 ()=>abrir("Tipo",["Sencillo","Especiales"],"radio"),
 ()=> {
-if(data.tipo[0]==="Especial"){
+if(data.tipo[0]==="Especiales"){
 abrir("¿Qué cantidad?",["1 $25","2 $50","3 $70"],"radio");
 }else{
 abrir("¿Qué cantidad?",["1 $20","2 $40","3 $55"],"radio");
