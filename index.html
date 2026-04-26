@@ -213,8 +213,6 @@ total+=i.precio;
 
 document.getElementById("total").innerText="Total: $"+total;
 }
-document.getElementById("total").innerText="Total: $"+total;
-}
 
 function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
