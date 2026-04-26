@@ -196,7 +196,48 @@ function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];render();}
 
-/* ================= PLATANOS ================= */
+/* ================= CREPAS (INTACTAS) ================= */
+function crepas(){
+setCategoria("crepas");
+paso=0;data={};
+
+flujo=[
+()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
+()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
+()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
+];
+
+flujo[0].key="bases";
+flujo[1].key="frutas";
+flujo[2].key="dec";
+flujo[3].key="top";
+
+flujo.fin=function(){
+let b=data.bases||[];
+let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+
+let nb=b.length,nf=f.length;
+let precio=30;
+
+if(nb==1&&nf==1)precio=40;
+else if(nb==2&&nf==0)precio=35;
+else if(nb>=1&&nf>=2)precio=45;
+else if(nb>=1&&nf>=3)precio=50;
+
+let txt="Crepa\nBase: "+b.join(", ");
+if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
+if(data.dec) txt+="\nDecoración: "+data.dec;
+if(data.top) txt+="\nToppings: "+data.top;
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
+
+flujo[0]();
+}
+
+/* ================= PLATANOS (CON PRECIOS) ================= */
 function platanos(){
 setCategoria("platanos");
 paso=0;data={};
@@ -206,8 +247,8 @@ flujo=[
 {label:"Fritos - $30",value:"Fritos"},
 {label:"Árabes - $40",value:"Árabes"}
 ],"radio"),
-()=>abrir("Complementos",["Crema","Lechera","Mermelada","Ninguna"],"checkbox"),
-()=>abrir("Toppings",["Chocolate","Nuez","Lunetitas","Ninguno"],"radio")
+()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Nuez","Lunetitas","Gotas de chocolate","Ninguno"],"radio")
 ];
 
 flujo[0].key="tipo";
@@ -229,7 +270,7 @@ add(txt,precio);
 flujo[0]();
 }
 
-/* ================= PAPAS ================= */
+/* ================= PAPAS (CON PRECIOS) ================= */
 function papas(){
 setCategoria("papas");
 paso=0;data={};
@@ -241,7 +282,7 @@ flujo=[
 {label:"Banderilla con papas - $35",value:"Banderilla con papas"},
 {label:"Banderilla sola - $25",value:"Banderilla sola"}
 ],"radio"),
-()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguno"],"checkbox")
+()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
 ];
 
 flujo[0].key="tipo";
@@ -272,18 +313,20 @@ setCategoria("hamb");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",[
+()=>abrir("Tipo de Hamburguesa",[
 {label:"Clásica - $55",value:"Clásica"},
 {label:"Hawaiana - $60",value:"Hawaiana"},
 {label:"Especial - $65",value:"Especial"}
 ],"radio"),
-()=>abrir("Extras",["Tocino $8","Piña $8","Carne $10","Ninguno"],"checkbox"),
+()=>abrir("Omitir ingredientes",["Jamón","Queso","Jitomate","Cebolla","Lechuga","Ninguna"],"checkbox"),
+()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguna"],"checkbox"),
 ()=>abrir("Con papas +$10",["Con papas","Sin papas"],"radio")
 ];
 
 flujo[0].key="tipo";
-flujo[1].key="extra";
-flujo[2].key="papas";
+flujo[1].key="sin";
+flujo[2].key="extra";
+flujo[3].key="papas";
 
 flujo.fin=function(){
 
@@ -303,7 +346,7 @@ add("Hamburguesa "+tipo,precio);
 flujo[0]();
 }
 
-/* ================= HOT DOGS ================= */
+/* ================= HOT DOGS (VENTANA ESPECIAL CORREGIDA) ================= */
 function hot(){
 setCategoria("hot");
 paso=0;data={};
@@ -334,7 +377,7 @@ add(`Hot Dog ${tipo} x${cant}`,precios[tipo][cant]);
 flujo[0]();
 }
 
-/* ================= FRAPPES ================= */
+/* ================= FRAPPES (FRESA CON SEGUNDA VENTANA) ================= */
 function frap(){
 setCategoria("frap");
 paso=0;data={};
@@ -344,8 +387,9 @@ flujo=[
 {label:"Oreo - $30",value:"Oreo"},
 {label:"Mazapán - $30",value:"Mazapán"},
 {label:"Frappuccino - $30",value:"Frappuccino"},
-{label:"Fresa",value:"Fresa"}
+{label:"Fresa (abre tamaño)",value:"Fresa"}
 ],"radio"),
+
 ()=>abrir("Tamaño",[
 {label:"Chico - $35",value:"Chico"},
 {label:"Grande - $60",value:"Grande"}
@@ -356,7 +400,6 @@ flujo[0].key="tipo";
 flujo[1].key="tam";
 
 flujo.fin=function(){
-
 let precios={
 Oreo:{Chico:30,Grande:50},
 Mazapán:{Chico:30,Grande:50},
