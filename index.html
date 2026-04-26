@@ -8,13 +8,20 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Arial;background:#c9daf8;}
+
 .container{max-width:500px;margin:auto;padding:10px;}
 h1{text-align:center;margin:10px;}
 h2{text-align:center;}
 
 button{
-width:100%;padding:15px;margin:5px 0;font-size:18px;
-border:none;border-radius:10px;font-weight:bold;cursor:pointer;
+width:100%;
+padding:15px;
+margin:5px 0;
+font-size:18px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .crepas{background:#ffd966;}
@@ -29,29 +36,48 @@ border:none;border-radius:10px;font-weight:bold;cursor:pointer;
 .vaciar{background:#ea9999;color:white;}
 
 #carrito{
-background:white;padding:10px;border-radius:10px;
-margin:10px 0;max-height:200px;overflow:auto;
+background:white;
+padding:10px;
+border-radius:10px;
+margin:10px 0;
+max-height:200px;
+overflow:auto;
 }
 
 .selected{background:#d9ead3;}
 
 .modal{
-position:fixed;top:0;left:0;width:100%;height:100%;
-display:none;overflow:auto;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:none;
+overflow:auto;
 }
 
 .modal-content{
-padding:15px;background:white;border-radius:20px;
-margin:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);
+padding:15px;
+background:white;
+border-radius:20px;
+margin:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .top-bar{display:flex;justify-content:space-between;}
-.top-bar button{background:#6fa8dc;color:white;padding:10px;border-radius:10px;}
+.top-bar button{
+background:#6fa8dc;
+color:white;
+padding:10px;
+border-radius:10px;
+}
+
 #titulo{text-align:center;margin:10px 0;font-size:20px;}
 
 #ops label{
-display:block;padding:10px;margin:5px 0;
-background:#f3f3f3;border-radius:10px;
+display:block;
+padding:10px;
+margin:5px 0;
+background:#f3f3f3;
+border-radius:10px;
 }
 </style>
 </head>
@@ -116,6 +142,7 @@ return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 
 function control(input){
 let checks=document.querySelectorAll("#ops input");
+
 if(input.value==="Ninguna"||input.value==="Ninguno"){
 if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
 }else{
@@ -153,7 +180,11 @@ total+=i.precio;
 document.getElementById("total").innerText="Total: $"+total;
 }
 
-/* ================= CREPAS (REGLA ORIGINAL RESTAURADA) ================= */
+function seleccionar(i){seleccionado=i;render();}
+function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
+function vaciar(){carrito=[];render();}
+
+/* CREPAS */
 function crepas(){
 setCategoria("crepas");paso=0;data={};
 
@@ -192,75 +223,92 @@ add("Crepa",precio);
 flujo[0]();
 }
 
-/* ================= HAMBURGUESAS (CON ADEREZOS DE PAPAS) ================= */
-function hamb(){
-setCategoria("hamb");paso=0;data={};
+/* PAPAS */
+function papas(){
+setCategoria("papas");paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Clásica - $55","Hawaiana - $60","Especial - $65"],"radio"),
-()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Ninguna"],"checkbox"),
-()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
-()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio"),
-()=> {
-if(data.papas[0]==="Con papas"){
-abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
-}else{
-flujo.fin();
-}
-}
+()=>abrir("Tipo",[
+"Papas a la francesa - $35",
+"Salchipulpos con papas - $45",
+"Banderilla con papas - $35",
+"Banderilla sola - $25"
+],"radio"),
+
+()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
 ];
 
 flujo[0].key="tipo";
-flujo[1].key="sin";
-flujo[2].key="extra";
-flujo[3].key="papas";
-flujo[4].key="aderezos";
+flujo[1].key="ad";
 
 flujo.fin=function(){
-let precios={"Clásica - $55":55,"Hawaiana - $60":60,"Especial - $65":65};
-let precio=precios[data.tipo[0]];
+let precios={
+"Papas a la francesa - $35":35,
+"Salchipulpos con papas - $45":45,
+"Banderilla con papas - $35":35,
+"Banderilla sola - $25":25
+};
 
-if(data.papas[0]==="Con papas") precio+=10;
+let t=data.tipo[0];
 
-(data.extra||[]).forEach(e=>{
-if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
-});
+let txt=t;
+if(data.ad) txt+="\nAderezos: "+data.ad.join(", ");
 
-add("Hamburguesa",precio);
+txt+="\nPrecio: $"+precios[t];
+
+add(txt,precios[t]);
 };
 
 flujo[0]();
 }
 
-/* ================= HOT DOGS (ORDEN CORREGIDO) ================= */
+/* HOT DOGS */
 function hot(){
 setCategoria("hot");paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",["Sencillo","Especial"],"radio"),
-()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Ninguna"],"checkbox"),
-()=>abrir("¿Qué cantidad?",["1","2","3"],"radio")
+
+()=> {
+if(data.tipo[0]==="Especial"){
+abrir("¿Qué cantidad?",["1 - $25","2 - $50","3 - $70"],"radio");
+}else{
+abrir("¿Qué cantidad?",["1 - $20","2 - $40","3 - $55"],"radio");
+}
+},
+
+()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Ninguna"],"checkbox")
 ];
 
 flujo[0].key="tipo";
-flujo[1].key="sin";
-flujo[2].key="cant";
+flujo[1].key="cant";
+flujo[2].key="sin";
 
 flujo.fin=function(){
+let tipo=data.tipo[0];
+let cant=parseInt(data.cant[0]);
+
 let precios={
 Sencillo:{1:20,2:40,3:55},
 Especial:{1:25,2:50,3:70}
 };
-let tipo=data.tipo[0];
-let cant=data.cant[0];
 
-add("Hot Dog "+tipo+" x"+cant,precios[tipo][cant]);
+let precio=precios[tipo][cant];
+
+let txt=`Hot Dog ${tipo} x${cant}`;
+if(data.sin && !data.sin.includes("Ninguna")){
+txt+="\nSin: "+data.sin.join(", ");
+}
+
+txt+=`\nPrecio: $${precio}`;
+
+add(txt,precio);
 };
 
 flujo[0]();
 }
 
-/* ================= FRAPPES (FRESA CON VENTANA EXTRA) ================= */
+/* FRAPPES */
 function frap(){
 setCategoria("frap");paso=0;data={};
 
@@ -286,14 +334,16 @@ add("Frappé "+data.tipo[0],precio);
 flujo[0]();
 }
 
-/* ================= ENVIAR ================= */
+/* ENVIAR */
 function enviar(){
 let txt="🧾 Pedido El Michi 🐱\n\n";
 let total=0;
+
 carrito.forEach(i=>{
 txt+=i.nombre+"\n\n";
 total+=i.precio;
 });
+
 txt+="Total: $"+total;
 window.open("https://wa.me/525532416109?text="+encodeURIComponent(txt));
 }
