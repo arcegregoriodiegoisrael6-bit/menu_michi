@@ -135,26 +135,30 @@ document.getElementById("modal").style.display="block";
 function getEmoji(nombre){
 nombre = nombre.toLowerCase();
 
-// 🔥 PRIMERO detectar hot dogs (ANTES que hamburguesa)
+// 🔥 prioridad principal (para evitar conflictos)
 if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
 
-if(nombre.includes("crepa")) return "🥞";
-
-if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
-
-if(
-nombre.includes("papas") ||
-nombre.includes("salchipulpos") ||
-nombre.includes("banderilla")
-) return "🍟";
-
-// 🔥 hamburguesas DESPUÉS
 if(
 nombre.includes("hamburguesa") ||
 nombre.includes("clásica") ||
 nombre.includes("hawaiana") ||
 nombre.includes("especial")
 ) return "🍔";
+
+if(nombre.includes("crepa")) return "🥞";
+
+if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
+
+// 🔥 PAPAS (más completo como pediste)
+if(
+nombre.includes("papas") ||
+nombre.includes("papas a la francesa") ||
+nombre.includes("salchipulpos") ||
+nombre.includes("salchipulpos con papas") ||
+nombre.includes("banderilla") ||
+nombre.includes("banderilla con papas") ||
+nombre.includes("banderilla sola")
+) return "🍟";
 
 if(nombre.includes("frappé") || nombre.includes("frappe")) return "🥤";
 
@@ -399,28 +403,57 @@ flujo[4].key="aderezos";
 flujo.fin=function(){
 let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
 
+// papas
 if(data.papas[0].includes("+10")) precio+=10;
 
+// extras
 (data.extra||[]).forEach(e=>{
 if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
 });
 
-let txt=data.tipo[0];
-if(data.papas[0].includes("Con papas")) txt+=" con papas";
+// texto
+let txt="Hamburguesa "+data.tipo[0];
 
-if(data.sin && !data.sin.includes("Con Todo"))
+if(data.papas[0].includes("Con papas")){
+txt+="\nCon papas";
+}else{
+txt+="\nSin papas";
+}
+
+// 🔥 SIEMPRE mostrar selección
+if(data.sin){
+if(data.sin.includes("Con Todo")){
+txt+="\nIngredientes: Con todo";
+}else{
 txt+="\nSin: "+data.sin.join(", ");
+}
+}
 
-if(data.extra && !data.extra.includes("Ninguna"))
+// 🔥 extras SIEMPRE visibles
+if(data.extra){
+if(data.extra.includes("Ninguna")){
+txt+="\nExtras: Ninguna";
+}else{
 txt+="\nExtras: "+data.extra.join(", ");
+}
+}
 
-if(data.aderezos && !data.aderezos.includes("Ninguna"))
+// aderezos papas
+if(data.papas[0].includes("Con papas")){
+if(data.aderezos){
+if(data.aderezos.includes("Ninguna")){
+txt+="\nAderezos papas: Ninguna";
+}else{
 txt+="\nAderezos papas: "+data.aderezos.join(", ");
+}
+}
+}
 
 txt+="\nPrecio: $"+precio;
+
 add(txt,precio);
 };
-
+  
 flujo[0]();
 }
 
