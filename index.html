@@ -47,7 +47,6 @@ overflow:auto;
 
 .selected{background:#d9ead3;}
 
-/* MODALES */
 .modal{
 position:fixed;
 top:0;left:0;
@@ -55,13 +54,6 @@ width:100%;height:100%;
 display:none;
 overflow:auto;
 }
-
-.modal.crepas{background:linear-gradient(135deg,#fff2cc,#ffd966);}
-.modal.platanos{background:linear-gradient(135deg,#ffe0b3,#ffb347);}
-.modal.papas{background:linear-gradient(135deg,#ffd9cc,#ff9966);}
-.modal.hamb{background:linear-gradient(135deg,#ffe5cc,#f6b26b);}
-.modal.hot{background:linear-gradient(135deg,#d9ead3,#93c47d);}
-.modal.frap{background:linear-gradient(135deg,#d0e0e3,#76a5af);}
 
 .modal-content{
 padding:15px;
@@ -139,26 +131,16 @@ let paso=0, flujo=[], data={}, maxSel=null;
 
 function setCategoria(cat){
 document.getElementById("modal").className="modal "+cat;
-}
-
-function getEmoji(nombre){
-if(nombre.includes("Crepa")) return "🥞";
-if(nombre.includes("Plátanos")) return "🍌";
-if(nombre.includes("Papas")||nombre.includes("Salchipulpos")||nombre.includes("Banderilla")) return "🍟";
-if(nombre.includes("H.")) return "🍔";
-if(nombre.includes("Hot Dog")) return "🌭";
-if(nombre.includes("Frappé")) return "🥤";
-return "🍽️";
+document.getElementById("modal").style.display="block";
 }
 
 function abrir(titulo,ops,tipo,max=null){
-document.getElementById("modal").style.display="block";
-document.getElementById("titulo").innerText=titulo;
 maxSel=max;
+document.getElementById("titulo").innerText=titulo;
 
 let html="";
 ops.forEach(o=>{
-html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
+html+=`<label><input type="${tipo}" value="${o}" onclick="control(this)"> ${o}</label>`;
 });
 document.getElementById("ops").innerHTML=html;
 }
@@ -173,12 +155,9 @@ return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 function control(input){
 let checks=document.querySelectorAll("#ops input");
 
-if(input.value==="Ninguna"||input.value==="Ninguno"){
-if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
-}else{
-checks.forEach(c=>{
-if(c.value==="Ninguna"||c.value==="Ninguno") c.checked=false;
-});
+if(input.checked){
+if(input.value.includes("Ninguno")) checks.forEach(c=>c.checked=false);
+else checks.forEach(c=>{if(c.value.includes("Ninguno")) c.checked=false});
 }
 
 if(maxSel && getSel().length>maxSel) input.checked=false;
@@ -206,9 +185,8 @@ div.innerHTML="";
 let total=0;
 
 carrito.forEach((i,idx)=>{
-let emoji=getEmoji(i.nombre);
 div.innerHTML+=`<p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
-${emoji} $${i.precio} - ${i.nombre.replace(/\n/g,"<br>")}
+$${i.precio} - ${i.nombre.replace(/\n/g,"<br>")}
 </p>`;
 total+=i.precio;
 });
@@ -218,74 +196,22 @@ document.getElementById("total").innerText="Total: $"+total;
 
 function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
-function vaciar(){carrito=[];render();}
+function vaciar(){carrito=[];seleccionado=null;render();}
 
-/* ================= CREPAS ================= */
-function crepas(){
-setCategoria("crepas");
-paso=0;data={};
-
-flujo=[
-()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
-()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
-()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
-()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
-];
-
-flujo[0].key="bases";
-flujo[1].key="frutas";
-flujo[2].key="dec";
-flujo[3].key="top";
-
-flujo.fin=function(){
-let b=data.bases||[];
-let f=(data.frutas||[]).filter(x=>x!="Ninguna");
-
-let nb=b.length,nf=f.length;
-let precio=30;
-
-if((nb==1&&nf>=3)||(nb==2&&nf==2))precio=50;
-else if(nb==1&&nf==1)precio=40;
-else if(nb==2&&nf==0)precio=35;
-else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
-
-let txt="Crepa\nBase: "+b.join(", ");
-if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
-if(data.dec) txt+="\nDecoración: "+data.dec;
-if(data.top) txt+="\nToppings: "+data.top;
-
-txt+="\nPrecio: $"+precio;
-add(txt,precio);
-};
-
-flujo[0]();
-}
-
-/* ================= PLATANOS ================= */
-/* (SIN CAMBIOS) */
-
-/* ================= PAPAS ================= */
-/* (SIN CAMBIOS) */
-
-/* ================= HAMBURGUESAS ================= */
-/* (SIN CAMBIOS) */
-
-/* ================= 🔥 HOT DOGS ARREGLADO ================= */
+/* ================= HOT DOGS ================= */
 function hot(){
 setCategoria("hot");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo de Hot Dog",["Sencillo","Especial"],"radio"),
-
 ()=> {
 if(data.tipo[0]==="Sencillo"){
-abrir("¿Qué cantidad?",["1 $20","2 $40","3 $55"],"radio");
+abrir("Cantidad",["1 $20","2 $40","3 $55"],"radio");
 }else{
-abrir("¿Qué cantidad?",["1 $25","2 $50","3 $70"],"radio");
+abrir("Cantidad",["1 $25","2 $50","3 $70"],"radio");
 }
 },
-
 ()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Ninguna"],"checkbox")
 ];
 
@@ -294,7 +220,6 @@ flujo[1].key="cant";
 flujo[2].key="sin";
 
 flujo.fin=function(){
-
 let tipo=data.tipo[0];
 let cant=data.cant[0];
 
@@ -323,21 +248,63 @@ add(txt,precio);
 flujo[0]();
 }
 
-/* ================= FRAPPES ================= */
-/* (SIN CAMBIOS) */
+/* ================= FRAPPES (ARREGLADO) ================= */
+function frap(){
+setCategoria("frap");
+paso=0;data={};
 
-/* ================= ENVIAR ================= */
+flujo=[
+()=>abrir("Tipo de Frappé",["Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
+
+()=> {
+if(data.tipo[0]==="Fresa"){
+abrir("¿Qué tamaño?",["Chico $35","Grande $60"],"radio");
+}else{
+abrir("¿Qué tamaño?",["Chico $30","Grande $50"],"radio");
+}
+}
+];
+
+flujo[0].key="tipo";
+flujo[1].key="tam";
+
+flujo.fin=function(){
+let tipo=data.tipo[0];
+let tam=data.tam[0];
+
+let precio=0;
+
+if(tipo==="Fresa"){
+if(tam.includes("Chico")) precio=35;
+if(tam.includes("Grande")) precio=60;
+}else{
+if(tam.includes("Chico")) precio=30;
+if(tam.includes("Grande")) precio=50;
+}
+
+let txt=`Frappé ${tipo} (${tam.split(" ")[0]})`;
+txt+=`\nPrecio: $${precio}`;
+
+add(txt,precio);
+};
+
+flujo[0]();
+}
+
+/* ENVIAR */
 function enviar(){
+if(carrito.length===0){alert("Carrito vacío");return;}
+
 let txt="🧾 Pedido - El Michi 🐱%0A%0A";
 let total=0;
 
 carrito.forEach(i=>{
-let emoji=getEmoji(i.nombre);
-txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+txt+=i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
 total+=i.precio;
 });
 
 txt+="💰 Total: $"+total;
+
 window.open("https://wa.me/525532416109?text="+txt);
 }
 </script>
