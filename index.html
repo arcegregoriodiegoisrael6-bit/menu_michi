@@ -135,7 +135,11 @@ document.getElementById("modal").style.display="block";
 function getEmoji(nombre){
 nombre = nombre.toLowerCase();
 
+// 🔥 PRIMERO detectar hot dogs (ANTES que hamburguesa)
+if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
+
 if(nombre.includes("crepa")) return "🥞";
+
 if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
 
 if(
@@ -144,15 +148,13 @@ nombre.includes("salchipulpos") ||
 nombre.includes("banderilla")
 ) return "🍟";
 
+// 🔥 hamburguesas DESPUÉS
 if(
 nombre.includes("hamburguesa") ||
 nombre.includes("clásica") ||
 nombre.includes("hawaiana") ||
 nombre.includes("especial")
 ) return "🍔";
-
-// 🔥 AQUÍ EL FIX REAL
-if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
 
 if(nombre.includes("frappé") || nombre.includes("frappe")) return "🥤";
 
