@@ -168,16 +168,32 @@ return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 function control(input){
 let checks=document.querySelectorAll("#ops input");
 
-if(input.value==="Ninguna"||input.value==="Ninguno"){
-if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
-}else{
+// 🔥 AGREGAMOS "Con Todo"
+if(
+input.value==="Ninguna" ||
+input.value==="Ninguno" ||
+input.value==="Con Todo"
+){
+if(input.checked){
 checks.forEach(c=>{
-if(c.value==="Ninguna"||c.value==="Ninguno") c.checked=false;
+if(c!==input) c.checked=false;
 });
 }
-if(maxSel && getSel().length>maxSel) input.checked=false;
+}else{
+checks.forEach(c=>{
+if(
+c.value==="Ninguna" ||
+c.value==="Ninguno" ||
+c.value==="Con Todo"
+){
+c.checked=false;
+}
+});
 }
 
+// límite máximo
+if(maxSel && getSel().length>maxSel) input.checked=false;
+}
 function next(){
 let sel=getSel();
 if(!sel.length){alert("Selecciona algo");return;}
@@ -235,26 +251,42 @@ flujo[2].key="dec";
 flujo[3].key="top";
 
 flujo.fin=function(){
+
 let b=data.bases||[];
 let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
+// 🔥 VALIDACIÓN
 if(b.length>=2 && f.length>=4){
-alert("⚠️ PARA LA CREPA FRUTAL MAXIMO 1 BASE");
-paso=0;data={};flujo[0]();return;
-}
-
-let txt="Crepa\nBase: "+b.join(", ");
-if(f.length) txt+="\nFruta: "+f.join(", ");
-if(data.dec) txt+="\nDecoración: "+data.dec;
-if(data.top) txt+="\nToppings: "+data.top;
-
-txt+="\nPrecio: $30";
-add(txt,30);
-};
-
+alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
+paso=0;
+data={};
 flujo[0]();
+return;
 }
 
+let nb=b.length, nf=f.length;
+let precio=30;
+
+// 🔥 REGLAS DE PRECIO
+if(nb==1 && nf==1) precio=40;
+else if(nb==2 && nf==0) precio=35;
+else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
+else if(nb>=1 && nf>=4) precio=50;
+else if(nb>=2 && nf>=2) precio=50;
+else if(nb>=1 && nf>=3) precio=50;
+else if(nb>=2 && nf>=3) precio=50;
+
+// 🧾 TEXTO
+let txt="Crepa\nBase: "+b.join(", ");
+
+if(f.length) txt+="\nFruta: "+f.join(", ");
+if(data.dec && data.dec[0]!="Ninguna") txt+="\nDecoración: "+data.dec;
+if(data.top && data.top[0]!="Ninguno") txt+="\nToppings: "+data.top;
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+};
 /* PLATANOS */
 function platanos(){
 setCategoria("platanos");paso=0;data={};
