@@ -404,7 +404,7 @@ flujo.fin=function(){
 let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
 
 // papas
-if(data.papas[0].includes("+10")) precio+=10;
+if(data.papas[0].includes("Con papas")) precio+=10;
 
 // extras
 (data.extra||[]).forEach(e=>{
