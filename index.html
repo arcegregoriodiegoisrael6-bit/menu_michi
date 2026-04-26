@@ -196,48 +196,7 @@ function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];render();}
 
-/* ================= CREPAS (INTACTAS) ================= */
-function crepas(){
-setCategoria("crepas");
-paso=0;data={};
-
-flujo=[
-()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
-()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
-()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
-()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
-];
-
-flujo[0].key="bases";
-flujo[1].key="frutas";
-flujo[2].key="dec";
-flujo[3].key="top";
-
-flujo.fin=function(){
-let b=data.bases||[];
-let f=(data.frutas||[]).filter(x=>x!="Ninguna");
-
-let nb=b.length,nf=f.length;
-let precio=30;
-
-if(nb==1&&nf==1)precio=40;
-else if(nb==2&&nf==0)precio=35;
-else if(nb>=1&&nf>=2)precio=45;
-else if(nb>=1&&nf>=3)precio=50;
-
-let txt="Crepa\nBase: "+b.join(", ");
-if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
-if(data.dec) txt+="\nDecoración: "+data.dec;
-if(data.top) txt+="\nToppings: "+data.top;
-
-txt+="\nPrecio: $"+precio;
-add(txt,precio);
-};
-
-flujo[0]();
-}
-
-/* ================= PLATANOS (CON PRECIOS) ================= */
+/* ================= PLATANOS ================= */
 function platanos(){
 setCategoria("platanos");
 paso=0;data={};
@@ -247,8 +206,8 @@ flujo=[
 {label:"Fritos - $30",value:"Fritos"},
 {label:"Árabes - $40",value:"Árabes"}
 ],"radio"),
-()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
-()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Nuez","Lunetitas","Gotas de chocolate","Ninguno"],"radio")
+()=>abrir("Complementos",["Crema","Lechera","Mermelada","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Chocolate","Nuez","Lunetitas","Ninguno"],"radio")
 ];
 
 flujo[0].key="tipo";
@@ -257,69 +216,68 @@ flujo[2].key="top";
 
 flujo.fin=function(){
 let tipo=data.tipo[0];
-let precio = tipo==="Fritos"?30:40;
-
-let txt="Plátanos "+tipo;
-if(data.comp) txt+="\nComplementos: "+data.comp.join(", ");
-if(data.top) txt+="\nToppings: "+data.top;
-
-txt+="\nPrecio: $"+precio;
-add(txt,precio);
+let precio=tipo==="Fritos"?30:40;
+add("Plátanos "+tipo,precio);
 };
 
 flujo[0]();
 }
 
-/* ================= PAPAS (CON PRECIOS) ================= */
+/* ================= PAPAS ================= */
 function papas(){
 setCategoria("papas");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",[
-{label:"Papas a la francesa - $35",value:"Papas a la francesa"},
-{label:"Salchipulpos con papas - $45",value:"Salchipulpos con papas"},
-{label:"Banderilla con papas - $35",value:"Banderilla con papas"},
-{label:"Banderilla sola - $25",value:"Banderilla sola"}
+{label:"Papas a la francesa - $35",value:"Papas"},
+{label:"Salchipulpos - $45",value:"Salchi"},
+{label:"Banderilla con papas - $35",value:"BandiPapas"},
+{label:"Banderilla sola - $25",value:"Bandi"}
 ],"radio"),
-()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
+
+()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguno"],"checkbox")
 ];
 
 flujo[0].key="tipo";
 flujo[1].key="ad";
 
 flujo.fin=function(){
-let precios={
-"Papas a la francesa":35,
-"Salchipulpos con papas":45,
-"Banderilla con papas":35,
-"Banderilla sola":25
-};
-
+let precios={"Papas":35,"Salchi":45,"BandiPapas":35,"Bandi":25};
 let t=data.tipo[0];
-let txt=t;
-if(data.ad) txt+="\nAderezos: "+data.ad.join(", ");
-
-txt+="\nPrecio: $"+precios[t];
-add(txt,precios[t]);
+add(t,precios[t]);
 };
 
 flujo[0]();
 }
 
-/* ================= HAMBURGUESAS ================= */
+/* ================= HAMBURGUESAS (CON OMITIR INGREDIENTES RESTAURADO) ================= */
 function hamb(){
 setCategoria("hamb");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo de Hamburguesa",[
+()=>abrir("Tipo",[
 {label:"Clásica - $55",value:"Clásica"},
 {label:"Hawaiana - $60",value:"Hawaiana"},
 {label:"Especial - $65",value:"Especial"}
 ],"radio"),
-()=>abrir("Omitir ingredientes",["Jamón","Queso","Jitomate","Cebolla","Lechuga","Ninguna"],"checkbox"),
-()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguna"],"checkbox"),
+
+/* ✔ VENTANA RESTAURADA */
+()=>abrir("Omitir ingredientes",[
+{label:"Jamón",value:"Jamón"},
+{label:"Queso",value:"Queso"},
+{label:"Jitomate",value:"Jitomate"},
+{label:"Cebolla",value:"Cebolla"},
+{label:"Lechuga",value:"Lechuga"},
+{label:"Mayonesa",value:"Mayonesa"},
+{label:"Mostaza",value:"Mostaza"},
+{label:"Catsup",value:"Catsup"},
+{label:"Ninguna",value:"Ninguna"}
+],"checkbox"),
+
+()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguno"],"checkbox"),
+
 ()=>abrir("Con papas +$10",["Con papas","Sin papas"],"radio")
 ];
 
@@ -337,7 +295,8 @@ let precio=precios[tipo];
 if(data.papas[0]==="Con papas") precio+=10;
 
 (data.extra||[]).forEach(e=>{
-if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+if(e.includes("8")) precio+=8;
+if(e.includes("10")) precio+=10;
 });
 
 add("Hamburguesa "+tipo,precio);
@@ -346,7 +305,7 @@ add("Hamburguesa "+tipo,precio);
 flujo[0]();
 }
 
-/* ================= HOT DOGS (VENTANA ESPECIAL CORREGIDA) ================= */
+/* ================= HOT DOGS (NUEVA VENTANA CORRECTA) ================= */
 function hot(){
 setCategoria("hot");
 paso=0;data={};
@@ -356,13 +315,19 @@ flujo=[
 {label:"Sencillo",value:"Sencillo"},
 {label:"Especial",value:"Especial"}
 ],"radio"),
-()=>abrir("Cantidad",[1,2,3],"radio")
+
+()=>abrir("¿Qué cantidad?",[
+{label:"1 - $25",value:"1"},
+{label:"2 - $50",value:"2"},
+{label:"3 - $70",value:"3"}
+],"radio")
 ];
 
 flujo[0].key="tipo";
 flujo[1].key="cant";
 
 flujo.fin=function(){
+
 let precios={
 Sencillo:{1:20,2:40,3:55},
 Especial:{1:25,2:50,3:70}
@@ -377,7 +342,7 @@ add(`Hot Dog ${tipo} x${cant}`,precios[tipo][cant]);
 flujo[0]();
 }
 
-/* ================= FRAPPES (FRESA CON SEGUNDA VENTANA) ================= */
+/* ================= FRAPPÉS ================= */
 function frap(){
 setCategoria("frap");
 paso=0;data={};
@@ -387,7 +352,7 @@ flujo=[
 {label:"Oreo - $30",value:"Oreo"},
 {label:"Mazapán - $30",value:"Mazapán"},
 {label:"Frappuccino - $30",value:"Frappuccino"},
-{label:"Fresa (abre tamaño)",value:"Fresa"}
+{label:"Fresa",value:"Fresa"}
 ],"radio"),
 
 ()=>abrir("Tamaño",[
@@ -400,6 +365,7 @@ flujo[0].key="tipo";
 flujo[1].key="tam";
 
 flujo.fin=function(){
+
 let precios={
 Oreo:{Chico:30,Grande:50},
 Mazapán:{Chico:30,Grande:50},
