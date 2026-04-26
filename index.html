@@ -187,13 +187,18 @@ let total=0;
 
 carrito.forEach((i,idx)=>{
 let emoji=getEmoji(i.nombre);
+
 div.innerHTML+=`
 <p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
 ${emoji} $${i.precio} - ${i.nombre.replace(/\n/g,"<br>")}
-</p>`;
+</p>
+`;
+
 total+=i.precio;
 });
 
+document.getElementById("total").innerText="Total: $"+total;
+}
 document.getElementById("total").innerText="Total: $"+total;
 }
 
@@ -473,11 +478,15 @@ let total=0;
 
 carrito.forEach(i=>{
 let emoji=getEmoji(i.nombre);
+
+// 👇 AQUÍ SE AGREGA EL EMOJI AL INICIO
 txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+
 total+=i.precio;
 });
 
 txt+="💰 Total: $"+total;
+
 window.open("https://wa.me/525532416109?text="+txt);
 }
 </script>
