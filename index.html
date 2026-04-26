@@ -153,6 +153,17 @@ function getSel(){
 return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 }
 
+function control(input){
+let checks=document.querySelectorAll("#ops input");
+
+if(input.checked){
+if(input.value.includes("Ninguno")) checks.forEach(c=>c.checked=false);
+else checks.forEach(c=>{if(c.value.includes("Ninguno")) c.checked=false});
+}
+
+if(maxSel && getSel().length>maxSel) input.checked=false;
+}
+
 function next(){
 let sel=getSel();
 if(!sel.length){alert("Selecciona algo");return;}
@@ -188,56 +199,137 @@ function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];seleccionado=null;render();}
 
-/* ================= HOT DOGS (ARREGLADO) ================= */
+/* ================= CREPAS ================= */
+function crepas(){
+setCategoria("crepas");
+paso=0;data={};
+
+flujo=[
+()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
+()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
+()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
+];
+
+flujo[0].key="bases";
+flujo[1].key="frutas";
+flujo[2].key="dec";
+flujo[3].key="top";
+
+flujo.fin=function(){
+
+let b=data.bases||[];
+let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+
+let nb=b.length,nf=f.length;
+let precio=30;
+
+if((nb==1&&nf>=3)||(nb==2&&nf==2))precio=50;
+else if(nb==1&&nf==1)precio=40;
+else if(nb==2&&nf==0)precio=35;
+else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
+
+add(`Crepa Base: ${b.join(", ")}`,precio,"🥞");
+};
+
+flujo[0]();
+}
+
+/* ================= PLATANOS ================= */
+function platanos(){
+setCategoria("platanos");
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Fritos $30","Árabes $40"],"radio"),
+()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Nuez","Lunetitas","Gotas de chocolate","Ninguno"],"radio")
+];
+
+flujo.fin=function(){
+let precio=data.tipo[0].includes("30")?30:40;
+add(`Plátanos ${data.tipo[0]}`,precio,"🍌");
+};
+
+flujo[0]();
+}
+
+/* ================= PAPAS ================= */
+function papas(){
+setCategoria("papas");
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Papas $35","Salchipulpos $45","Banderilla $35","Banderilla sola $25"],"radio"),
+()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguno"],"checkbox")
+];
+
+flujo.fin=function(){
+let precio=parseInt(data.tipo[0].split("$")[1]);
+add(data.tipo[0],precio,"🍟");
+};
+
+flujo[0]();
+}
+
+/* ================= HAMBURGUESAS ================= */
+function hamb(){
+setCategoria("hamb");
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Clásica $55","Hawaiana $60","Especial $65"],"radio"),
+()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
+()=>abrir("Papas",["Con papas +$10","Sin papas"],"radio")
+];
+
+flujo.fin=function(){
+let precio=parseInt(data.tipo[0].split("$")[1]);
+
+(data.extra||[]).forEach(e=>{
+if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+});
+
+if(data.papas[0].includes("Con")) precio+=10;
+
+add(`Hamburguesa ${data.tipo[0]}`,precio,"🍔");
+};
+
+flujo[0]();
+}
+
+/* ================= HOT DOGS ================= */
 function hot(){
 setCategoria("hot");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",["Sencillo","Especial"],"radio"),
-
-()=> {
-if(data.tipo[0]=="Sencillo"){
-abrir("Cantidad",["1 $20","2 $40","3 $55"],"radio");
-}else{
-abrir("Cantidad",["1 $25","2 $50","3 $70"],"radio");
-}
-},
-
-()=>abrir("Ingredientes",["Mayonesa","Catsup","Cebolla","Ninguna"],"checkbox")
+()=>abrir("Cantidad",["1","2","3"],"radio"),
+()=>abrir("Sin",["Mayonesa","Catsup","Cebolla","Ninguno"],"checkbox")
 ];
 
-flujo[0].key="tipo";
-flujo[1].key="cant";
-flujo[2].key="sin";
-
 flujo.fin=function(){
-
 let tipo=data.tipo[0];
-let cant=data.cant[0];
+let cant=parseInt(data.cant[0]);
 
-let precio=0;
+let precio = tipo=="Sencillo"
+?{1:20,2:40,3:55}[cant]
+:{1:25,2:50,3:70}[cant];
 
-if(tipo=="Sencillo"){
-precio = cant.includes("1")?20:cant.includes("2")?40:55;
-}else{
-precio = cant.includes("1")?25:cant.includes("2")?50:70;
-}
-
-add(`Hot Dog ${tipo} x${cant.split(" ")[0]}`,precio,"🌭");
+add(`Hot Dog ${tipo} x${cant}`,precio,"🌭");
 };
 
 flujo[0]();
 }
 
-/* ================= FRAPPÉS (ARREGLADO) ================= */
+/* ================= FRAPPÉS ================= */
 function frap(){
 setCategoria("frap");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",["Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
-
 ()=> {
 if(data.tipo[0]=="Fresa"){
 abrir("Tamaño",["Chico $35","Grande $60"],"radio");
@@ -247,37 +339,30 @@ abrir("Tamaño",["Chico $30","Grande $50"],"radio");
 }
 ];
 
-flujo[0].key="tipo";
-flujo[1].key="tam";
-
 flujo.fin=function(){
-
 let tipo=data.tipo[0];
 let tam=data.tam[0];
 
-let precio=0;
+let precio =
+tipo=="Fresa"
+? (tam.includes("35")?35:60)
+: (tam.includes("30")?30:50);
 
-if(tipo=="Fresa"){
-precio = tam.includes("35")?35:60;
-}else{
-precio = tam.includes("30")?30:50;
-}
-
-add(`Frappé ${tipo} (${tam.split(" ")[0]})`,precio,"🥤");
+add(`Frappé ${tipo} ${tam}`,precio,"🥤");
 };
 
 flujo[0]();
 }
 
-/* ================= ENVIAR A WHATSAPP ================= */
+/* ================= WHATSAPP ================= */
 function enviar(){
 if(carrito.length==0){alert("Carrito vacío");return;}
 
-let txt="🧾 *Pedido - El Michi 🐱*\n\n";
+let txt="🧾 *Pedido El Michi 🐱*\n\n";
 let total=0;
 
 carrito.forEach(i=>{
-txt+="👉 "+i.nombre+"\n💰 $"+i.precio+"\n\n";
+txt+=i.nombre+"\n💰 $"+i.precio+"\n\n";
 total+=i.precio;
 });
 
