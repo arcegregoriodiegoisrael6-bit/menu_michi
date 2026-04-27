@@ -423,7 +423,7 @@ txt+="\nSin papas";
 // 🔥 SIEMPRE mostrar selección
 if(data.sin){
 if(data.sin.includes("Con Todo")){
-txt+="\nIngredientes: Con todo";
+txt+="\nIngredientes: <b>Con todo</b>";
 }else{
 txt+="\nSin: "+data.sin.join(", ");
 }
@@ -490,7 +490,7 @@ let txt = `Hot Dog ${data.tipo[0]} x${cantidad}`;
 // 🔥 ingredientes
 if(data.sin){
 if(data.sin.includes("Con Todo")){
-txt += "\nCon todo";
+txt += "\n<b>Con todo</b>";
 }else{
 txt += "\nSin: " + data.sin.join(", ");
 }
@@ -541,7 +541,11 @@ let total=0;
 
 carrito.forEach(i=>{
 let emoji=getEmoji(i.nombre);
-txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+let texto = i.nombre
+.replace(/<b>/g,"*")
+.replace(/<\/b>/g,"*");
+
+txt+=emoji+" "+texto.replace(/\n/g,"%0A")+"%0A%0A";
 total+=i.precio;
 });
 
