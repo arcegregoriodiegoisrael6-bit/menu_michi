@@ -118,6 +118,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.25);
 .top-bar{
 display:flex;
 justify-content:space-between;
+gap:8px;
 }
 
 .top-bar button{
@@ -139,6 +140,15 @@ padding:10px;
 margin:5px 0;
 background:#f3f3f3;
 border-radius:10px;
+}
+
+#estadoUbicacion{
+background:white;
+padding:10px;
+border-radius:10px;
+margin:8px 0;
+font-size:14px;
+line-height:1.4;
 }
 
 @media(max-width:400px){
@@ -169,6 +179,8 @@ font-size:15px;
 <option>Efectivo</option>
 <option>Transferencia</option>
 </select>
+
+<p id="estadoUbicacion">📍 Ubicación: se pedirá al enviar si eliges a domicilio</p>
 
 <button class="crepas" onclick="crepas()">🥞 Crepas</button>
 <button class="platanos" onclick="platanos()">🍌 Plátanos</button>
@@ -213,6 +225,13 @@ let paso=0;
 let flujo=[];
 let data={};
 let maxSel=null;
+
+const DATOS_TRANSFERENCIA = {
+banco: "TU BANCO",
+titular: "TU NOMBRE",
+clabe: "TU CLABE",
+cuenta: "TU CUENTA"
+};
 
 render();
 
@@ -441,6 +460,40 @@ localStorage.removeItem("carrito");
 
 render();
 
+}
+
+function totalCarrito(){
+return carrito.reduce((acc, item) => acc + item.precio, 0);
+}
+
+function obtenerUbicacionActual(){
+return new Promise((resolve, reject) => {
+if(!navigator.geolocation){
+reject("Tu navegador no permite obtener ubicación.");
+return;
+}
+
+navigator.geolocation.getCurrentPosition(
+(pos) => {
+let lat = pos.coords.latitude;
+let lon = pos.coords.longitude;
+let link = `https://www.google.com/maps?q=${lat},${lon}`;
+resolve({
+lat,
+lon,
+link
+});
+},
+(err) => {
+reject(err);
+},
+{
+enableHighAccuracy: true,
+timeout: 15000,
+maximumAge: 0
+}
+);
+});
 }
 
 /* CREPAS */
@@ -1046,7 +1099,7 @@ flujo[0]();
 
 /* ENVIAR */
 
-function enviar(){
+async function enviar(){
 
 if(carrito.length===0){
 
@@ -1070,15 +1123,22 @@ return;
 
 }
 
+let total=totalCarrito();
+
+/* mínimo para domicilio */
+if(entrega==="A domicilio" && total < 100){
+
+alert("⚠️ Lo mínimo son $100 para hacerlo a domicilio");
+
+return;
+
+}
+
 let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
 
 txt+="👤 Cliente: "+nombre+"\n";
-
 txt+="🚚 Entrega: "+entrega+"\n";
-
 txt+="💳 Pago: "+pago+"\n\n";
-
-let total=0;
 
 carrito.forEach(i=>{
 
@@ -1086,23 +1146,56 @@ let emoji=getEmoji(i.nombre);
 
 txt+=emoji+" "+i.nombre+"\n\n";
 
-total+=i.precio;
-
 });
 
-if(entrega==="A domicilio"){
+/* datos de transferencia */
+if(pago==="Transferencia"){
 
-total+=20;
-
-txt+="🚚 Envío: $20\n";
+txt+="🔁 PAGO POR TRANSFERENCIA\n";
+txt+="Banco: "+DATOS_TRANSFERENCIA.banco+"\n";
+txt+="Titular: "+DATOS_TRANSFERENCIA.titular+"\n";
+txt+="CLABE: "+DATOS_TRANSFERENCIA.clabe+"\n";
+txt+="Cuenta: "+DATOS_TRANSFERENCIA.cuenta+"\n\n";
+txt+="📩 Enviar comprobante al terminar.\n\n";
 
 }
 
+/* ubicación para domicilio */
+if(entrega==="A domicilio"){
+
+try{
+
+document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
+
+let ubicacion=await obtenerUbicacionActual();
+
+txt+="📍 Ubicación del cliente:\n";
+txt+=ubicacion.link+"\n\n";
+
+document.getElementById("estadoUbicacion").innerText="📍 Ubicación lista: "+ubicacion.link;
+
+}catch(err){
+
+document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
+
+alert("No se pudo obtener la ubicación. Debes permitir el acceso a la ubicación para pedir a domicilio.");
+return;
+
+}
+
+}
+
+/* ya no cobra envío */
 txt+="💰 TOTAL: $"+total;
 
-window.open(
-"https://wa.me/525532416109?text="+encodeURIComponent(txt)
-);
+/* abrir WhatsApp */
+let wa="https://wa.me/525532416109?text="+encodeURIComponent(txt);
+
+let ventana=window.open(wa,"_blank");
+
+if(!ventana){
+window.location.href=wa;
+}
 
 }
 
