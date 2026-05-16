@@ -165,10 +165,6 @@ font-size:15px;
 
 <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente">
 
-<input type="text" id="direccion" placeholder="📍 Dirección" style="display:none;">
-
-<input type="text" id="referencias" placeholder="📝 Referencias" style="display:none;">
-
 <select id="pago">
 <option>Efectivo</option>
 <option>Transferencia</option>
@@ -219,18 +215,6 @@ let data={};
 let maxSel=null;
 
 render();
-
-document.getElementById("tipoEntrega").addEventListener("change",function(){
-
-let domicilio=this.value==="A domicilio";
-
-document.getElementById("direccion").style.display=
-domicilio?"block":"none";
-
-document.getElementById("referencias").style.display=
-domicilio?"block":"none";
-
-});
 
 function setCategoria(cat){
 document.getElementById("modal").className="modal "+cat;
@@ -1076,10 +1060,6 @@ let nombre=document.getElementById("nombreCliente").value.trim();
 
 let entrega=document.getElementById("tipoEntrega").value;
 
-let direccion=document.getElementById("direccion").value.trim();
-
-let referencias=document.getElementById("referencias").value.trim();
-
 let pago=document.getElementById("pago").value;
 
 if(nombre===""){
@@ -1090,31 +1070,11 @@ return;
 
 }
 
-if(entrega==="A domicilio" && direccion===""){
-
-alert("Escribe la dirección");
-
-return;
-
-}
-
 let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
 
 txt+="👤 Cliente: "+nombre+"\n";
 
 txt+="🚚 Entrega: "+entrega+"\n";
-
-if(entrega==="A domicilio"){
-
-txt+="📍 Dirección: "+direccion+"\n";
-
-if(referencias!==""){
-
-txt+="📝 Referencias: "+referencias+"\n";
-
-}
-
-}
 
 txt+="💳 Pago: "+pago+"\n\n";
 
