@@ -4,19 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🐱 EL MICHI FOOD</title>
+<title>🐱 MENÚ EL MICHI</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
---bg1:#0f172a;
---bg2:#111827;
---glass:rgba(255,255,255,.12);
---white:#fff;
---shadow:0 15px 40px rgba(0,0,0,.35);
-}
 
 *{
 margin:0;
@@ -26,244 +18,263 @@ box-sizing:border-box;
 
 body{
 font-family:'Poppins',sans-serif;
-background:
-radial-gradient(circle at top left,#22c55e33,transparent 30%),
-radial-gradient(circle at top right,#3b82f633,transparent 30%),
-linear-gradient(135deg,var(--bg1),var(--bg2));
+background:linear-gradient(135deg,#89f7fe,#66a6ff);
 min-height:100vh;
-padding:15px;
-color:white;
+padding:10px;
 }
 
 .container{
-max-width:700px;
+max-width:550px;
 margin:auto;
-background:var(--glass);
-backdrop-filter:blur(18px);
-border:1px solid rgba(255,255,255,.1);
-border-radius:30px;
-padding:18px;
-box-shadow:var(--shadow);
 }
 
 .logo{
 text-align:center;
 font-size:34px;
-font-weight:800;
-margin-top:5px;
+font-weight:700;
+color:white;
+margin:15px 0;
+text-shadow:0 4px 10px rgba(0,0,0,0.3);
 }
 
-.sub{
+.subtitle{
 text-align:center;
-opacity:.8;
+color:white;
+margin-bottom:20px;
+font-size:15px;
+}
+
+.card{
+background:rgba(255,255,255,0.95);
+backdrop-filter:blur(10px);
+padding:15px;
+border-radius:25px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 margin-bottom:15px;
-font-size:14px;
 }
 
 input,select{
 width:100%;
-padding:15px;
-margin:6px 0;
+padding:14px;
 border:none;
-border-radius:16px;
-font-size:16px;
-outline:none;
-background:white;
-color:#111827;
-}
-
-.section{
-margin-top:12px;
-margin-bottom:8px;
-font-size:18px;
-font-weight:700;
-}
-
-#estadoUbicacion{
-background:rgba(255,255,255,.1);
-padding:12px;
 border-radius:14px;
-font-size:13px;
-margin-bottom:12px;
-line-height:1.5;
+margin:7px 0;
+font-size:15px;
+background:#f3f3f3;
+outline:none;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+h2{
+margin:10px 0;
+font-size:20px;
+color:#333;
 }
 
 button{
 width:100%;
 border:none;
-padding:16px;
+padding:14px;
+margin:8px 0;
 border-radius:18px;
-font-size:16px;
-font-weight:700;
+font-size:17px;
+font-weight:600;
 cursor:pointer;
-transition:.2s;
+transition:0.25s;
 color:white;
-box-shadow:0 8px 20px rgba(0,0,0,.2);
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
 }
 
 button:hover{
-transform:translateY(-2px);
+transform:translateY(-3px) scale(1.01);
 }
 
-.crepas{background:linear-gradient(135deg,#ffb347,#ffcc33);}
-.platanos{background:linear-gradient(135deg,#f6d365,#fda085);}
-.papas{background:linear-gradient(135deg,#ff7e5f,#feb47b);}
-.hamb{background:linear-gradient(135deg,#ff6b6b,#ff9ff3);}
-.hot{background:linear-gradient(135deg,#43cea2,#185a9d);}
-.frap{background:linear-gradient(135deg,#4facfe,#00f2fe);}
-
-.enviar{
-background:linear-gradient(135deg,#22c55e,#16a34a);
-margin-top:10px;
+.menu-btn{
+overflow:hidden;
+padding:0;
+background:white;
+color:#333;
 }
 
-.eliminar{
-background:linear-gradient(135deg,#fb7185,#ef4444);
+.menu-btn img{
+width:100%;
+height:130px;
+object-fit:cover;
+display:block;
 }
 
-.vaciar{
-background:linear-gradient(135deg,#f97316,#dc2626);
+.menu-text{
+padding:12px;
+font-size:18px;
+font-weight:700;
 }
+
+.crepas{background:#ffd966;}
+.platanos{background:#ffb347;}
+.papas{background:#ff9966;}
+.hamb{background:#f6b26b;}
+.hot{background:#93c47d;}
+.frap{background:#76a5af;}
 
 #carrito{
 background:white;
-color:#111827;
-padding:12px;
 border-radius:20px;
-margin:12px 0;
-min-height:120px;
+padding:10px;
 max-height:300px;
 overflow:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .item{
 padding:10px;
-border-radius:12px;
-margin-bottom:8px;
+border-bottom:1px solid #eee;
 cursor:pointer;
-transition:.2s;
-border:1px solid #eee;
+border-radius:10px;
+transition:0.2s;
 }
 
 .item:hover{
-background:#f3f4f6;
+background:#f5f5f5;
 }
 
 .selected{
-background:#dcfce7 !important;
-border:2px solid #22c55e;
+background:#d9ead3 !important;
+border:2px solid #6aa84f;
 }
 
 .total{
-font-size:24px;
-font-weight:800;
 text-align:center;
-margin:10px 0;
+font-size:24px;
+font-weight:700;
+margin-top:10px;
+color:#333;
+}
+
+.enviar{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.eliminar{
+background:linear-gradient(135deg,#ff5252,#ff1744);
+}
+
+.vaciar{
+background:linear-gradient(135deg,#ff8a80,#ff5252);
 }
 
 .modal{
 position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
 display:none;
-padding:15px;
 overflow:auto;
 z-index:999;
+padding:20px;
 }
 
 .modal-content{
 background:white;
-color:#111827;
 border-radius:25px;
-padding:18px;
-max-width:650px;
+padding:20px;
+max-width:500px;
 margin:auto;
-animation:show .2s ease;
+animation:show 0.25s ease;
 }
 
 @keyframes show{
 from{
+transform:scale(0.9);
 opacity:0;
-transform:scale(.9);
 }
 to{
-opacity:1;
 transform:scale(1);
+opacity:1;
 }
 }
 
 .top{
 display:flex;
+justify-content:space-between;
 gap:10px;
-margin-bottom:10px;
 }
 
 .top button{
-background:#3b82f6;
+padding:10px;
 }
 
 #titulo{
 text-align:center;
-font-size:22px;
-font-weight:800;
-margin:12px 0;
-}
-
-#ops{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:14px;
+margin:15px 0;
+font-size:24px;
 }
 
 #ops label{
-display:flex;
-gap:10px;
-align-items:center;
+display:block;
+background:#f5f5f5;
 padding:14px;
-background:#f3f4f6;
-border-radius:14px;
+margin:8px 0;
+border-radius:15px;
 cursor:pointer;
+transition:0.2s;
 }
 
-.next{
-background:#22c55e;
+#ops label:hover{
+background:#ececec;
 }
 
-#toast{
+.estado{
+background:white;
+padding:12px;
+border-radius:15px;
+margin:10px 0;
+font-size:14px;
+line-height:1.5;
+}
+
+.toast{
 position:fixed;
 bottom:20px;
 left:50%;
 transform:translateX(-50%);
-background:#111827;
-padding:14px 18px;
-border-radius:999px;
-font-size:14px;
+background:#333;
+color:white;
+padding:14px 20px;
+border-radius:50px;
+font-size:15px;
+display:none;
+z-index:9999;
+animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+from{
 opacity:0;
-transition:.2s;
-pointer-events:none;
+transform:translateX(-50%) translateY(20px);
 }
-
-#toast.show{
+to{
 opacity:1;
+transform:translateX(-50%) translateY(0);
+}
 }
 
-@media(max-width:600px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-#ops{
-grid-template-columns:1fr;
-}
-
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25d366;
+width:65px;
+height:65px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:32px;
+color:white;
+text-decoration:none;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+z-index:999;
 }
 
 </style>
@@ -273,10 +284,17 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div class="logo">🐱 EL MICHI FOOD</div>
-<div class="sub">Snacks • Hamburguesas • Frappés • Pedido por WhatsApp</div>
+<div class="logo">
+🐱 MENÚ EL MICHI
+</div>
 
-<div class="section">🚚 Tipo de pedido</div>
+<div class="subtitle">
+La comida más rica de la zona 😋
+</div>
+
+<div class="card">
+
+<h2>🚚 Tipo de pedido</h2>
 
 <select id="tipoEntrega">
 <option value="Recoger en local">🏪 Recoger en local</option>
@@ -290,25 +308,45 @@ grid-template-columns:1fr;
 <option>Transferencia</option>
 </select>
 
-<div id="estadoUbicacion">
-📍 Si eliges a domicilio se solicitará tu ubicación
+<div class="estado" id="estadoUbicacion">
+📍 Si eliges envío a domicilio se pedirá tu ubicación
 </div>
 
-<div class="grid">
-
-<button class="crepas" onclick="simple('🥞 Crepa especial',45)">🥞 Crepas</button>
-
-<button class="platanos" onclick="simple('🍌 Plátanos preparados',40)">🍌 Plátanos</button>
-
-<button class="papas" onclick="simple('🍟 Papas especiales',35)">🍟 Papas</button>
-
-<button class="hamb" onclick="simple('🍔 Hamburguesa especial',65)">🍔 Hamburguesas</button>
-
-<button class="hot" onclick="simple('🌭 Hot Dog especial',25)">🌭 Hot Dogs</button>
-
-<button class="frap" onclick="simple('🥤 Frappé grande',50)">🥤 Frappés</button>
-
 </div>
+
+<button class="menu-btn" onclick="crepas()">
+<img src="https://images.unsplash.com/photo-1519676867240-f03562e64548?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text crepas">🥞 Crepas</div>
+</button>
+
+<button class="menu-btn" onclick="platanos()">
+<img src="https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text platanos">🍌 Plátanos</div>
+</button>
+
+<button class="menu-btn" onclick="papas()">
+<img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text papas">🍟 Papas y banderillas</div>
+</button>
+
+<button class="menu-btn" onclick="hamb()">
+<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text hamb">🍔 Hamburguesas</div>
+</button>
+
+<button class="menu-btn" onclick="hot()">
+<img src="https://images.unsplash.com/photo-1612392062798-2f8dfe3f5f5f?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text hot">🌭 Hot Dogs</div>
+</button>
+
+<button class="menu-btn" onclick="frap()">
+<img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1200&auto=format&fit=crop">
+<div class="menu-text frap">🥤 Frappés</div>
+</button>
+
+<div class="card">
+
+<h2>🛒 Tu pedido</h2>
 
 <div id="carrito"></div>
 
@@ -330,7 +368,32 @@ Total: $0
 
 </div>
 
-<div id="toast"></div>
+</div>
+
+<div id="modal" class="modal">
+<div class="modal-content">
+
+<div class="top">
+<button onclick="back()">⬅️</button>
+<button onclick="cerrar()">❌</button>
+</div>
+
+<h2 id="titulo"></h2>
+
+<div id="ops"></div>
+
+<button class="enviar" onclick="next()">
+Siguiente ➡️
+</button>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<a class="whatsapp" href="#">
+💬
+</a>
 
 <script>
 
@@ -338,7 +401,13 @@ let carrito=JSON.parse(localStorage.getItem("carrito")) || [];
 
 let seleccionado=null;
 
-let ubicacionGuardada=null;
+let paso=0;
+
+let flujo=[];
+
+let data={};
+
+let maxSel=null;
 
 render();
 
@@ -348,34 +417,21 @@ let t=document.getElementById("toast");
 
 t.innerText=msg;
 
-t.classList.add("show");
+t.style.display="block";
 
 setTimeout(()=>{
-
-t.classList.remove("show");
-
-},2000);
+t.style.display="none";
+},2500);
 
 }
 
-function money(n){
+function sonido(){
 
-return "$"+n;
+let audio=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b2f39.mp3");
 
-}
+audio.volume=0.3;
 
-function simple(nombre,precio){
-
-carrito.push({
-nombre,
-precio
-});
-
-localStorage.setItem("carrito",JSON.stringify(carrito));
-
-render();
-
-toast("✅ Producto agregado");
+audio.play();
 
 }
 
@@ -387,40 +443,19 @@ div.innerHTML="";
 
 let total=0;
 
-if(carrito.length===0){
-
-div.innerHTML=`
-<div style="text-align:center;padding:25px;color:#666;">
-🛒 Tu carrito está vacío
-</div>
-`;
-
-}
-
 carrito.forEach((i,idx)=>{
 
 div.innerHTML+=`
-
-<div
-class="item ${seleccionado===idx?'selected':''}"
-onclick="seleccionar(${idx})"
->
-
-${i.nombre}
-<br><br>
-
-<b>${money(i.precio)}</b>
-
+<div class="item ${seleccionado===idx?'selected':''}" onclick="seleccionar(${idx})">
+${i.nombre.replace(/\n/g,"<br>")}
 </div>
-
 `;
 
 total+=i.precio;
 
 });
 
-document.getElementById("total").innerText=
-"Total: "+money(total);
+document.getElementById("total").innerText="Total: $"+total;
 
 }
 
@@ -456,8 +491,6 @@ carrito=[];
 
 localStorage.removeItem("carrito");
 
-seleccionado=null;
-
 render();
 
 toast("🗑 Carrito vaciado");
@@ -470,19 +503,163 @@ return carrito.reduce((a,b)=>a+b.precio,0);
 
 }
 
-function obtenerUbicacionActual(){
+function add(txt,precio){
 
-return new Promise((resolve,reject)=>{
+carrito.push({
+nombre:txt,
+precio
+});
 
-if(!navigator.geolocation){
+localStorage.setItem("carrito",JSON.stringify(carrito));
 
-alert("Tu navegador no permite ubicación");
+render();
 
-reject();
+sonido();
+
+toast("✅ Producto agregado");
+
+}
+
+function abrir(titulo,ops,tipo,max=null){
+
+document.getElementById("titulo").innerText=titulo;
+
+maxSel=max;
+
+let html="";
+
+ops.forEach(o=>{
+
+html+=`
+<label>
+<input type="${tipo}" name="opcion" value="${o}" onclick="control(this)">
+${o}
+</label>
+`;
+
+});
+
+document.getElementById("ops").innerHTML=html;
+
+}
+
+function setCategoria(){
+
+document.getElementById("modal").style.display="block";
+
+}
+
+function cerrar(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+function back(){
+
+if(paso>0){
+
+paso--;
+
+flujo[paso]();
+
+}
+
+}
+
+function getSel(){
+
+return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
+
+}
+
+function control(input){
+
+let checks=document.querySelectorAll("#ops input");
+
+if(
+input.value==="Ninguna" ||
+input.value==="Ninguno" ||
+input.value==="Con Todo"
+){
+
+if(input.checked){
+
+checks.forEach(c=>{
+
+if(c!==input){
+c.checked=false;
+}
+
+});
+
+}
+
+}else{
+
+checks.forEach(c=>{
+
+if(
+c.value==="Ninguna" ||
+c.value==="Ninguno" ||
+c.value==="Con Todo"
+){
+c.checked=false;
+}
+
+});
+
+}
+
+if(maxSel && getSel().length>maxSel){
+
+input.checked=false;
+
+toast("⚠️ Máximo "+maxSel+" opciones");
+
+}
+
+}
+
+function next(){
+
+let sel=getSel();
+
+if(!sel.length){
+
+toast("⚠️ Selecciona una opción");
 
 return;
 
 }
+
+data[flujo[paso].key]=sel;
+
+paso++;
+
+if(paso<flujo.length){
+
+flujo[paso]();
+
+}else{
+
+cerrar();
+
+flujo.fin();
+
+}
+
+}
+
+async function obtenerUbicacionActual(){
+
+if(!navigator.geolocation){
+
+throw "Ubicación no disponible";
+
+}
+
+return new Promise((resolve,reject)=>{
 
 navigator.geolocation.getCurrentPosition(
 
@@ -492,36 +669,15 @@ let lat=pos.coords.latitude;
 
 let lon=pos.coords.longitude;
 
-ubicacionGuardada={
-
-lat,
-lon,
-
+resolve({
 link:`https://www.google.com/maps?q=${lat},${lon}`
-
-};
-
-resolve(ubicacionGuardada);
+});
 
 },
 
-(error)=>{
+(err)=>{
 
-if(error.code===1){
-
-alert("⚠️ Debes permitir la ubicación.");
-
-}else if(error.code===2){
-
-alert("⚠️ No se pudo detectar tu ubicación.");
-
-}else if(error.code===3){
-
-alert("⚠️ La ubicación tardó demasiado.");
-
-}
-
-reject(error);
+reject(err);
 
 },
 
@@ -537,42 +693,285 @@ maximumAge:0
 
 }
 
-document.getElementById("tipoEntrega")
-.addEventListener("change",async function(){
+/* CREPAS */
 
-if(this.value==="A domicilio"){
+function crepas(){
 
-document.getElementById("estadoUbicacion").innerText=
-"📍 Solicitando ubicación...";
+setCategoria();
 
-try{
+paso=0;
 
-await obtenerUbicacionActual();
+data={};
 
-document.getElementById("estadoUbicacion").innerText=
-"✅ Ubicación activada correctamente";
+flujo=[
 
-}catch{
+()=>abrir("Base",["Nutella","Lechera","Cajeta"],"checkbox",2),
 
-document.getElementById("estadoUbicacion").innerText=
-"❌ Debes permitir la ubicación";
+()=>abrir("Frutas",["Fresa","Plátano","Durazno","Ninguna"],"checkbox"),
+
+()=>abrir("Toppings",["Chocolate","Nuez","Lunetas","Ninguno"],"radio")
+
+];
+
+flujo[0].key="base";
+
+flujo[1].key="fruta";
+
+flujo[2].key="top";
+
+flujo.fin=function(){
+
+let precio=45;
+
+let txt="🥞 Crepa";
+
+txt+="\nBase: "+data.base.join(", ");
+
+if(!data.fruta.includes("Ninguna")){
+txt+="\nFrutas: "+data.fruta.join(", ");
+}
+
+if(!data.top.includes("Ninguno")){
+txt+="\nTopping: "+data.top.join(", ");
+}
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
 
 }
 
-}else{
+/* PLATANOS */
 
-document.getElementById("estadoUbicacion").innerText=
-"📍 Si eliges a domicilio se solicitará tu ubicación";
+function platanos(){
+
+setCategoria();
+
+paso=0;
+
+data={};
+
+flujo=[
+
+()=>abrir("Tipo",["Fritos $30","Árabes $40"],"radio"),
+
+()=>abrir("Complementos",["Lechera","Crema","Chocolate","Ninguna"],"checkbox")
+
+];
+
+flujo[0].key="tipo";
+
+flujo[1].key="comp";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+let txt="🍌 Plátanos "+data.tipo[0];
+
+if(!data.comp.includes("Ninguna")){
+txt+="\nComplementos: "+data.comp.join(", ");
+}
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
 
 }
+
+/* PAPAS */
+
+function papas(){
+
+setCategoria();
+
+paso=0;
+
+data={};
+
+flujo=[
+
+()=>abrir("Tipo",["Papas $35","Salchipulpos $45","Banderilla $25"],"radio"),
+
+()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguna"],"checkbox")
+
+];
+
+flujo[0].key="tipo";
+
+flujo[1].key="ad";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+let txt="🍟 "+data.tipo[0];
+
+if(!data.ad.includes("Ninguna")){
+txt+="\nAderezos: "+data.ad.join(", ");
+}
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* HAMBURGUESAS */
+
+function hamb(){
+
+setCategoria();
+
+paso=0;
+
+data={};
+
+flujo=[
+
+()=>abrir("Hamburguesa",["Clásica $55","Hawaiana $60","Especial $65"],"radio"),
+
+()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguna"],"checkbox")
+
+];
+
+flujo[0].key="tipo";
+
+flujo[1].key="extra";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+if(!data.extra.includes("Ninguna")){
+
+data.extra.forEach(e=>{
+
+precio+=parseInt(e.match(/\d+/)[0]);
 
 });
+
+}
+
+let txt="🍔 "+data.tipo[0];
+
+if(!data.extra.includes("Ninguna")){
+txt+="\nExtras: "+data.extra.join(", ");
+}
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* HOT DOGS */
+
+function hot(){
+
+setCategoria();
+
+paso=0;
+
+data={};
+
+flujo=[
+
+()=>abrir("Tipo",["Sencillo $20","Especial $25"],"radio"),
+
+()=>abrir("Cantidad",["1","2","3"],"radio")
+
+];
+
+flujo[0].key="tipo";
+
+flujo[1].key="cant";
+
+flujo.fin=function(){
+
+let base=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+let cant=parseInt(data.cant[0]);
+
+let precio=base*cant;
+
+let txt=`🌭 Hot Dog x${cant}`;
+
+txt+="\nTipo: "+data.tipo[0];
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* FRAPPES */
+
+function frap(){
+
+setCategoria();
+
+paso=0;
+
+data={};
+
+flujo=[
+
+()=>abrir("Sabor",["Oreo","Mazapán","Fresa","Frapuccino"],"radio"),
+
+()=>abrir("Tamaño",["Chico $30","Grande $50"],"radio")
+
+];
+
+flujo[0].key="tipo";
+
+flujo[1].key="tam";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tam[0].match(/\d+/)[0]);
+
+let txt="🥤 Frappé "+data.tipo[0];
+
+txt+="\n"+data.tam[0];
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* ENVIAR */
 
 async function enviar(){
 
 if(carrito.length===0){
 
-alert("Agrega productos");
+toast("⚠️ Agrega productos");
 
 return;
 
@@ -582,7 +981,7 @@ let nombre=document.getElementById("nombreCliente").value.trim();
 
 if(nombre===""){
 
-alert("Escribe tu nombre");
+toast("⚠️ Escribe tu nombre");
 
 return;
 
@@ -596,7 +995,7 @@ let total=totalCarrito();
 
 if(entrega==="A domicilio" && total<100){
 
-alert("🛵 El mínimo para domicilio es de $100");
+toast("🛵 Mínimo $100 para envío");
 
 return;
 
@@ -606,43 +1005,31 @@ let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
 
 txt+="👤 Cliente: "+nombre+"\n";
 
-txt+="🚚 Entrega: "+entrega+"\n";
+txt+="🚚 "+entrega+"\n";
 
-txt+="💳 Pago: "+pago+"\n\n";
-
-if(pago==="Transferencia"){
-
-txt+="🏦 DATOS PARA TRANSFERENCIA\n";
-
-txt+="Banco: BBVA\n";
-
-txt+="Cuenta: 1234567890\n";
-
-txt+="CLABE: 123456789012345678\n";
-
-txt+="Nombre: EL MICHI\n";
-
-txt+="📸 Envía tu comprobante\n\n";
-
-}
+txt+="💳 "+pago+"\n\n";
 
 carrito.forEach(i=>{
 
-txt+=i.nombre+" - "+money(i.precio)+"\n";
+txt+=i.nombre+"\n\n";
 
 });
 
-txt+="\n";
-
 if(entrega==="A domicilio"){
-
-if(!ubicacionGuardada){
 
 try{
 
-await obtenerUbicacionActual();
+document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
+
+let ubicacion=await obtenerUbicacionActual();
+
+txt+="📍 Ubicación:\n"+ubicacion.link+"\n\n";
+
+document.getElementById("estadoUbicacion").innerText="✅ Ubicación agregada";
 
 }catch{
+
+toast("⚠️ Debes permitir ubicación");
 
 return;
 
@@ -650,41 +1037,27 @@ return;
 
 }
 
-txt+="📍 Ubicación:\n";
+if(pago==="Transferencia"){
 
-txt+=ubicacionGuardada.link+"\n\n";
+txt+="🏦 Paga por transferencia y envía comprobante\n\n";
 
 }
 
-txt+="💰 TOTAL: "+money(total);
-
-toast("📲 Abriendo WhatsApp...");
+txt+="💰 TOTAL: $"+total;
 
 let telefono="525532416109";
 
 let mensaje=encodeURIComponent(txt);
 
-window.location.href=
-"whatsapp://send?phone="+telefono+"&text="+mensaje;
-
-setTimeout(()=>{
-
-if(document.visibilityState==="visible"){
-
-window.location.href=
-"https://wa.me/"+telefono+"?text="+mensaje;
-
-}
-
-},1000);
+window.location.href="https://wa.me/"+telefono+"?text="+mensaje;
 
 carrito=[];
 
 localStorage.removeItem("carrito");
 
-seleccionado=null;
-
 render();
+
+toast("✅ Pedido enviado");
 
 }
 
