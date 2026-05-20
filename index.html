@@ -1082,6 +1082,8 @@ function crepas(){
     else if(nb==2 && nf==0) precio=35;
     else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
     else if(nb>=1 && nf>=3) precio=50;
+    else if(nb>=2 && nf>=2) precio=50;
+    else if(nb>=2 && nf>=3) precio=50;
 
     let txt="Crepa";
     txt+="\nBase: "+b.join(", ");
