@@ -514,6 +514,7 @@ button:active{
 .pulse{
   animation:pulse 1.7s ease-in-out infinite;
 }
+
 @keyframes pulse{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-2px)}
@@ -659,7 +660,7 @@ let maxSel=null;
 render();
 actualizarResumen();
 
-/* ===== SONIDO SUAVE TIPO APP MODERNA ===== */
+/* ===== SONIDOS SUAVES TIPO APP MODERNA ===== */
 let audioCtx = null;
 
 function getAudioCtx(){
@@ -722,6 +723,11 @@ function soundDelete(){
   playTone(247, 0.12, "sine", 0.016, 0.015, 0.08);
 }
 
+function soundError(){
+  playTone(330, 0.12, "sine", 0.018, 0.015);
+  playTone(247, 0.16, "sine", 0.016, 0.10);
+}
+
 document.addEventListener("click",(e)=>{
   if(e.target.tagName==="BUTTON"){
     soundTap();
@@ -730,7 +736,8 @@ document.addEventListener("click",(e)=>{
 
 function toast(msg,type="good"){
   if(type==="good") soundSuccess();
-  if(type==="bad") soundDelete();
+  if(type==="bad" || type==="warn") soundError();
+
   const wrap=document.getElementById("toastWrap");
   const el=document.createElement("div");
   el.className=`toast ${type}`;
@@ -739,6 +746,13 @@ function toast(msg,type="good"){
   setTimeout(()=>{ el.style.opacity="0"; el.style.transform="translateY(8px)"; }, 2600);
   setTimeout(()=>{ el.remove(); }, 3200);
 }
+
+/* Reemplaza alert nativo con sonido de error antes de mostrarlo */
+const nativeAlert = window.alert.bind(window);
+window.alert = function(msg){
+  soundError();
+  nativeAlert(msg);
+};
 
 function actualizarResumen(){
   document.getElementById("statItems").innerText=carrito.length;
