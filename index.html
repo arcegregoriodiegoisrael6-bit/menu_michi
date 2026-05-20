@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = r'''<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -649,13 +649,14 @@ button:active{
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-let carrito=[];
-let seleccionado=null;
+let carrito = [];
+let seleccionado = null;
 
-let paso=0;
-let flujo=[];
-let data={};
-let maxSel=null;
+let paso = 0;
+let flujo = [];
+let data = {};
+let maxSel = null;
+window.ubicacionGuardada = null;
 
 render();
 actualizarResumen();
@@ -728,23 +729,47 @@ function soundError(){
   playTone(247, 0.16, "sine", 0.016, 0.10);
 }
 
-document.addEventListener("click",(e)=>{
-  if(e.target.tagName==="BUTTON"){
+document.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
     soundTap();
   }
 });
 
-function toast(msg,type="good"){
-  if(type==="good") soundSuccess();
-  if(type==="bad" || type==="warn") soundError();
+function toast(msg, type="good"){
+  if(type === "good") soundSuccess();
+  if(type === "bad" || type === "warn") soundError();
 
-  const wrap=document.getElementById("toastWrap");
-  const el=document.createElement("div");
-  el.className=`toast ${type}`;
-  el.textContent=msg;
+  if(navigator.vibrate){
+    if(type === "bad"){
+      navigator.vibrate([80,40,80]);
+    }else if(type === "warn"){
+      navigator.vibrate([60,30,60]);
+    }else{
+      navigator.vibrate(40);
+    }
+  }
+
+  const wrap = document.getElementById("toastWrap");
+  const el = document.createElement("div");
+  el.className = `toast ${type}`;
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="font-size:20px;">
+        ${type === "good" ? "✅" : type === "warn" ? "⚠️" : "❌"}
+      </div>
+      <div style="flex:1;font-weight:600;">${msg}</div>
+    </div>
+  `;
   wrap.appendChild(el);
-  setTimeout(()=>{ el.style.opacity="0"; el.style.transform="translateY(8px)"; }, 2600);
-  setTimeout(()=>{ el.remove(); }, 3200);
+
+  setTimeout(() => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(10px) scale(.96)";
+  }, 2600);
+
+  setTimeout(() => {
+    el.remove();
+  }, 3200);
 }
 
 /* Reemplaza alert nativo con sonido de error antes de mostrarlo */
@@ -755,21 +780,21 @@ window.alert = function(msg){
 };
 
 function actualizarResumen(){
-  document.getElementById("statItems").innerText=carrito.length;
-  document.getElementById("statTotal").innerText="$"+totalCarrito();
+  document.getElementById("statItems").innerText = carrito.length;
+  document.getElementById("statTotal").innerText = "$" + totalCarrito();
 
-  const entrega=document.getElementById("tipoEntrega").value;
+  const entrega = document.getElementById("tipoEntrega").value;
   document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
 }
 
 function setCategoria(cat){
   soundOpen();
-  document.getElementById("modal").className="modal "+cat;
-  document.getElementById("modal").style.display="block";
+  document.getElementById("modal").className = "modal " + cat;
+  document.getElementById("modal").style.display = "block";
 }
 
 function getEmoji(nombre){
-  nombre=nombre.toLowerCase();
+  nombre = nombre.toLowerCase();
 
   if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
 
@@ -795,13 +820,13 @@ function getEmoji(nombre){
   return "🍽️";
 }
 
-function abrir(titulo,ops,tipo,max=null){
-  document.getElementById("titulo").innerText=titulo;
-  maxSel=max;
+function abrir(titulo, ops, tipo, max = null){
+  document.getElementById("titulo").innerText = titulo;
+  maxSel = max;
 
-  let html="";
-  ops.forEach(o=>{
-    html+=`
+  let html = "";
+  ops.forEach(o => {
+    html += `
       <label>
         <input type="${tipo}" name="opcion" value="${o}" onclick="control(this)">
         <span>${o}</span>
@@ -809,67 +834,67 @@ function abrir(titulo,ops,tipo,max=null){
     `;
   });
 
-  document.getElementById("ops").innerHTML=html;
+  document.getElementById("ops").innerHTML = html;
 }
 
 function cerrar(){
-  document.getElementById("modal").style.display="none";
+  document.getElementById("modal").style.display = "none";
 }
 
 function back(){
-  if(paso>0){
+  if(paso > 0){
     paso--;
     flujo[paso]();
   }
 }
 
 function getSel(){
-  return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
+  return [...document.querySelectorAll("#ops input:checked")].map(i => i.value);
 }
 
 function control(input){
-  let checks=document.querySelectorAll("#ops input");
+  let checks = document.querySelectorAll("#ops input");
 
   if(
-    input.value==="Ninguna" ||
-    input.value==="Ninguno" ||
-    input.value==="Con Todo"
+    input.value === "Ninguna" ||
+    input.value === "Ninguno" ||
+    input.value === "Con Todo"
   ){
     if(input.checked){
-      checks.forEach(c=>{
-        if(c!==input) c.checked=false;
+      checks.forEach(c => {
+        if(c !== input) c.checked = false;
       });
     }
   }else{
-    checks.forEach(c=>{
+    checks.forEach(c => {
       if(
-        c.value==="Ninguna" ||
-        c.value==="Ninguno" ||
-        c.value==="Con Todo"
+        c.value === "Ninguna" ||
+        c.value === "Ninguno" ||
+        c.value === "Con Todo"
       ){
-        c.checked=false;
+        c.checked = false;
       }
     });
   }
 
-  if(maxSel && getSel().length>maxSel){
-    input.checked=false;
+  if(maxSel && getSel().length > maxSel){
+    input.checked = false;
     toast("Solo puedes elegir el máximo permitido.", "warn");
   }
 }
 
 function next(){
-  let sel=getSel();
+  let sel = getSel();
 
   if(!sel.length){
     alert("Selecciona algo");
     return;
   }
 
-  data[flujo[paso].key]=sel;
+  data[flujo[paso].key] = sel;
   paso++;
 
-  if(paso<flujo.length){
+  if(paso < flujo.length){
     flujo[paso]();
   }else{
     cerrar();
@@ -877,10 +902,10 @@ function next(){
   }
 }
 
-function add(txt,precio){
+function add(txt, precio){
   soundAdd();
   carrito.push({
-    nombre:txt,
+    nombre: txt,
     precio
   });
 
@@ -890,12 +915,12 @@ function add(txt,precio){
 }
 
 function render(){
-  let div=document.getElementById("carrito");
-  div.innerHTML="";
+  let div = document.getElementById("carrito");
+  div.innerHTML = "";
 
-  let total=0;
+  let total = 0;
 
-  if(carrito.length===0){
+  if(carrito.length === 0){
     div.innerHTML = `
       <div style="text-align:center;padding:22px 10px;color:#475569;">
         <div style="font-size:34px;">🛒</div>
@@ -904,36 +929,37 @@ function render(){
       </div>
     `;
   }else{
-    carrito.forEach((i,idx)=>{
-      let emoji=getEmoji(i.nombre);
+    carrito.forEach((i, idx) => {
+      let emoji = getEmoji(i.nombre);
 
-      div.innerHTML+=`
+      div.innerHTML += `
         <p
           onclick="seleccionar(${idx})"
-          class="${seleccionado===idx?'selected':''}"
+          class="${seleccionado === idx ? 'selected' : ''}"
         >
           ${emoji} ${i.nombre.replace(/\n/g,"<br>")}
         </p>
       `;
 
-      total+=i.precio;
+      total += i.precio;
     });
   }
 
-  document.getElementById("total").innerText="Total: $"+total;
+  document.getElementById("total").innerText = "Total: $" + total;
   actualizarResumen();
 }
 
 function seleccionar(i){
-  seleccionado=i;
+  seleccionado = i;
   render();
 }
 
 function eliminar(){
-  if(seleccionado!=null){
-    carrito.splice(seleccionado,1);
-    seleccionado=null;
+  if(seleccionado != null){
+    carrito.splice(seleccionado, 1);
+    seleccionado = null;
     render();
+    soundDelete();
     toast("Producto eliminado", "bad");
   }else{
     toast("Selecciona un producto primero", "warn");
@@ -941,14 +967,15 @@ function eliminar(){
 }
 
 function vaciar(){
-  carrito=[];
-  seleccionado=null;
+  carrito = [];
+  seleccionado = null;
   render();
+  soundDelete();
   toast("Carrito vaciado");
 }
 
 function totalCarrito(){
-  return carrito.reduce((acc,item)=>acc+item.precio,0);
+  return carrito.reduce((acc, item) => acc + item.precio, 0);
 }
 
 function obtenerUbicacionActual(){
@@ -982,31 +1009,34 @@ function obtenerUbicacionActual(){
 }
 
 async function verificarEntrega(){
-  let entrega=document.getElementById("tipoEntrega").value;
+  let entrega = document.getElementById("tipoEntrega").value;
   document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
 
-  if(entrega==="A domicilio"){
-    document.getElementById("estadoUbicacion").innerText="📍 Solicitando permiso de ubicación...";
+  if(entrega === "A domicilio"){
+    document.getElementById("estadoUbicacion").innerText = "📍 Solicitando permiso de ubicación...";
     try{
-      await obtenerUbicacionActual();
-      document.getElementById("estadoUbicacion").innerText="✅ Ubicación lista para envío a domicilio";
-      toast("Permiso de ubicación listo", "good");
+      let ubicacion = await obtenerUbicacionActual();
+      window.ubicacionGuardada = ubicacion;
+      document.getElementById("estadoUbicacion").innerText = "✅ Ubicación activada correctamente";
+      toast("Ubicación activada", "good");
     }catch{
-      document.getElementById("estadoUbicacion").innerText="❌ Debes permitir la ubicación para envío a domicilio";
+      window.ubicacionGuardada = null;
+      document.getElementById("estadoUbicacion").innerText = "❌ Debes permitir la ubicación para envío a domicilio";
       toast("Activa la ubicación para continuar", "warn");
     }
   }else{
-    document.getElementById("estadoUbicacion").innerText="📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido";
+    window.ubicacionGuardada = null;
+    document.getElementById("estadoUbicacion").innerText = "📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido";
   }
 }
 
 /* CREPAS */
 function crepas(){
   setCategoria("crepas");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Bases",
       [
@@ -1057,48 +1087,48 @@ function crepas(){
     )
   ];
 
-  flujo[0].key="bases";
-  flujo[1].key="frutas";
-  flujo[2].key="dec";
-  flujo[3].key="top";
+  flujo[0].key = "bases";
+  flujo[1].key = "frutas";
+  flujo[2].key = "dec";
+  flujo[3].key = "top";
 
-  flujo.fin=function(){
-    let b=data.bases||[];
-    let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+  flujo.fin = function(){
+    let b = data.bases || [];
+    let f = (data.frutas || []).filter(x => x != "Ninguna");
 
-    if(b.length>=2 && f.length>=4){
+    if(b.length >= 2 && f.length >= 4){
       alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
-      paso=0;
-      data={};
+      paso = 0;
+      data = {};
       flujo[0]();
       return;
     }
 
-    let nb=b.length;
-    let nf=f.length;
+    let nb = b.length;
+    let nf = f.length;
 
-    let precio=30;
-    if(nb==1 && nf==1) precio=40;
-    else if(nb==2 && nf==0) precio=35;
-    else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
-    else if(nb>=1 && nf>=3) precio=50;
-    else if(nb>=2 && nf>=2) precio=50;
-    else if(nb>=2 && nf>=3) precio=50;
+    let precio = 30;
+    if(nb == 1 && nf == 1) precio = 40;
+    else if(nb == 2 && nf == 0) precio = 35;
+    else if((nb == 1 && nf == 2) || (nb == 2 && nf == 1)) precio = 45;
+    else if(nb >= 1 && nf >= 3) precio = 50;
+    else if(nb >= 2 && nf >= 2) precio = 50;
+    else if(nb >= 2 && nf >= 3) precio = 50;
 
-    let txt="Crepa";
-    txt+="\nBase: "+b.join(", ");
+    let txt = "Crepa";
+    txt += "\nBase: " + b.join(", ");
 
     if(f.length)
-      txt+="\nFruta: "+f.join(", ");
+      txt += "\nFruta: " + f.join(", ");
 
-    if(data.dec && data.dec[0]!="Ninguna")
-      txt+="\nDecoración: "+data.dec;
+    if(data.dec && data.dec[0] != "Ninguna")
+      txt += "\nDecoración: " + data.dec;
 
-    if(data.top && data.top[0]!="Ninguno")
-      txt+="\nToppings: "+data.top;
+    if(data.top && data.top[0] != "Ninguno")
+      txt += "\nToppings: " + data.top;
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
+    txt += "\nPrecio: $" + precio;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1107,10 +1137,10 @@ function crepas(){
 /* PLATANOS */
 function platanos(){
   setCategoria("platanos");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Tipo",
       [
@@ -1145,22 +1175,22 @@ function platanos(){
     )
   ];
 
-  flujo[0].key="tipo";
-  flujo[1].key="comp";
-  flujo[2].key="top";
+  flujo[0].key = "tipo";
+  flujo[1].key = "comp";
+  flujo[2].key = "top";
 
-  flujo.fin=function(){
-    let precio=data.tipo[0].includes("30")?30:40;
-    let txt="Plátanos "+data.tipo[0].split(" - ")[0];
+  flujo.fin = function(){
+    let precio = data.tipo[0].includes("30") ? 30 : 40;
+    let txt = "Plátanos " + data.tipo[0].split(" - ")[0];
 
     if(data.comp && !data.comp.includes("Ninguna"))
-      txt+="\nComplementos: "+data.comp.join(", ");
+      txt += "\nComplementos: " + data.comp.join(", ");
 
     if(data.top && !data.top.includes("Ninguno"))
-      txt+="\nToppings: "+data.top;
+      txt += "\nToppings: " + data.top;
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
+    txt += "\nPrecio: $" + precio;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1169,10 +1199,10 @@ function platanos(){
 /* PAPAS */
 function papas(){
   setCategoria("papas");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Tipo",
       [
@@ -1196,18 +1226,18 @@ function papas(){
     )
   ];
 
-  flujo[0].key="tipo";
-  flujo[1].key="ad";
+  flujo[0].key = "tipo";
+  flujo[1].key = "ad";
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
-    let txt=data.tipo[0].split(" - ")[0];
+  flujo.fin = function(){
+    let precio = parseInt(data.tipo[0].match(/\d+/)[0]);
+    let txt = data.tipo[0].split(" - ")[0];
 
     if(data.ad && !data.ad.includes("Ninguna"))
-      txt+="\nAderezos: "+data.ad.join(", ");
+      txt += "\nAderezos: " + data.ad.join(", ");
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
+    txt += "\nPrecio: $" + precio;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1216,10 +1246,10 @@ function papas(){
 /* HAMBURGUESAS */
 function hamb(){
   setCategoria("hamb");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Tipo de Hamburguesa",
       [
@@ -1282,65 +1312,65 @@ function hamb(){
           "checkbox"
         );
       }else{
-        data.aderezos=["Ninguna"];
+        data.aderezos = ["Ninguna"];
         cerrar();
         flujo.fin();
       }
     }
   ];
 
-  flujo[0].key="tipo";
-  flujo[1].key="sin";
-  flujo[2].key="extra";
-  flujo[3].key="papas";
-  flujo[4].key="aderezos";
+  flujo[0].key = "tipo";
+  flujo[1].key = "sin";
+  flujo[2].key = "extra";
+  flujo[3].key = "papas";
+  flujo[4].key = "aderezos";
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+  flujo.fin = function(){
+    let precio = parseInt(data.tipo[0].match(/\d+/)[0]);
 
     if(data.papas[0].includes("Con papas"))
-      precio+=10;
+      precio += 10;
 
-    (data.extra||[]).forEach(e=>{
+    (data.extra || []).forEach(e => {
       if(e.includes("$"))
-        precio+=parseInt(e.split("$")[1]);
+        precio += parseInt(e.split("$")[1]);
     });
 
-    let nombreHamb=data.tipo[0].split(" - ")[0];
-    let txt="Hamburguesa "+nombreHamb;
+    let nombreHamb = data.tipo[0].split(" - ")[0];
+    let txt = "Hamburguesa " + nombreHamb;
 
-    txt+=data.papas[0].includes("Con papas")
+    txt += data.papas[0].includes("Con papas")
       ? "\nCon papas"
       : "\nSin papas";
 
     if(data.sin){
       if(data.sin.includes("Con Todo")){
-        txt+="\nIngredientes: Con todo";
+        txt += "\nIngredientes: Con todo";
       }else{
-        txt+="\nSin: "+data.sin.join(", ");
+        txt += "\nSin: " + data.sin.join(", ");
       }
     }
 
     if(data.extra){
       if(data.extra.includes("Ninguna")){
-        txt+="\nExtras: Ninguna";
+        txt += "\nExtras: Ninguna";
       }else{
-        txt+="\nExtras: "+data.extra.join(", ");
+        txt += "\nExtras: " + data.extra.join(", ");
       }
     }
 
     if(data.papas[0].includes("Con papas")){
       if(data.aderezos){
         if(data.aderezos.includes("Ninguna")){
-          txt+="\nAderezos papas: Ninguna";
+          txt += "\nAderezos papas: Ninguna";
         }else{
-          txt+="\nAderezos papas: "+data.aderezos.join(", ");
+          txt += "\nAderezos papas: " + data.aderezos.join(", ");
         }
       }
     }
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
+    txt += "\nPrecio: $" + precio;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1349,10 +1379,10 @@ function hamb(){
 /* HOT DOGS */
 function hot(){
   setCategoria("hot");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Tipo",
       [
@@ -1363,7 +1393,7 @@ function hot(){
     ),
 
     ()=>{
-      if(data.tipo[0]==="Especiales"){
+      if(data.tipo[0] === "Especiales"){
         abrir(
           "¿Qué cantidad?",
           [
@@ -1400,26 +1430,26 @@ function hot(){
     )
   ];
 
-  flujo[0].key="tipo";
-  flujo[1].key="cant";
-  flujo[2].key="sin";
+  flujo[0].key = "tipo";
+  flujo[1].key = "cant";
+  flujo[2].key = "sin";
 
-  flujo.fin=function(){
-    let cantidad=parseInt(data.cant[0]);
-    let precio=parseInt(data.cant[0].match(/\d+/g).pop());
+  flujo.fin = function(){
+    let cantidad = parseInt(data.cant[0]);
+    let precio = parseInt(data.cant[0].match(/\d+/g).pop());
 
-    let txt=`Hot Dog ${data.tipo[0]} x${cantidad}`;
+    let txt = `Hot Dog ${data.tipo[0]} x${cantidad}`;
 
     if(data.sin){
       if(data.sin.includes("Con Todo")){
-        txt+="\nCon todo";
+        txt += "\nCon todo";
       }else{
-        txt+="\nSin: "+data.sin.join(", ");
+        txt += "\nSin: " + data.sin.join(", ");
       }
     }
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
+    txt += "\nPrecio: $" + precio;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1428,10 +1458,10 @@ function hot(){
 /* FRAPPES */
 function frap(){
   setCategoria("frap");
-  paso=0;
-  data={};
+  paso = 0;
+  data = {};
 
-  flujo=[
+  flujo = [
     ()=>abrir(
       "Tipo",
       [
@@ -1444,7 +1474,7 @@ function frap(){
     ),
 
     ()=>{
-      if(data.tipo[0]==="Fresa"){
+      if(data.tipo[0] === "Fresa"){
         abrir(
           "Tamaño",
           [
@@ -1466,16 +1496,16 @@ function frap(){
     }
   ];
 
-  flujo[0].key="tipo";
-  flujo[1].key="tam";
+  flujo[0].key = "tipo";
+  flujo[1].key = "tam";
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tam[0].match(/\d+/)[0]);
-    let tamaño=data.tam[0].split(" $")[0];
+  flujo.fin = function(){
+    let precio = parseInt(data.tam[0].match(/\d+/)[0]);
+    let tamaño = data.tam[0].split(" $")[0];
 
-    let txt=`Frappé ${data.tipo[0]} (${tamaño})`;
-    txt+=`\nPrecio: $${precio}`;
-    add(txt,precio);
+    let txt = `Frappé ${data.tipo[0]} (${tamaño})`;
+    txt += `\nPrecio: $${precio}`;
+    add(txt, precio);
   };
 
   flujo[0]();
@@ -1485,75 +1515,116 @@ function frap(){
 async function enviar(){
   soundTap();
 
-  if(carrito.length===0){
+  if(carrito.length === 0){
     alert("Agrega productos al carrito");
     return;
   }
 
-  let nombre=document.getElementById("nombreCliente").value.trim();
-  let entrega=document.getElementById("tipoEntrega").value;
-  let pago=document.getElementById("pago").value;
+  let nombre = document.getElementById("nombreCliente").value.trim();
+  let entrega = document.getElementById("tipoEntrega").value;
+  let pago = document.getElementById("pago").value;
 
-  if(nombre===""){
+  if(nombre === ""){
     alert("Escribe tu nombre");
     return;
   }
 
-  let total=totalCarrito();
+  let total = totalCarrito();
 
-  if(entrega==="A domicilio" && total < 100){
+  if(entrega === "A domicilio" && total < 100){
     alert("🛵 Para enviar a domicilio, el pedido debe alcanzar al menos $100. Agrega otro producto para continuar.");
     return;
   }
 
-  let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
-  txt+="👤 Cliente: "+nombre+"\n";
-  txt+="🚚 Entrega: "+entrega+"\n";
-  txt+="💳 Pago: "+pago+"\n\n";
+  let txt = "🧾 PEDIDO EL MICHI 🐱\n\n";
+  txt += "👤 Cliente: " + nombre + "\n";
+  txt += "🚚 Entrega: " + entrega + "\n";
+  txt += "💳 Pago: " + pago + "\n\n";
 
-  carrito.forEach(i=>{
-    let emoji=getEmoji(i.nombre);
-    txt+=emoji+" "+i.nombre+"\n\n";
+  carrito.forEach(i => {
+    let emoji = getEmoji(i.nombre);
+    txt += emoji + " " + i.nombre + "\n\n";
   });
 
-  if(entrega==="A domicilio"){
+  if(entrega === "A domicilio"){
     try{
-      document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
-      let ubicacion=await obtenerUbicacionActual();
-      txt+="📍 Ubicación del cliente:\n";
-      txt+=ubicacion.link+"\n\n";
-      document.getElementById("estadoUbicacion").innerText="📍 Ubicación agregada correctamente";
+      document.getElementById("estadoUbicacion").innerText = "📍 Obteniendo ubicación...";
+      let ubicacion = window.ubicacionGuardada;
+
+      if(!ubicacion){
+        ubicacion = await obtenerUbicacionActual();
+      }
+
+      txt += "📍 Ubicación del cliente:\n";
+      txt += ubicacion.link + "\n\n";
+      document.getElementById("estadoUbicacion").innerText = "📍 Ubicación agregada correctamente";
     }catch(err){
-      document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
+      document.getElementById("estadoUbicacion").innerText = "📍 No se pudo obtener la ubicación";
       alert("Necesitamos tu ubicación para realizar el envío a domicilio. Activa el permiso de ubicación y vuelve a intentar.");
       return;
     }
   }
 
-  txt+="💰 TOTAL: $"+total;
+  txt += "💰 TOTAL: $" + total;
 
-  carrito=[];
-  seleccionado=null;
+  carrito = [];
+  seleccionado = null;
   render();
   actualizarResumen();
 
-  let telefono="525532416109";
-  let mensaje=encodeURIComponent(txt);
-  let url="whatsapp://send?phone="+telefono+"&text="+mensaje;
+  let telefono = "525532416109";
+  let mensaje = encodeURIComponent(txt);
+  let url = "whatsapp://send?phone=" + telefono + "&text=" + mensaje;
 
   toast("Abriendo WhatsApp para enviar el pedido");
-  window.location.href=url;
 
-  setTimeout(()=>{
-    if(document.visibilityState==="visible"){
-      window.location.href="https://wa.me/"+telefono+"?text="+mensaje;
+  document.body.style.transition = "all .25s ease";
+  document.body.style.opacity = "0.92";
+  document.body.style.transform = "scale(.995)";
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 250);
+
+  setTimeout(() => {
+    if(document.visibilityState === "visible"){
+      window.location.href = "https://wa.me/" + telefono + "?text=" + mensaje;
     }
-  },900);
+  }, 900);
 }
 
 /* estado inicial */
 verificarEntrega();
+
+/* pequeñas partículas suaves */
+for(let i = 0; i < 18; i++){
+  const p = document.createElement("div");
+  p.style.position = "fixed";
+  p.style.width = "6px";
+  p.style.height = "6px";
+  p.style.borderRadius = "50%";
+  p.style.background = "rgba(255,255,255,.06)";
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.top = Math.random() * 100 + "vh";
+  p.style.pointerEvents = "none";
+  p.style.zIndex = "0";
+  p.style.animation = `floatParticle ${8 + Math.random() * 8}s ease-in-out infinite`;
+  document.body.appendChild(p);
+}
+
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes floatParticle{
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-18px);}
+}
+`;
+document.head.appendChild(style);
 </script>
 
 </body>
-</html>
+</html>'''
+path = "/mnt/data/menu_el_michi_actualizado.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+path
