@@ -54,9 +54,9 @@ body::before{
 .container{
   position:relative;
   z-index:1;
-  max-width:720px;
+  max-width:540px;
   margin:0 auto;
-  padding:18px;
+  padding:10px;
   background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
   border:1px solid var(--line);
   border-radius:32px;
@@ -68,8 +68,8 @@ body::before{
 .hero{
   display:grid;
   gap:14px;
-  margin-bottom:16px;
-  padding:18px;
+  margin-bottom:8px;
+  padding:10px;
   border-radius:28px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.10)),
@@ -104,7 +104,7 @@ body::before{
 }
 
 .brand h1{
-  font-size:clamp(28px, 4vw, 40px);
+  font-size:clamp(22px, 3vw, 28px);
   line-height:1.05;
   letter-spacing:.2px;
   text-shadow:0 8px 24px rgba(0,0,0,.18);
@@ -138,7 +138,7 @@ body::before{
 
 .stats{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
 
@@ -193,7 +193,7 @@ input,select,button{
 
 input,select{
   width:100%;
-  padding:14px 16px;
+  padding:10px 12px;
   margin:7px 0;
   border:none;
   border-radius:18px;
@@ -212,7 +212,7 @@ input:focus,select:focus{
 
 button{
   width:100%;
-  padding:15px 16px;
+  padding:10px 12px;
   margin:6px 0;
   border:none;
   border-radius:18px;
@@ -265,7 +265,7 @@ button:active{
 
 .quick-actions{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
 
@@ -288,12 +288,12 @@ button:active{
 #carrito{
   background:rgba(255,255,255,.95);
   color:#0f172a;
-  padding:14px;
+  padding:10px;
   border-radius:24px;
   margin:12px 0;
-  max-height:320px;
+  max-height:190px;
   overflow:auto;
-  min-height:140px;
+  min-height:90px;
   border:1px solid rgba(15,23,42,.08);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
 }
@@ -356,7 +356,7 @@ button:active{
 .modal-content{
   width:min(720px, calc(100% - 24px));
   margin:18px auto;
-  padding:18px;
+  padding:10px;
   background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.98));
   color:#0f172a;
   border-radius:30px;
@@ -443,7 +443,7 @@ button:active{
   pointer-events:none;
   background:rgba(15,23,42,.92);
   color:#fff;
-  padding:14px 16px;
+  padding:10px 12px;
   border-radius:18px;
   border:1px solid rgba(255,255,255,.12);
   box-shadow:0 18px 40px rgba(0,0,0,.24);
@@ -486,7 +486,7 @@ button:active{
   .stats{grid-template-columns:1fr}
   .quick-actions{grid-template-columns:1fr}
   .section{padding:14px}
-  .modal-content{width:calc(100% - 14px);padding:14px;border-radius:24px;margin:10px auto}
+  .modal-content{width:calc(100% - 14px);padding:10px;border-radius:24px;margin:10px auto}
   .top-bar{flex-direction:column}
   .top-bar button{width:100%}
   button{font-size:15px}
@@ -511,10 +511,6 @@ button:active{
           <div class="subtitle">Pide rápido, con estilo y desde tu celular como app profesional.</div>
         </div>
       </div>
-      <div class="badges">
-        <div class="badge">📲 Pedido ágil</div>
-        <div class="badge">🛵 Domicilio</div>
-        <div class="badge">💬 WhatsApp</div>
       </div>
     </div>
 
@@ -582,7 +578,7 @@ button:active{
     <button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
   </div>
 
-  <div class="footer-note">Diseñado para verse como una app moderna sin quitar funciones del sistema original.</div>
+  
 
 </div>
 
@@ -602,7 +598,7 @@ button:active{
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-let carrito=JSON.parse(localStorage.getItem("carrito")) || [];
+let carrito=[];
 let seleccionado=null;
 
 let paso=0;
@@ -751,7 +747,6 @@ function add(txt,precio){
     precio
   });
 
-  localStorage.setItem("carrito",JSON.stringify(carrito));
   render();
   actualizarResumen();
   toast("Producto agregado al carrito");
@@ -800,7 +795,6 @@ function seleccionar(i){
 function eliminar(){
   if(seleccionado!=null){
     carrito.splice(seleccionado,1);
-    localStorage.setItem("carrito",JSON.stringify(carrito));
     seleccionado=null;
     render();
     toast("Producto eliminado", "bad");
@@ -811,7 +805,6 @@ function eliminar(){
 
 function vaciar(){
   carrito=[];
-  localStorage.removeItem("carrito");
   seleccionado=null;
   render();
   toast("Carrito vaciado");
@@ -1405,7 +1398,6 @@ async function enviar(){
   txt+="💰 TOTAL: $"+total;
 
   carrito=[];
-  localStorage.removeItem("carrito");
   seleccionado=null;
   render();
   actualizarResumen();
