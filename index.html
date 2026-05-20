@@ -3,83 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MENÚ EL MICHI 🐱</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>🐱 MENÚ EL MICHI</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
 body{
-font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#89f7fe,#66a6ff);
-min-height:100vh;
-padding:10px;
+background:#c9daf8;
+padding:15px;
 }
-.container{max-width:550px;margin:auto;}
-h1{text-align:center;color:white;font-size:38px;margin:15px 0;text-shadow:0 5px 10px rgba(0,0,0,.3)}
-h2{text-align:center;margin:10px 0;color:#333}
-input,select{
-width:100%;padding:14px;border:none;border-radius:16px;
-margin:6px 0;font-size:16px;
+
+.container{
+max-width:500px;
+margin:auto;
 }
+
+h1{
+text-align:center;
+margin-bottom:15px;
+color:#222;
+}
+
+select,input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:15px;
+margin:8px 0;
+font-size:16px;
+}
+
+.card{
+background:white;
+padding:12px;
+border-radius:22px;
+margin:12px 0;
+box-shadow:0 6px 18px rgba(0,0,0,.15);
+overflow:hidden;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.02);
+}
+
+.card img{
+width:100%;
+height:170px;
+object-fit:cover;
+border-radius:18px;
+margin-bottom:10px;
+}
+
 button{
-width:100%;padding:15px;border:none;border-radius:20px;
-margin:8px 0;font-size:18px;font-weight:700;
-cursor:pointer;transition:.25s;overflow:hidden;
-box-shadow:0 8px 20px rgba(0,0,0,.15);
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
 }
-button:hover{transform:translateY(-2px) scale(1.01)}
-.menu-img{width:100%;height:130px;object-fit:cover;border-radius:15px;margin-bottom:10px}
-.crepas{background:linear-gradient(135deg,#ffd966,#ffcc33)}
-.platanos{background:linear-gradient(135deg,#ffb347,#ff9800)}
-.papas{background:linear-gradient(135deg,#ff9966,#ff7043)}
-.hamb{background:linear-gradient(135deg,#f6b26b,#e69138)}
-.hot{background:linear-gradient(135deg,#93c47d,#4caf50)}
-.frap{background:linear-gradient(135deg,#76a5af,#4dd0e1)}
-.enviar{background:linear-gradient(135deg,#00c853,#00e676);color:white}
-.eliminar{background:linear-gradient(135deg,#ff5252,#ff1744);color:white}
-.vaciar{background:linear-gradient(135deg,#ff8a80,#ff5252);color:white}
+
+button:hover{
+transform:scale(1.02);
+}
+
+.crepas{background:#ffd966;}
+.platanos{background:#f6b26b;}
+.papas{background:#ff9966;}
+.hamb{background:#e69138;}
+.hot{background:#93c47d;}
+.frap{background:#76a5af;color:white;}
+
 #carrito{
-background:white;padding:15px;border-radius:20px;
-min-height:120px;max-height:300px;overflow:auto;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-margin:15px 0;
+background:white;
+padding:15px;
+border-radius:20px;
+margin-top:15px;
+box-shadow:0 6px 18px rgba(0,0,0,.15);
+min-height:120px;
 }
-.selected{background:#d9ead3!important;border:2px solid #4caf50}
+
+.item{
+padding:10px;
+border-bottom:1px solid #ddd;
+}
+
+.total{
+margin-top:10px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+}
+
+.enviar{
+background:#25d366;
+color:white;
+margin-top:15px;
+}
+
 .modal{
-position:fixed;top:0;left:0;width:100%;height:100%;
-display:none;background:rgba(0,0,0,.5);
-backdrop-filter:blur(4px);z-index:999;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);
+display:none;
+justify-content:center;
+align-items:center;
+padding:15px;
+z-index:999;
 }
+
 .modal-content{
-background:white;padding:20px;border-radius:25px;
-max-width:520px;margin:25px auto;
+background:white;
+width:100%;
+max-width:450px;
+border-radius:20px;
+padding:20px;
+max-height:90vh;
+overflow:auto;
 }
-.top-bar{display:flex;justify-content:space-between;gap:10px}
-.top-bar button{background:#42a5f5;color:white}
-#ops label{
-display:block;background:#f5f5f5;padding:14px;
-border-radius:15px;margin:8px 0;cursor:pointer;
+
+.opcion{
+background:#f5f5f5;
+padding:12px;
+border-radius:12px;
+margin:8px 0;
+cursor:pointer;
 }
-#estadoUbicacion{
-background:white;padding:12px;border-radius:15px;
-margin:10px 0;font-size:14px;
+
+.opcion input{
+width:auto;
+margin-right:8px;
 }
-.toast{
-position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
-background:#222;color:white;padding:15px 22px;
-border-radius:50px;display:none;z-index:9999;
+
+.next{
+background:#6fa8dc;
+color:white;
+margin-top:10px;
 }
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
 <h1>🐱 MENÚ EL MICHI 🐱</h1>
 
-<h2>🚚 Tipo de pedido</h2>
-
 <select id="tipoEntrega">
-<option value="Recoger en local">🏪 Recoger en local</option>
-<option value="A domicilio">🏠 A domicilio</option>
+<option>🏪 Recoger en local</option>
+<option>🏠 A domicilio</option>
 </select>
 
 <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente">
@@ -89,265 +174,502 @@ border-radius:50px;display:none;z-index:9999;
 <option>Transferencia</option>
 </select>
 
-<p id="estadoUbicacion">📍 Si eliges domicilio se pedirá ubicación</p>
+<!-- CREPAS -->
+<div class="card">
+<img src="63c09803-7f2e-4862-aeeb-b5b0780ca755.jfif">
+<button class="crepas" onclick="crepas()">🥞 CREPAS</button>
+</div>
 
-<button class="crepas" onclick="crepas()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1519676867240-f03562e64548?q=80&w=1200&auto=format&fit=crop">
-🥞 Crepas
-</button>
+<!-- PLATANOS -->
+<div class="card">
+<img src="89c3d498-5cb2-4257-a2b0-b32c2a016c8c.jfif">
+<button class="platanos" onclick="platanos()">🍌 PLÁTANOS</button>
+</div>
 
-<button class="platanos" onclick="platanos()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=1200&auto=format&fit=crop">
-🍌 Plátanos
-</button>
+<!-- PAPAS -->
+<div class="card">
+<img src="dcecfb6e-4f6c-412b-a61d-4a20bb81ff0f.jfif">
+<button class="papas" onclick="papas()">🍟 PAPAS</button>
+</div>
 
-<button class="papas" onclick="papas()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=1200&auto=format&fit=crop">
-🍟 Papas y banderillas
-</button>
+<!-- HAMBURGUESAS -->
+<div class="card">
+<img src="dcecfb6e-4f6c-412b-a61d-4a20bb81ff0f.jfif">
+<button class="hamb" onclick="hamb()">🍔 HAMBURGUESAS</button>
+</div>
 
-<button class="hamb" onclick="hamb()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop">
-🍔 Hamburguesas
-</button>
+<!-- HOT DOGS -->
+<div class="card">
+<img src="dcecfb6e-4f6c-412b-a61d-4a20bb81ff0f.jfif">
+<button class="hot" onclick="hot()">🌭 HOT DOGS</button>
+</div>
 
-<button class="hot" onclick="hot()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1612392062798-2f8dfe3f5f5f?q=80&w=1200&auto=format&fit=crop">
-🌭 Hot Dogs
-</button>
-
-<button class="frap" onclick="frap()">
-<img class="menu-img" src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1200&auto=format&fit=crop">
-🥤 Frappés
-</button>
+<!-- FRAPPES -->
+<div class="card">
+<img src="f3aed1cb-8dc2-415a-bec0-25a7ae8be973.jfif">
+<button class="frap" onclick="frap()">🥤 FRAPPÉS</button>
+</div>
 
 <div id="carrito"></div>
-<h2 id="total">Total: $0</h2>
 
-<button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
-<button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
-<button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
+<div class="total" id="total">
+Total: $0
 </div>
 
-<div id="modal" class="modal">
+<button class="enviar" onclick="enviarPedido()">
+📲 ENVIAR PEDIDO
+</button>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
 <div class="modal-content">
-<div class="top-bar">
-<button onclick="back()">⬅</button>
-<button onclick="cerrar()">❌</button>
-</div>
-<h3 id="titulo"></h3>
-<div id="ops"></div>
-<button onclick="next()">Siguiente ➡️</button>
-</div>
-</div>
 
-<div class="toast" id="toast"></div>
+<h2 id="titulo"></h2>
+
+<div id="ops"></div>
+
+<button class="next" onclick="next()">
+Siguiente ➡️
+</button>
+
+</div>
+</div>
 
 <script>
 
-function toast(msg){
-let t=document.getElementById('toast');
-t.innerText=msg;
-t.style.display='block';
-setTimeout(()=>{t.style.display='none';},2500);
-}
-
-let carrito=[]; // YA NO SE GUARDA
-let seleccionado=null;
-let paso=0;
+let carrito=[];
 let flujo=[];
+let paso=0;
 let data={};
-let maxSel=null;
-
-render();
-
-function setCategoria(cat){
-document.getElementById('modal').className='modal '+cat;
-document.getElementById('modal').style.display='block';
-}
 
 function abrir(titulo,ops,tipo,max=null){
-document.getElementById('titulo').innerText=titulo;
-maxSel=max;
-let html='';
+
+document.getElementById("titulo").innerText=titulo;
+
+let html="";
+
 ops.forEach(o=>{
-html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
+
+html+=`
+<label class="opcion">
+<input type="${tipo}" value="${o}" name="op">
+${o}
+</label>
+`;
+
 });
-document.getElementById('ops').innerHTML=html;
-}
 
-function cerrar(){document.getElementById('modal').style.display='none';}
+document.getElementById("ops").innerHTML=html;
+document.getElementById("modal").style.display="flex";
 
-function back(){
-if(paso>0){paso--;flujo[paso]();}
 }
 
 function getSel(){
-return [...document.querySelectorAll('#ops input:checked')].map(i=>i.value);
-}
 
-function control(input){
-let checks=document.querySelectorAll('#ops input');
+return [...document.querySelectorAll("#ops input:checked")]
+.map(x=>x.value);
 
-if(input.value==='Ninguna'||input.value==='Ninguno'||input.value==='Con Todo'){
-if(input.checked){
-checks.forEach(c=>{if(c!==input)c.checked=false;});
-}
-}else{
-checks.forEach(c=>{
-if(c.value==='Ninguna'||c.value==='Ninguno'||c.value==='Con Todo')c.checked=false;
-});
-}
-
-if(maxSel && getSel().length>maxSel){
-input.checked=false;
-toast('⚠️ Máximo '+maxSel+' opciones');
-}
 }
 
 function next(){
+
 let sel=getSel();
-if(!sel.length){toast('Selecciona algo');return;}
-data[flujo[paso].key]=sel;
-paso++;
-if(paso<flujo.length){flujo[paso]();}
-else{cerrar();flujo.fin();}
+
+if(!sel.length){
+alert("Selecciona algo");
+return;
 }
 
-function add(txt,precio){
-carrito.push({nombre:txt,precio});
+data[flujo[paso].key]=sel;
+
+paso++;
+
+if(paso<flujo.length){
+
+flujo[paso]();
+
+}else{
+
+document.getElementById("modal").style.display="none";
+flujo.fin();
+
+}
+
+}
+
+function add(nombre,precio){
+
+carrito.push({nombre,precio});
+
 render();
-toast('✅ Producto agregado');
+
 }
 
 function render(){
-let div=document.getElementById('carrito');
-div.innerHTML='';
+
+let div=document.getElementById("carrito");
+
+div.innerHTML="";
+
 let total=0;
-carrito.forEach((i,idx)=>{
-div.innerHTML+=`<p style="padding:10px;border-bottom:1px solid #ddd;cursor:pointer;border-radius:12px" onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">${i.nombre.replace(/\n/g,'<br>')}</p>`;
+
+carrito.forEach(i=>{
+
+div.innerHTML+=`
+<div class="item">
+${i.nombre}<br>
+💰 $${i.precio}
+</div>
+`;
+
 total+=i.precio;
+
 });
-document.getElementById('total').innerText='Total: $'+total;
+
+document.getElementById("total").innerText="Total: $"+total;
+
 }
 
-function seleccionar(i){seleccionado=i;render();}
+/* CREPAS */
 
-function eliminar(){
-if(seleccionado!=null){
-carrito.splice(seleccionado,1);
-seleccionado=null;
-render();
-toast('❌ Producto eliminado');
-}
-}
-
-function vaciar(){
-carrito=[];
-seleccionado=null;
-render();
-toast('🗑 Carrito vaciado');
-}
-
-function totalCarrito(){return carrito.reduce((a,b)=>a+b.precio,0);}
-
-function obtenerUbicacionActual(){
-return new Promise((resolve,reject)=>{
-navigator.geolocation.getCurrentPosition(
-(pos)=>{
-resolve({
-link:`https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`
-});
-},
-(err)=>reject(err),
-{enableHighAccuracy:true,timeout:15000,maximumAge:0}
-);
-});
-}
-
-// CREPAS
 function crepas(){
-setCategoria('crepas');
+
 paso=0;
 data={};
+
 flujo=[
-()=>abrir('Bases',['Nutella','Lechera','Cajeta','Queso Philadelphia','Mermelada de fresa','Mermelada de zarzamora'],'checkbox',2),
-()=>abrir('Frutas',['Fresa','Plátano','Durazno','Uva','Ninguna'],'checkbox'),
-()=>abrir('Decoración',['Chocolate Hershey\'s','Lechera','Ninguna'],'radio'),
-()=>abrir('Toppings',['Granillo de chocolate','Granillo de arcoiris','Gotas de chocolate','Nuez','Lunetitas','Ninguno'],'radio')
+
+()=>abrir(
+"Bases",
+[
+"Nutella",
+"Lechera",
+"Cajeta",
+"Queso Philadelphia"
+],
+"checkbox"
+),
+
+()=>abrir(
+"Frutas",
+[
+"Fresa",
+"Plátano",
+"Durazno",
+"Uva",
+"Ninguna"
+],
+"checkbox"
+)
+
 ];
-flujo[0].key='bases';
-flujo[1].key='frutas';
-flujo[2].key='dec';
-flujo[3].key='top';
+
+flujo[0].key="base";
+flujo[1].key="fruta";
+
 flujo.fin=function(){
+
 let precio=50;
-let txt='🥞 Crepa';
-txt+='\nBase: '+data.bases.join(', ');
-if(!data.frutas.includes('Ninguna'))txt+='\nFrutas: '+data.frutas.join(', ');
-if(!data.dec.includes('Ninguna'))txt+='\nDecoración: '+data.dec;
-if(!data.top.includes('Ninguno'))txt+='\nToppings: '+data.top;
-txt+='\nPrecio: $'+precio;
-add(txt,precio);
-};
-flujo[0]();
+
+let txt="🥞 Crepa\n";
+txt+="Base: "+data.base.join(", ");
+
+if(!data.fruta.includes("Ninguna")){
+txt+="\nFrutas: "+data.fruta.join(", ");
 }
 
-// PLATANOS
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* PLATANOS */
+
 function platanos(){
-setCategoria('platanos');
+
 paso=0;
 data={};
+
 flujo=[
-()=>abrir('Tipo',['Fritos - $30','Árabes - $40'],'radio'),
-()=>abrir('Complementos',['Crema','Lechera','Mermelada de fresa','Ninguna'],'checkbox'),
-()=>abrir('Toppings',['Granillo de chocolate','Granillo de arcoiris','Gotas de chocolate','Nuez','Lunetitas','Ninguno'],'radio')
+
+()=>abrir(
+"Tipo",
+[
+"Fritos - $30",
+"Árabes - $40"
+],
+"radio"
+)
+
 ];
-flujo[0].key='tipo';
-flujo[1].key='comp';
-flujo[2].key='top';
+
+flujo[0].key="tipo";
+
 flujo.fin=function(){
-let precio=data.tipo[0].includes('30')?30:40;
-let txt='🍌 Plátanos '+data.tipo[0].split(' - ')[0];
-if(!data.comp.includes('Ninguna'))txt+='\nComplementos: '+data.comp.join(', ');
-if(!data.top.includes('Ninguno'))txt+='\nToppings: '+data.top;
-txt+='\nPrecio: $'+precio;
-add(txt,precio);
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+add("🍌 "+data.tipo[0],precio);
+
 };
+
 flujo[0]();
+
 }
 
-// ENVIAR
-async function enviar(){
-if(carrito.length===0){toast('Agrega productos');return;}
-let nombre=document.getElementById('nombreCliente').value.trim();
-if(nombre===''){toast('Escribe tu nombre');return;}
-let entrega=document.getElementById('tipoEntrega').value;
-let pago=document.getElementById('pago').value;
-let total=totalCarrito();
-let txt='🧾 PEDIDO EL MICHI 🐱\n\n';
-txt+='👤 Cliente: '+nombre+'\n';
-txt+='🚚 '+entrega+'\n';
-txt+='💳 '+pago+'\n\n';
-carrito.forEach(i=>{txt+=i.nombre+'\n\n';});
-if(entrega==='A domicilio'){
-try{
-let ubicacion=await obtenerUbicacionActual();
-txt+='📍 '+ubicacion.link+'\n\n';
-}catch{
-toast('Debes permitir ubicación');
+/* PAPAS */
+
+function papas(){
+
+paso=0;
+data={};
+
+flujo=[
+
+()=>abrir(
+"Tipo",
+[
+"Papas a la francesa - $35",
+"Salchipulpos con papas - $45",
+"Banderilla con papas - $35",
+"Banderilla sola - $25"
+],
+"radio"
+),
+
+()=>abrir(
+"Aderezos",
+[
+"Catsup",
+"Queso amarillo",
+"Salsa",
+"Ninguna"
+],
+"checkbox"
+)
+
+];
+
+flujo[0].key="tipo";
+flujo[1].key="ad";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+let txt="🍟 "+data.tipo[0];
+
+if(!data.ad.includes("Ninguna")){
+txt+="\nAderezos: "+data.ad.join(", ");
+}
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* HAMBURGUESAS */
+
+function hamb(){
+
+paso=0;
+data={};
+
+flujo=[
+
+()=>abrir(
+"Tipo",
+[
+"Clásica - $55",
+"Hawaiana - $60",
+"Especial - $65"
+],
+"radio"
+),
+
+()=>abrir(
+"Extras",
+[
+"Piña $8",
+"Tocino $8",
+"Salchicha $8",
+"Carne $10",
+"Ninguna"
+],
+"checkbox"
+)
+
+];
+
+flujo[0].key="tipo";
+flujo[1].key="extra";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+
+(data.extra||[]).forEach(e=>{
+
+if(e.includes("$")){
+precio+=parseInt(e.match(/\d+/)[0]);
+}
+
+});
+
+let txt="🍔 "+data.tipo[0];
+
+if(!data.extra.includes("Ninguna")){
+txt+="\nExtras: "+data.extra.join(", ");
+}
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* HOT DOGS */
+
+function hot(){
+
+paso=0;
+data={};
+
+flujo=[
+
+()=>abrir(
+"Tipo",
+[
+"Sencillo",
+"Especial"
+],
+"radio"
+),
+
+()=>abrir(
+"Cantidad",
+[
+"1 $20",
+"2 $40",
+"3 $55"
+],
+"radio"
+)
+
+];
+
+flujo[0].key="tipo";
+flujo[1].key="cant";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.cant[0].match(/\d+/g).pop());
+
+let txt="🌭 Hot Dog "+data.tipo[0]+" "+data.cant[0];
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* FRAPPES */
+
+function frap(){
+
+paso=0;
+data={};
+
+flujo=[
+
+()=>abrir(
+"Tipo",
+[
+"Galleta Oreo",
+"Mazapán",
+"Frapuccino",
+"Fresa"
+],
+"radio"
+),
+
+()=>abrir(
+"Tamaño",
+[
+"Chico $30",
+"Grande $50"
+],
+"radio"
+)
+
+];
+
+flujo[0].key="tipo";
+flujo[1].key="tam";
+
+flujo.fin=function(){
+
+let precio=parseInt(data.tam[0].match(/\d+/)[0]);
+
+let txt="🥤 "+data.tipo[0]+" "+data.tam[0];
+
+add(txt,precio);
+
+};
+
+flujo[0]();
+
+}
+
+/* ENVIAR */
+
+function enviarPedido(){
+
+if(carrito.length===0){
+alert("Agrega productos");
 return;
 }
-}
-txt+='💰 TOTAL: $'+total;
-window.location.href='https://wa.me/525532416109?text='+encodeURIComponent(txt);
+
+let nombre=document.getElementById("nombreCliente").value;
+
+if(nombre===""){
+alert("Escribe tu nombre");
+return;
 }
 
-// FUNCIONES RESTANTES
-function papas(){toast('🍟 Ya puedes personalizar papas aquí');}
-function hamb(){toast('🍔 Ya puedes personalizar hamburguesas aquí');}
-function hot(){toast('🌭 Ya puedes personalizar hot dogs aquí');}
-function frap(){toast('🥤 Ya puedes personalizar frappés aquí');}
+let total=carrito.reduce((a,b)=>a+b.precio,0);
+
+let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
+
+txt+="👤 Cliente: "+nombre+"\n\n";
+
+carrito.forEach(i=>{
+
+txt+=i.nombre+"\n";
+txt+="💰 $"+i.precio+"\n\n";
+
+});
+
+txt+="TOTAL: $"+total;
+
+let url="https://wa.me/525532416109?text="+encodeURIComponent(txt);
+
+window.open(url,"_blank");
+
+}
 
 </script>
 
