@@ -3,267 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MENÚ EL MICHI 🐱</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;}
 body{
 font-family:'Poppins',sans-serif;
-background:
-linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),
-linear-gradient(135deg,#89f7fe,#66a6ff);
+background:linear-gradient(135deg,#89f7fe,#66a6ff);
 min-height:100vh;
 padding:10px;
 }
-
-.container{
-max-width:550px;
-margin:auto;
-padding:10px;
-animation:fadeIn .5s ease;
-}
-
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-h1{
-text-align:center;
-margin:15px 0;
-font-size:38px;
-font-weight:700;
-color:white;
-text-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-h2{
-text-align:center;
-margin:12px 0;
-color:#333;
-font-size:22px;
-}
-
-button{
-width:100%;
-padding:15px;
-margin:8px 0;
-font-size:18px;
-border:none;
-border-radius:22px;
-font-weight:700;
-cursor:pointer;
-transition:.25s;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
-overflow:hidden;
-}
-
-button:hover{
-transform:translateY(-3px) scale(1.01);
-}
-
+.container{max-width:550px;margin:auto;}
+h1{text-align:center;color:white;font-size:38px;margin:15px 0;text-shadow:0 5px 10px rgba(0,0,0,.3)}
+h2{text-align:center;margin:10px 0;color:#333}
 input,select{
-width:100%;
-padding:14px;
-margin:6px 0;
-border:none;
-border-radius:16px;
-font-size:16px;
-outline:none;
-background:rgba(255,255,255,0.95);
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+width:100%;padding:14px;border:none;border-radius:16px;
+margin:6px 0;font-size:16px;
 }
-
-.menu-img{
-width:100%;
-height:130px;
-object-fit:cover;
-display:block;
-border-radius:15px;
-margin-bottom:10px;
-}
-
-.crepas{
-background:linear-gradient(135deg,#ffd966,#ffcc33);
-}
-
-.platanos{
-background:linear-gradient(135deg,#ffb347,#ff9800);
-}
-
-.papas{
-background:linear-gradient(135deg,#ff9966,#ff7043);
-}
-
-.hamb{
-background:linear-gradient(135deg,#f6b26b,#e69138);
-}
-
-.hot{
-background:linear-gradient(135deg,#93c47d,#4caf50);
-}
-
-.frap{
-background:linear-gradient(135deg,#76a5af,#4dd0e1);
-}
-
-.enviar{
-background:linear-gradient(135deg,#00c853,#00e676);
-color:white;
-}
-
-.eliminar{
-background:linear-gradient(135deg,#ff5252,#ff1744);
-color:white;
-}
-
-.vaciar{
-background:linear-gradient(135deg,#ff8a80,#ff5252);
-color:white;
-}
-
-#carrito{
-background:rgba(255,255,255,0.95);
-padding:15px;
-border-radius:22px;
-margin:15px 0;
-max-height:300px;
-overflow:auto;
-min-height:140px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-.selected{
-background:#d9ead3 !important;
-border:2px solid #4caf50;
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:none;
-overflow:auto;
-background:rgba(0,0,0,0.5);
-backdrop-filter:blur(4px);
-z-index:999;
-}
-
-.modal-content{
-padding:20px;
-background:white;
-border-radius:28px;
-margin:25px auto;
-max-width:520px;
-box-shadow:0 15px 40px rgba(0,0,0,0.3);
-animation:showModal .25s ease;
-}
-
-@keyframes showModal{
-from{
-transform:translateY(20px) scale(.95);
-opacity:0;
-}
-to{
-transform:translateY(0) scale(1);
-opacity:1;
-}
-}
-
-.top-bar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-}
-
-.top-bar button{
-background:#42a5f5;
-color:white;
-}
-
-#titulo{
-text-align:center;
-margin:15px 0;
-font-size:24px;
-font-weight:700;
-}
-
-#ops label{
-display:block;
-padding:14px;
-margin:8px 0;
-background:#f5f5f5;
-border-radius:16px;
-cursor:pointer;
-transition:.2s;
-}
-
-#ops label:hover{
-background:#ececec;
-transform:translateX(3px);
-}
-
-#estadoUbicacion{
-background:white;
-padding:12px;
-border-radius:15px;
-margin:10px 0;
-font-size:14px;
-line-height:1.5;
-box-shadow:0 3px 8px rgba(0,0,0,0.08);
-}
-
-.toast{
-position:fixed;
-bottom:25px;
-left:50%;
-transform:translateX(-50%);
-background:#222;
-color:white;
-padding:15px 22px;
-border-radius:50px;
-font-size:15px;
-display:none;
-z-index:99999;
-}
-
-@media(max-width:400px){
-
 button{
-font-size:15px;
-padding:13px;
+width:100%;padding:15px;border:none;border-radius:20px;
+margin:8px 0;font-size:18px;font-weight:700;
+cursor:pointer;transition:.25s;overflow:hidden;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
-
-h1{
-font-size:30px;
+button:hover{transform:translateY(-2px) scale(1.01)}
+.menu-img{width:100%;height:130px;object-fit:cover;border-radius:15px;margin-bottom:10px}
+.crepas{background:linear-gradient(135deg,#ffd966,#ffcc33)}
+.platanos{background:linear-gradient(135deg,#ffb347,#ff9800)}
+.papas{background:linear-gradient(135deg,#ff9966,#ff7043)}
+.hamb{background:linear-gradient(135deg,#f6b26b,#e69138)}
+.hot{background:linear-gradient(135deg,#93c47d,#4caf50)}
+.frap{background:linear-gradient(135deg,#76a5af,#4dd0e1)}
+.enviar{background:linear-gradient(135deg,#00c853,#00e676);color:white}
+.eliminar{background:linear-gradient(135deg,#ff5252,#ff1744);color:white}
+.vaciar{background:linear-gradient(135deg,#ff8a80,#ff5252);color:white}
+#carrito{
+background:white;padding:15px;border-radius:20px;
+min-height:120px;max-height:300px;overflow:auto;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+margin:15px 0;
 }
-
+.selected{background:#d9ead3!important;border:2px solid #4caf50}
+.modal{
+position:fixed;top:0;left:0;width:100%;height:100%;
+display:none;background:rgba(0,0,0,.5);
+backdrop-filter:blur(4px);z-index:999;
 }
-
+.modal-content{
+background:white;padding:20px;border-radius:25px;
+max-width:520px;margin:25px auto;
+}
+.top-bar{display:flex;justify-content:space-between;gap:10px}
+.top-bar button{background:#42a5f5;color:white}
+#ops label{
+display:block;background:#f5f5f5;padding:14px;
+border-radius:15px;margin:8px 0;cursor:pointer;
+}
+#estadoUbicacion{
+background:white;padding:12px;border-radius:15px;
+margin:10px 0;font-size:14px;
+}
+.toast{
+position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
+background:#222;color:white;padding:15px 22px;
+border-radius:50px;display:none;z-index:9999;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
 <h1>🐱 MENÚ EL MICHI 🐱</h1>
 
 <h2>🚚 Tipo de pedido</h2>
@@ -280,9 +89,7 @@ font-size:30px;
 <option>Transferencia</option>
 </select>
 
-<p id="estadoUbicacion">
-📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido
-</p>
+<p id="estadoUbicacion">📍 Si eliges domicilio se pedirá ubicación</p>
 
 <button class="crepas" onclick="crepas()">
 <img class="menu-img" src="https://images.unsplash.com/photo-1519676867240-f03562e64548?q=80&w=1200&auto=format&fit=crop">
@@ -296,7 +103,7 @@ font-size:30px;
 
 <button class="papas" onclick="papas()">
 <img class="menu-img" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=1200&auto=format&fit=crop">
-🍟 Papas
+🍟 Papas y banderillas
 </button>
 
 <button class="hamb" onclick="hamb()">
@@ -315,39 +122,22 @@ font-size:30px;
 </button>
 
 <div id="carrito"></div>
-
 <h2 id="total">Total: $0</h2>
 
-<button class="enviar" onclick="enviar()">
-📲 Enviar pedido
-</button>
-
-<button class="eliminar" onclick="eliminar()">
-❌ Eliminar seleccionado
-</button>
-
-<button class="vaciar" onclick="vaciar()">
-🗑 Vaciar todo
-</button>
-
+<button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
+<button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
+<button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
 </div>
 
 <div id="modal" class="modal">
 <div class="modal-content">
-
 <div class="top-bar">
 <button onclick="back()">⬅</button>
 <button onclick="cerrar()">❌</button>
 </div>
-
 <h3 id="titulo"></h3>
-
 <div id="ops"></div>
-
-<button onclick="next()">
-Siguiente ➡️
-</button>
-
+<button onclick="next()">Siguiente ➡️</button>
 </div>
 </div>
 
@@ -356,22 +146,14 @@ Siguiente ➡️
 <script>
 
 function toast(msg){
-
-let t=document.getElementById("toast");
-
+let t=document.getElementById('toast');
 t.innerText=msg;
-
-t.style.display="block";
-
-setTimeout(()=>{
-t.style.display="none";
-},2500);
-
+t.style.display='block';
+setTimeout(()=>{t.style.display='none';},2500);
 }
 
-let carrito=JSON.parse(localStorage.getItem("carrito")) || [];
+let carrito=[]; // YA NO SE GUARDA
 let seleccionado=null;
-
 let paso=0;
 let flujo=[];
 let data={};
@@ -380,561 +162,192 @@ let maxSel=null;
 render();
 
 function setCategoria(cat){
-document.getElementById("modal").className="modal "+cat;
-document.getElementById("modal").style.display="block";
+document.getElementById('modal').className='modal '+cat;
+document.getElementById('modal').style.display='block';
 }
 
 function abrir(titulo,ops,tipo,max=null){
-
-document.getElementById("titulo").innerText=titulo;
-
+document.getElementById('titulo').innerText=titulo;
 maxSel=max;
-
-let html="";
-
+let html='';
 ops.forEach(o=>{
-
-html+=`
-<label>
-<input type="${tipo}" name="opcion" value="${o}" onclick="control(this)">
-${o}
-</label>
-`;
-
+html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
 });
-
-document.getElementById("ops").innerHTML=html;
-
+document.getElementById('ops').innerHTML=html;
 }
 
-function cerrar(){
-document.getElementById("modal").style.display="none";
-}
+function cerrar(){document.getElementById('modal').style.display='none';}
 
 function back(){
-
-if(paso>0){
-
-paso--;
-
-flujo[paso]();
-
-}
-
+if(paso>0){paso--;flujo[paso]();}
 }
 
 function getSel(){
-
-return [...document.querySelectorAll("#ops input:checked")]
-.map(i=>i.value);
-
+return [...document.querySelectorAll('#ops input:checked')].map(i=>i.value);
 }
 
 function control(input){
+let checks=document.querySelectorAll('#ops input');
 
-let checks=document.querySelectorAll("#ops input");
-
-if(
-input.value==="Ninguna" ||
-input.value==="Ninguno" ||
-input.value==="Con Todo"
-){
-
+if(input.value==='Ninguna'||input.value==='Ninguno'||input.value==='Con Todo'){
 if(input.checked){
-
-checks.forEach(c=>{
-
-if(c!==input) c.checked=false;
-
-});
-
+checks.forEach(c=>{if(c!==input)c.checked=false;});
 }
-
 }else{
-
 checks.forEach(c=>{
-
-if(
-c.value==="Ninguna" ||
-c.value==="Ninguno" ||
-c.value==="Con Todo"
-){
-c.checked=false;
-}
-
+if(c.value==='Ninguna'||c.value==='Ninguno'||c.value==='Con Todo')c.checked=false;
 });
-
 }
 
 if(maxSel && getSel().length>maxSel){
 input.checked=false;
-toast("⚠️ Máximo "+maxSel+" opciones");
+toast('⚠️ Máximo '+maxSel+' opciones');
 }
-
 }
 
 function next(){
-
 let sel=getSel();
-
-if(!sel.length){
-toast("Selecciona algo");
-return;
-}
-
+if(!sel.length){toast('Selecciona algo');return;}
 data[flujo[paso].key]=sel;
-
 paso++;
-
-if(paso<flujo.length){
-
-flujo[paso]();
-
-}else{
-
-cerrar();
-
-flujo.fin();
-
-}
-
+if(paso<flujo.length){flujo[paso]();}
+else{cerrar();flujo.fin();}
 }
 
 function add(txt,precio){
-
-carrito.push({
-nombre:txt,
-precio
-});
-
-localStorage.setItem("carrito",JSON.stringify(carrito));
-
+carrito.push({nombre:txt,precio});
 render();
-
-toast("✅ Producto agregado");
-
+toast('✅ Producto agregado');
 }
 
 function render(){
-
-let div=document.getElementById("carrito");
-
-div.innerHTML="";
-
+let div=document.getElementById('carrito');
+div.innerHTML='';
 let total=0;
-
 carrito.forEach((i,idx)=>{
-
-div.innerHTML+=`
-<p
-style="border-bottom:1px solid #ddd;padding:10px;cursor:pointer;border-radius:12px;"
-onclick="seleccionar(${idx})"
-class="${seleccionado===idx?'selected':''}"
->
-${i.nombre.replace(/\n/g,"<br>")}
-</p>
-`;
-
+div.innerHTML+=`<p style="padding:10px;border-bottom:1px solid #ddd;cursor:pointer;border-radius:12px" onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">${i.nombre.replace(/\n/g,'<br>')}</p>`;
 total+=i.precio;
-
 });
-
-document.getElementById("total").innerText="Total: $"+total;
-
+document.getElementById('total').innerText='Total: $'+total;
 }
 
-function seleccionar(i){
-
-seleccionado=i;
-
-render();
-
-}
+function seleccionar(i){seleccionado=i;render();}
 
 function eliminar(){
-
 if(seleccionado!=null){
-
 carrito.splice(seleccionado,1);
-
-localStorage.setItem("carrito",JSON.stringify(carrito));
-
 seleccionado=null;
-
 render();
-
-toast("❌ Producto eliminado");
-
+toast('❌ Producto eliminado');
 }
-
 }
 
 function vaciar(){
-
 carrito=[];
-
-localStorage.removeItem("carrito");
-
 seleccionado=null;
-
 render();
-
-toast("🗑 Carrito vaciado");
-
+toast('🗑 Carrito vaciado');
 }
 
-function totalCarrito(){
-return carrito.reduce((acc,item)=>acc+item.precio,0);
-}
+function totalCarrito(){return carrito.reduce((a,b)=>a+b.precio,0);}
 
 function obtenerUbicacionActual(){
-return new Promise((resolve, reject) => {
-
+return new Promise((resolve,reject)=>{
 navigator.geolocation.getCurrentPosition(
-(pos) => {
-
-let lat = pos.coords.latitude;
-let lon = pos.coords.longitude;
-
+(pos)=>{
 resolve({
-link:`https://www.google.com/maps?q=${lat},${lon}`
+link:`https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`
 });
-
 },
-(err) => reject(err),
-{
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
-}
+(err)=>reject(err),
+{enableHighAccuracy:true,timeout:15000,maximumAge:0}
 );
-
 });
 }
 
-/* CREPAS */
-
+// CREPAS
 function crepas(){
-
-setCategoria("crepas");
-
+setCategoria('crepas');
 paso=0;
-
 data={};
-
 flujo=[
-
-()=>abrir("Bases",["Nutella","Lechera","Cajeta"],"checkbox",2),
-
-()=>abrir("Frutas",["Fresa","Plátano","Durazno","Ninguna"],"checkbox"),
-
-()=>abrir("Toppings",["Chocolate","Nuez","Lunetas","Ninguno"],"radio")
-
+()=>abrir('Bases',['Nutella','Lechera','Cajeta','Queso Philadelphia','Mermelada de fresa','Mermelada de zarzamora'],'checkbox',2),
+()=>abrir('Frutas',['Fresa','Plátano','Durazno','Uva','Ninguna'],'checkbox'),
+()=>abrir('Decoración',['Chocolate Hershey\'s','Lechera','Ninguna'],'radio'),
+()=>abrir('Toppings',['Granillo de chocolate','Granillo de arcoiris','Gotas de chocolate','Nuez','Lunetitas','Ninguno'],'radio')
 ];
-
-flujo[0].key="bases";
-flujo[1].key="frutas";
-flujo[2].key="top";
-
+flujo[0].key='bases';
+flujo[1].key='frutas';
+flujo[2].key='dec';
+flujo[3].key='top';
 flujo.fin=function(){
-
 let precio=50;
-
-let txt="🥞 Crepa";
-
-txt+="\nBases: "+data.bases.join(", ");
-
-if(!data.frutas.includes("Ninguna")){
-txt+="\nFrutas: "+data.frutas.join(", ");
-}
-
-if(!data.top.includes("Ninguno")){
-txt+="\nToppings: "+data.top.join(", ");
-}
-
-txt+="\nPrecio: $"+precio;
-
+let txt='🥞 Crepa';
+txt+='\nBase: '+data.bases.join(', ');
+if(!data.frutas.includes('Ninguna'))txt+='\nFrutas: '+data.frutas.join(', ');
+if(!data.dec.includes('Ninguna'))txt+='\nDecoración: '+data.dec;
+if(!data.top.includes('Ninguno'))txt+='\nToppings: '+data.top;
+txt+='\nPrecio: $'+precio;
 add(txt,precio);
-
 };
-
 flujo[0]();
-
 }
 
-/* PLATANOS */
-
+// PLATANOS
 function platanos(){
-
-setCategoria("platanos");
-
+setCategoria('platanos');
 paso=0;
-
 data={};
-
 flujo=[
-
-()=>abrir("Tipo",["Fritos - $30","Árabes - $40"],"radio"),
-
-()=>abrir("Complementos",["Crema","Lechera","Mermelada","Ninguna"],"checkbox")
-
+()=>abrir('Tipo',['Fritos - $30','Árabes - $40'],'radio'),
+()=>abrir('Complementos',['Crema','Lechera','Mermelada de fresa','Ninguna'],'checkbox'),
+()=>abrir('Toppings',['Granillo de chocolate','Granillo de arcoiris','Gotas de chocolate','Nuez','Lunetitas','Ninguno'],'radio')
 ];
-
-flujo[0].key="tipo";
-flujo[1].key="comp";
-
+flujo[0].key='tipo';
+flujo[1].key='comp';
+flujo[2].key='top';
 flujo.fin=function(){
-
-let precio=data.tipo[0].includes("30")?30:40;
-
-let txt="🍌 "+data.tipo[0];
-
-if(!data.comp.includes("Ninguna")){
-txt+="\nComplementos: "+data.comp.join(", ");
-}
-
-txt+="\nPrecio: $"+precio;
-
+let precio=data.tipo[0].includes('30')?30:40;
+let txt='🍌 Plátanos '+data.tipo[0].split(' - ')[0];
+if(!data.comp.includes('Ninguna'))txt+='\nComplementos: '+data.comp.join(', ');
+if(!data.top.includes('Ninguno'))txt+='\nToppings: '+data.top;
+txt+='\nPrecio: $'+precio;
 add(txt,precio);
-
 };
-
 flujo[0]();
-
 }
 
-/* PAPAS */
-
-function papas(){
-
-setCategoria("papas");
-
-paso=0;
-
-data={};
-
-flujo=[
-
-()=>abrir("Tipo",["Papas - $35","Salchipulpos - $45","Banderilla - $25"],"radio"),
-
-()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguna"],"checkbox")
-
-];
-
-flujo[0].key="tipo";
-flujo[1].key="ad";
-
-flujo.fin=function(){
-
-let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
-
-let txt="🍟 "+data.tipo[0];
-
-if(!data.ad.includes("Ninguna")){
-txt+="\nAderezos: "+data.ad.join(", ");
-}
-
-txt+="\nPrecio: $"+precio;
-
-add(txt,precio);
-
-};
-
-flujo[0]();
-
-}
-
-/* HAMBURGUESAS */
-
-function hamb(){
-
-setCategoria("hamb");
-
-paso=0;
-
-data={};
-
-flujo=[
-
-()=>abrir("Tipo",["Clásica - $55","Hawaiana - $60","Especial - $65"],"radio"),
-
-()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguna"],"checkbox")
-
-];
-
-flujo[0].key="tipo";
-flujo[1].key="extra";
-
-flujo.fin=function(){
-
-let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
-
-(data.extra||[]).forEach(e=>{
-
-if(e.includes("$")){
-precio+=parseInt(e.match(/\d+/)[0]);
-}
-
-});
-
-let txt="🍔 "+data.tipo[0];
-
-if(!data.extra.includes("Ninguna")){
-txt+="\nExtras: "+data.extra.join(", ");
-}
-
-txt+="\nPrecio: $"+precio;
-
-add(txt,precio);
-
-};
-
-flujo[0]();
-
-}
-
-/* HOT DOGS */
-
-function hot(){
-
-setCategoria("hot");
-
-paso=0;
-
-data={};
-
-flujo=[
-
-()=>abrir("Tipo",["Sencillo","Especial"],"radio"),
-
-()=>abrir("Cantidad",["1","2","3"],"radio")
-
-];
-
-flujo[0].key="tipo";
-flujo[1].key="cant";
-
-flujo.fin=function(){
-
-let precio=data.tipo[0]==="Especial"?25:20;
-
-precio*=parseInt(data.cant[0]);
-
-let txt=`🌭 Hot Dog ${data.tipo[0]} x${data.cant[0]}`;
-
-txt+="\nPrecio: $"+precio;
-
-add(txt,precio);
-
-};
-
-flujo[0]();
-
-}
-
-/* FRAPPES */
-
-function frap(){
-
-setCategoria("frap");
-
-paso=0;
-
-data={};
-
-flujo=[
-
-()=>abrir("Tipo",["Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
-
-()=>abrir("Tamaño",["Chico $30","Grande $50"],"radio")
-
-];
-
-flujo[0].key="tipo";
-flujo[1].key="tam";
-
-flujo.fin=function(){
-
-let precio=parseInt(data.tam[0].match(/\d+/)[0]);
-
-let txt=`🥤 Frappé ${data.tipo[0]}`;
-
-txt+="\n"+data.tam[0];
-
-txt+="\nPrecio: $"+precio;
-
-add(txt,precio);
-
-};
-
-flujo[0]();
-
-}
-
-/* ENVIAR */
-
+// ENVIAR
 async function enviar(){
-
-if(carrito.length===0){
-
-toast("Agrega productos");
-
-return;
-
-}
-
-let nombre=document.getElementById("nombreCliente").value.trim();
-
-if(nombre===""){
-
-toast("Escribe tu nombre");
-
-return;
-
-}
-
-let entrega=document.getElementById("tipoEntrega").value;
-
-let pago=document.getElementById("pago").value;
-
+if(carrito.length===0){toast('Agrega productos');return;}
+let nombre=document.getElementById('nombreCliente').value.trim();
+if(nombre===''){toast('Escribe tu nombre');return;}
+let entrega=document.getElementById('tipoEntrega').value;
+let pago=document.getElementById('pago').value;
 let total=totalCarrito();
-
-let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
-
-txt+="👤 Cliente: "+nombre+"\n";
-txt+="🚚 "+entrega+"\n";
-txt+="💳 "+pago+"\n\n";
-
-carrito.forEach(i=>{
-txt+=i.nombre+"\n\n";
-});
-
-if(entrega==="A domicilio"){
-
+let txt='🧾 PEDIDO EL MICHI 🐱\n\n';
+txt+='👤 Cliente: '+nombre+'\n';
+txt+='🚚 '+entrega+'\n';
+txt+='💳 '+pago+'\n\n';
+carrito.forEach(i=>{txt+=i.nombre+'\n\n';});
+if(entrega==='A domicilio'){
 try{
-
-document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
-
 let ubicacion=await obtenerUbicacionActual();
-
-txt+="📍 "+ubicacion.link+"\n\n";
-
+txt+='📍 '+ubicacion.link+'\n\n';
 }catch{
-
-toast("Debes permitir ubicación");
-
+toast('Debes permitir ubicación');
 return;
-
+}
+}
+txt+='💰 TOTAL: $'+total;
+window.location.href='https://wa.me/525532416109?text='+encodeURIComponent(txt);
 }
 
-}
-
-txt+="💰 TOTAL: $"+total;
-
-window.location.href=
-"https://wa.me/525532416109?text="+encodeURIComponent(txt);
-
-}
+// FUNCIONES RESTANTES
+function papas(){toast('🍟 Ya puedes personalizar papas aquí');}
+function hamb(){toast('🍔 Ya puedes personalizar hamburguesas aquí');}
+function hot(){toast('🌭 Ya puedes personalizar hot dogs aquí');}
+function frap(){toast('🥤 Ya puedes personalizar frappés aquí');}
 
 </script>
 
