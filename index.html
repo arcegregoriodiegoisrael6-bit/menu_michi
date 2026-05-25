@@ -578,7 +578,7 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
       <div>
         <div class="section-title" style="margin-bottom:4px;">
           <h2>📋 Historial de pedidos</h2>
-          <span>Con estados y edición</span>
+          <span></span>
         </div>
         <small id="historialInfo">Sin pedidos guardados</small>
       </div>
@@ -1006,6 +1006,7 @@ function crepas(){
     else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
     else if(nb>=1 && nf>=3) precio=50;
     else if(nb>=2 && nf>=2) precio=50;
+    else if(nb>=2 && nf>=3) precio=50;
     let txt="Crepa\nBase: "+b.join(", ");
     if(f.length) txt+="\nFruta: "+f.join(", ");
     if(data.dec && data.dec[0]!="Ninguna") txt+="\nDecoración: "+data.dec;
