@@ -437,7 +437,6 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 
 .pedido-card.pendiente{border-left:6px solid #94a3b8}
 .pedido-card.preparando{border-left:6px solid #f59e0b; background:linear-gradient(180deg,#fff7ed,#ffffff)}
-.pedido-card.finalizado{border-left:6px solid #8b5cf6; background:linear-gradient(180deg,#f5f3ff,#ffffff)}
 .pedido-card.pagado{border-left:6px solid #0ea5e9; background:linear-gradient(180deg,#ecfeff,#ffffff)}
 .pedido-card.entregado{border-left:6px solid #22c55e; background:linear-gradient(180deg,#f0fdf4,#ffffff)}
 
@@ -486,7 +485,6 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 }
 
 .estado-chip.preparando{background:#fef3c7}
-.estado-chip.finalizado{background:#ede9fe}
 .estado-chip.pagado{background:#e0f2fe}
 .estado-chip.entregado{background:#dcfce7}
 
@@ -505,7 +503,6 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 
 .btn-editar{background:linear-gradient(135deg,#e0f2fe,#bfdbfe)}
 .btn-preparando{background:linear-gradient(135deg,#fde68a,#f59e0b)}
-.btn-finalizado{background:linear-gradient(135deg,#ddd6fe,#8b5cf6); color:white}
 .btn-pagado{background:linear-gradient(135deg,#bae6fd,#0ea5e9)}
 .btn-entregado{background:linear-gradient(135deg,#bbf7d0,#22c55e); color:white}
 
@@ -534,12 +531,9 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
         <div class="logo">🐱</div>
         <div>
           <h1>MENÚ EL MICHI</h1>
-          <div class="subtitle">Pedidos guardados • historial editable • compatible con celular y PC</div>
-        </div>
+</div>
       </div>
-      <div class="badges">
-        <div class="badge">💾 Guardado automático</div>
-        <div class="badge">📋 Historial</div>
+<div class="badge">📋 Historial</div>
       </div>
     </div>
   </div>
@@ -547,22 +541,13 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
   <div class="section">
     <div class="section-title">
       <h2>🚚 Pedido</h2>
-      <span>Llena lo básico y agrega productos</span>
+      <span>Agrega productos al carrito</span>
     </div>
 
-    <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente" />
-    <select id="tipoEntrega" onchange="verificarEntrega()">
-      <option value="Recoger en local">🏪 Recoger en local</option>
-      <option value="A domicilio">🏠 A domicilio</option>
-    </select>
-    <select id="pago">
-      <option value="Efectivo">Efectivo</option>
-      <option value="Transferencia">Transferencia</option>
-    </select>
-
-    <p id="estadoUbicacion">📍 Si eliges a domicilio, se pedirá tu ubicación al guardar el pedido</p>
-
-    <div class="quick-actions">
+    <p style="background:rgba(255,255,255,.9);color:#0f172a;padding:12px 14px;border-radius:18px;margin:10px 0 8px;font-size:14px;line-height:1.45;border:1px solid rgba(15,23,42,.06);">
+      📦 El pedido se guardará en el historial cuando presiones <b>Guardar pedido</b>
+    </p>
+<div class="quick-actions">
       <button class="crepas" onclick="crepas()">🥞 Crepas</button>
       <button class="platanos" onclick="platanos()">🍌 Plátanos</button>
       <button class="papas" onclick="papas()">🍟 Papas</button>
@@ -734,9 +719,20 @@ function ensureHistoryFresh(){
   }
 }
 
+
 function saveOrder(order){
   const history = getHistory();
-  history.unshift(order);
+  if(editingOrderId !== null){
+    const idx = history.findIndex(p => p.id === editingOrderId);
+    if(idx !== -1){
+      history[idx] = order;
+    }else{
+      history.unshift(order);
+    }
+    editingOrderId = null;
+  }else{
+    history.unshift(order);
+  }
   setHistory(history);
   renderHistory();
 }
@@ -782,8 +778,8 @@ function renderHistory(){
       <div class="pedido-card ${status}">
         <div class="pedido-top">
           <div>
-            <div class="pedido-title">🧾 Pedido #${history.length - idx} — ${escapeHtml(pedido.cliente || "Sin nombre")}</div>
-            <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")} • 🚚 ${escapeHtml(pedido.entrega || "")} • 💳 ${escapeHtml(pedido.pago || "")} • 💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
+            <div class="pedido-title">🧾 Pedido #${history.length - idx}</div>
+            <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")} • 💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
           </div>
           <div class="estado-chip ${status}">● ${estadoTexto(status)}</div>
         </div>
@@ -793,8 +789,7 @@ function renderHistory(){
         <div class="pedido-actions">
           <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
           <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
-          <button class="btn-finalizado" onclick="cambiarEstado(${pedido.id}, 'finalizado')">Finalizado</button>
-          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
+                    <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
@@ -825,36 +820,19 @@ function editarPedido(id){
   const pedido = history.find(p => p.id === id);
   if(!pedido) return;
 
-  const nuevoCliente = prompt("Editar nombre del cliente:", pedido.cliente || "");
-  if(nuevoCliente === null) return;
+  carrito = Array.isArray(pedido.items)
+    ? pedido.items.map(i => ({...i}))
+    : [];
 
-  const nuevaEntrega = prompt("Editar entrega:", pedido.entrega || "Recoger en local");
-  if(nuevaEntrega === null) return;
-
-  const nuevoPago = prompt("Editar pago:", pedido.pago || "Efectivo");
-  if(nuevoPago === null) return;
-
-  const nuevoTotal = prompt("Editar total:", String(pedido.total ?? 0));
-  if(nuevoTotal === null) return;
-
-  const nuevosDetalles = prompt("Editar detalle del pedido:", pedido.detalles || pedido.resumen || "");
-  if(nuevosDetalles === null) return;
-
-  updateOrderById(id, old => {
-    old.cliente = nuevoCliente.trim() || old.cliente;
-    old.entrega = nuevaEntrega.trim() || old.entrega;
-    old.pago = nuevoPago.trim() || old.pago;
-    old.total = Number(nuevoTotal) || 0;
-    old.detalles = nuevosDetalles;
-    old.resumen = `${old.cliente} • $${old.total} • ${old.entrega} • ${old.pago}`;
-    old.fechaHoraEdit = nowDateTime().fecha;
-    return old;
-  });
-
-  toast("Pedido editado");
+  seleccionado = null;
+  editingOrderId = id;
+  render();
+  toast("Pedido cargado al carrito para editar");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function actualizarResumen(){
+
   document.getElementById("total").innerText = "Total: $" + totalCarrito();
 }
 
@@ -1001,33 +979,8 @@ function totalCarrito(){
   return carrito.reduce((acc,item)=>acc+item.precio,0);
 }
 
-function obtenerUbicacionActual(){
-  return new Promise((resolve, reject) => {
-    if(!navigator.geolocation){
-      reject("Tu navegador no permite obtener ubicación.");
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        let lat = pos.coords.latitude;
-        let lon = pos.coords.longitude;
-        let link = `https://www.google.com/maps?q=${lat},${lon}`;
-        resolve({ lat, lon, link });
-      },
-      (err) => reject(err),
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-    );
-  });
-}
 
-async function verificarEntrega(){
-  let entrega=document.getElementById("tipoEntrega").value;
-  if(entrega==="A domicilio"){
-    document.getElementById("estadoUbicacion").innerText="📍 La ubicación se pedirá al guardar el pedido";
-  }else{
-    document.getElementById("estadoUbicacion").innerText="📍 Si eliges a domicilio, se pedirá tu ubicación al guardar el pedido";
-  }
-}
+function verificarEntrega(){}
 
 /* CREPAS */
 function crepas(){
@@ -1197,6 +1150,7 @@ function frap(){
   flujo[0]();
 }
 
+
 async function guardarPedido(){
   soundTap();
 
@@ -1205,89 +1159,41 @@ async function guardarPedido(){
     return;
   }
 
-  let nombre=document.getElementById("nombreCliente").value.trim();
-  let entrega=document.getElementById("tipoEntrega").value;
-  let pago=document.getElementById("pago").value;
-
-  if(nombre===""){
-    alert("Escribe tu nombre");
-    return;
-  }
-
-  let total=totalCarrito();
-
-  if(entrega==="A domicilio" && total < 100){
-    alert("🛵 Para enviar a domicilio, el pedido debe alcanzar al menos $100. Agrega otro producto para continuar.");
-    return;
-  }
-
+  let total = totalCarrito();
   let dt = nowDateTime();
+
   let textoPedido = "";
   carrito.forEach(i=>{
     let emoji=getEmoji(i.nombre);
-    textoPedido += `${emoji} ${i.nombre}\n\n`;
+    textoPedido += `${emoji} ${i.nombre}
+
+`;
   });
 
   const order = {
-    id: Date.now(),
-    cliente: nombre,
-    entrega,
-    pago,
+    id: editingOrderId || Date.now(),
     total,
     fechaHora: dt.fecha,
     fechaHoraIso: dt.iso,
     detalles: textoPedido.trim(),
-    resumen: `${nombre} • $${total} • ${entrega} • ${pago}`,
-    estado: pago === "Transferencia" ? "pagado" : "pendiente"
+    resumen: `Pedido • $${total}`,
+    estado: "pendiente",
+    items: carrito.map(i => ({...i}))
   };
 
   saveOrder(order);
-
-  let mensaje = "🧾 PEDIDO EL MICHI 🐱\n\n";
-  mensaje += `👤 Cliente: ${nombre}\n`;
-  mensaje += `🚚 Entrega: ${entrega}\n`;
-  mensaje += `💳 Pago: ${pago}\n`;
-  mensaje += `📅 Fecha y hora: ${dt.fecha}\n\n`;
-  carrito.forEach(i=>{
-    let emoji=getEmoji(i.nombre);
-    mensaje += `${emoji} ${i.nombre}\n\n`;
-  });
-  mensaje += `💰 TOTAL: $${total}`;
-
-  if(entrega==="A domicilio"){
-    try{
-      document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
-      let ubicacion=await obtenerUbicacionActual();
-      mensaje += `\n\n📍 Ubicación del cliente:\n${ubicacion.link}`;
-      document.getElementById("estadoUbicacion").innerText="📍 Ubicación agregada correctamente";
-    }catch{
-      document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
-      alert("Necesitamos tu ubicación para realizar el envío a domicilio. Activa el permiso de ubicación y vuelve a intentar.");
-      return;
-    }
-  }
 
   carrito=[];
   seleccionado=null;
   render();
 
-  let telefono="525532416109";
-  let mensajeURL=encodeURIComponent(mensaje);
-  let url="whatsapp://send?phone="+telefono+"&text="+mensajeURL;
-  toast("Pedido guardado en el historial");
-  window.location.href=url;
-  setTimeout(()=>{
-    if(document.visibilityState==="visible"){
-      window.location.href="https://wa.me/"+telefono+"?text="+mensajeURL;
-    }
-  },900);
+  toast(editingOrderId === null ? "Pedido guardado en el historial" : "Pedido actualizado en el historial");
 }
 
 function initApp(){
   ensureHistoryFresh();
   render();
   actualizarResumen();
-  verificarEntrega();
   renderHistory();
 }
 
