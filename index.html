@@ -609,6 +609,9 @@ let flujo = [];
 let data = {};
 let maxSel = null;
 
+/* NUEVO */
+let editingOrderId = null;
+
 const HISTORY_KEY = "michi_historial_pedidos_v2";
 const HISTORY_RESET_KEY = "michi_historial_reset_v2";
 const HISTORY_DURATION_MS = 12 * 60 * 60 * 1000;
@@ -1153,9 +1156,10 @@ function frap(){
 
 
 async function guardarPedido(){
+
   soundTap();
 
-  if(carrito.length===0){
+  if(carrito.length === 0){
     alert("Agrega productos al carrito");
     return;
   }
@@ -1164,11 +1168,51 @@ async function guardarPedido(){
   let dt = nowDateTime();
 
   let textoPedido = "";
-  carrito.forEach(i=>{
-    let emoji=getEmoji(i.nombre);
+
+  carrito.forEach(i => {
+
+    let emoji = getEmoji(i.nombre);
+
     textoPedido += `${emoji} ${i.nombre}
 
 `;
+
+  });
+
+  const order = {
+
+    id: editingOrderId ? editingOrderId : Date.now(),
+
+    total: total,
+
+    fechaHora: dt.fecha,
+
+    fechaHoraIso: dt.iso,
+
+    detalles: textoPedido.trim(),
+
+    resumen: `Pedido • $${total}`,
+
+    estado: "pendiente",
+
+    items: carrito.map(i => ({...i}))
+
+  };
+
+  saveOrder(order);
+
+  carrito = [];
+
+  seleccionado = null;
+
+  editingOrderId = null;
+
+  render();
+
+  toast("Pedido guardado en el historial");
+
+}
+;
   });
 
   const order = {
