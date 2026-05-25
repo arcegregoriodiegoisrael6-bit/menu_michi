@@ -9,13 +9,11 @@
   --bg1:#0f172a;
   --bg2:#111827;
   --card:rgba(255,255,255,.14);
-  --card-strong:rgba(255,255,255,.22);
   --line:rgba(255,255,255,.18);
   --text:#f8fafc;
   --muted:rgba(248,250,252,.78);
   --shadow:0 18px 50px rgba(0,0,0,.28);
   --radius:28px;
-  --radius-sm:18px;
   --accent:#60a5fa;
   --good:#22c55e;
   --warn:#f59e0b;
@@ -54,8 +52,7 @@ body::after{
   content:"";
   position:fixed;
   inset:0;
-  background-image:
-    radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
   background-size:24px 24px;
   opacity:.12;
   pointer-events:none;
@@ -65,7 +62,7 @@ body::after{
 .container{
   position:relative;
   z-index:1;
-  max-width:700px;
+  max-width:760px;
   margin:0 auto;
   padding:10px;
   background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
@@ -77,18 +74,13 @@ body::after{
 }
 
 .hero{
-  display:grid;
-  gap:10px;
-  margin-bottom:8px;
-  padding:12px;
+  padding:14px;
   border-radius:24px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.08)),
     radial-gradient(circle at top right, rgba(96,165,250,.35), transparent 35%);
   border:1px solid rgba(255,255,255,.12);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.20),
-    inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow:0 10px 30px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.08);
   position:relative;
   overflow:hidden;
 }
@@ -110,6 +102,7 @@ body::after{
   align-items:flex-start;
   justify-content:space-between;
   gap:14px;
+  flex-wrap:wrap;
 }
 
 .brand{
@@ -127,11 +120,8 @@ body::after{
   font-size:24px;
   background:linear-gradient(135deg,#60a5fa,#2563eb);
   color:white;
-  box-shadow:
-    0 0 20px rgba(96,165,250,.45),
-    0 8px 18px rgba(0,0,0,.20);
+  box-shadow:0 0 20px rgba(96,165,250,.45), 0 8px 18px rgba(0,0,0,.20);
   animation:float 3s ease-in-out infinite;
-  flex:0 0 auto;
 }
 
 @keyframes float{
@@ -173,39 +163,6 @@ body::after{
   color:var(--text);
   box-shadow:0 8px 20px rgba(0,0,0,.10);
   white-space:nowrap;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:4px;
-}
-
-.stat{
-  padding:10px;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.10);
-  transition:.2s;
-  backdrop-filter:blur(8px);
-}
-
-.stat:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,.12);
-}
-
-.stat .label{
-  font-size:11px;
-  color:var(--muted);
-  margin-bottom:2px;
-}
-
-.stat .value{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.1;
 }
 
 .section{
@@ -274,31 +231,8 @@ button{
   overflow:hidden;
 }
 
-button::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 50%, transparent 100%);
-  transform:translateX(-130%);
-}
-
-button:hover{
-  transform:translateY(-1px);
-  filter:saturate(1.06);
-}
-
-button:hover::after{
-  animation:shine .9s ease;
-}
-
-button:active{
-  transform:translateY(0) scale(.99);
-  opacity:.96;
-}
-
-@keyframes shine{
-  to{transform:translateX(130%);}
-}
+button:hover{ transform:translateY(-1px); filter:saturate(1.06); }
+button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 
 .crepas{background:linear-gradient(135deg,#ffe082,#ffca28)}
 .platanos{background:linear-gradient(135deg,#ffd180,#ffab40)}
@@ -307,10 +241,9 @@ button:active{
 .hot{background:linear-gradient(135deg,#c5e1a5,#9ccc65)}
 .frap{background:linear-gradient(135deg,#80deea,#4dd0e1)}
 
-.enviar{background:linear-gradient(135deg,#4ade80,#22c55e);color:white}
+.guardar{background:linear-gradient(135deg,#4ade80,#22c55e);color:white}
 .eliminar{background:linear-gradient(135deg,#fb7185,#ef4444);color:white}
 .vaciar{background:linear-gradient(135deg,#fda4af,#f87171);color:white}
-.limpiarHistorial{background:linear-gradient(135deg,#c4b5fd,#8b5cf6);color:white}
 
 .quick-actions{
   display:grid;
@@ -340,14 +273,14 @@ button:active{
   padding:10px;
   border-radius:24px;
   margin:12px 0;
-  max-height:240px;
+  max-height:260px;
   overflow:auto;
   min-height:90px;
   border:1px solid rgba(15,23,42,.08);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
 }
 
-#carrito p, #historialPedidos .pedido-card{
+#carrito p{
   padding:12px 12px;
   margin:0 0 8px 0;
   border-radius:16px;
@@ -358,7 +291,7 @@ button:active{
   line-height:1.35;
 }
 
-#carrito p:hover, #historialPedidos .pedido-card:hover{
+#carrito p:hover{
   transform:translateY(-1px);
   background:#eff6ff;
   border-color:#bfdbfe;
@@ -378,13 +311,6 @@ button:active{
   text-shadow:0 6px 18px rgba(0,0,0,.22);
 }
 
-.footer-note{
-  text-align:center;
-  font-size:12px;
-  color:rgba(255,255,255,.76);
-  margin-top:10px;
-}
-
 .modal{
   position:fixed;
   inset:0;
@@ -394,12 +320,6 @@ button:active{
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
   z-index:50;
-  animation:fade .18s ease;
-}
-
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
 }
 
 .modal-content{
@@ -411,12 +331,6 @@ button:active{
   border-radius:30px;
   box-shadow:0 24px 60px rgba(0,0,0,.30);
   border:1px solid rgba(255,255,255,.60);
-  animation:rise .18s ease;
-}
-
-@keyframes rise{
-  from{transform:translateY(16px);opacity:0}
-  to{transform:translateY(0);opacity:1}
 }
 
 .top-bar{
@@ -438,7 +352,6 @@ button:active{
   margin:16px 0 14px;
   font-size:24px;
   font-weight:900;
-  letter-spacing:.2px;
 }
 
 #ops{
@@ -454,14 +367,7 @@ button:active{
   background:#f8fafc;
   border:1px solid rgba(15,23,42,.08);
   border-radius:18px;
-  transition:transform .15s ease, background .15s ease, border-color .15s ease;
   cursor:pointer;
-}
-
-#ops label:hover{
-  transform:translateY(-1px);
-  background:#eff6ff;
-  border-color:#bfdbfe;
 }
 
 #ops input{
@@ -507,48 +413,52 @@ button:active{
 .toast.warn{border-left:5px solid var(--warn)}
 .toast.bad{border-left:5px solid var(--bad)}
 
-@keyframes toastIn{
-  to{opacity:1;transform:translateY(0)}
-}
-
-.pulse{
-  animation:pulse 1.7s ease-in-out infinite;
-}
-
-@keyframes pulse{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-2px)}
-}
-
-.scroll-hint{
-  font-size:12px;
-  color:rgba(255,255,255,.70);
-  text-align:right;
-  margin-top:4px;
-}
+@keyframes toastIn{ to{opacity:1;transform:translateY(0)} }
 
 .history-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:12px;
+  gap:10px;
   flex-wrap:wrap;
-  margin-bottom:10px;
 }
 
 .history-header small{
   color:rgba(255,255,255,.75);
 }
 
-.pedido-card strong{
-  display:block;
+.pedido-card{
+  padding:12px;
+  border-radius:18px;
+  background:linear-gradient(180deg, #ffffff, #f8fafc);
+  border:1px solid rgba(15,23,42,.08);
+  margin-bottom:10px;
+}
+
+.pedido-card.pendiente{border-left:6px solid #94a3b8}
+.pedido-card.preparando{border-left:6px solid #f59e0b; background:linear-gradient(180deg,#fff7ed,#ffffff)}
+.pedido-card.finalizado{border-left:6px solid #8b5cf6; background:linear-gradient(180deg,#f5f3ff,#ffffff)}
+.pedido-card.pagado{border-left:6px solid #0ea5e9; background:linear-gradient(180deg,#ecfeff,#ffffff)}
+.pedido-card.entregado{border-left:6px solid #22c55e; background:linear-gradient(180deg,#f0fdf4,#ffffff)}
+
+.pedido-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+}
+
+.pedido-title{
+  font-weight:900;
+  color:#0f172a;
   margin-bottom:4px;
 }
 
 .pedido-meta{
   font-size:12px;
   color:#475569;
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
 
 .pedido-items{
@@ -556,7 +466,48 @@ button:active{
   font-size:13px;
   line-height:1.45;
   color:#0f172a;
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  border-radius:14px;
+  padding:10px;
+  margin:8px 0 10px;
 }
+
+.estado-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:900;
+  padding:6px 10px;
+  border-radius:999px;
+  color:#0f172a;
+  background:#e2e8f0;
+}
+
+.estado-chip.preparando{background:#fef3c7}
+.estado-chip.finalizado{background:#ede9fe}
+.estado-chip.pagado{background:#e0f2fe}
+.estado-chip.entregado{background:#dcfce7}
+
+.pedido-actions{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+
+.pedido-actions button{
+  font-size:12px;
+  padding:10px 8px;
+  margin:0;
+  border-radius:14px;
+}
+
+.btn-editar{background:linear-gradient(135deg,#e0f2fe,#bfdbfe)}
+.btn-preparando{background:linear-gradient(135deg,#fde68a,#f59e0b)}
+.btn-finalizado{background:linear-gradient(135deg,#ddd6fe,#8b5cf6); color:white}
+.btn-pagado{background:linear-gradient(135deg,#bae6fd,#0ea5e9)}
+.btn-entregado{background:linear-gradient(135deg,#bbf7d0,#22c55e); color:white}
 
 @media (max-width:640px){
   body{padding:10px}
@@ -564,18 +515,14 @@ button:active{
   .hero{padding:14px}
   .hero-top{flex-direction:column;align-items:flex-start}
   .badges{justify-content:flex-start}
-  .stats{grid-template-columns:1fr}
   .quick-actions{grid-template-columns:1fr}
   .section{padding:14px}
   .modal-content{width:calc(100% - 14px);padding:10px;border-radius:24px;margin:10px auto}
   .top-bar{flex-direction:column}
   .top-bar button{width:100%}
+  .pedido-actions{grid-template-columns:1fr 1fr}
   button{font-size:15px}
 }
-
-::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-thumb{background:rgba(148,163,184,.75);border-radius:999px}
-::-webkit-scrollbar-track{background:rgba(15,23,42,.08)}
 </style>
 </head>
 <body>
@@ -587,60 +534,43 @@ button:active{
         <div class="logo">🐱</div>
         <div>
           <h1>MENÚ EL MICHI</h1>
-          <div class="subtitle">Rápido • Moderno • Delicioso ✨</div>
+          <div class="subtitle">Pedidos guardados • historial editable • compatible con celular y PC</div>
         </div>
       </div>
       <div class="badges">
-        <div class="badge">🔥 Popular</div>
-        <div class="badge">📲 WhatsApp</div>
-        <div class="badge">💾 Pedidos guardados</div>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="label">Artículos en carrito</div>
-        <div class="value" id="statItems">0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Total actual</div>
-        <div class="value" id="statTotal">$0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Entrega</div>
-        <div class="value" id="statEntrega">Local</div>
+        <div class="badge">💾 Guardado automático</div>
+        <div class="badge">📋 Historial</div>
       </div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">
-      <h2>🚚 Tipo de pedido</h2>
-      <span>Selecciona tu forma de entrega</span>
+      <h2>🚚 Pedido</h2>
+      <span>Llena lo básico y agrega productos</span>
     </div>
 
-    <select id="tipoEntrega" onchange="verificarEntrega(); actualizarResumen();">
+    <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente" />
+    <select id="tipoEntrega" onchange="verificarEntrega()">
       <option value="Recoger en local">🏪 Recoger en local</option>
       <option value="A domicilio">🏠 A domicilio</option>
     </select>
-
-    <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente" />
-    <select id="pago" onchange="actualizarResumen()">
-      <option>Efectivo</option>
-      <option>Transferencia</option>
+    <select id="pago">
+      <option value="Efectivo">Efectivo</option>
+      <option value="Transferencia">Transferencia</option>
     </select>
 
-    <p id="estadoUbicacion">📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido</p>
+    <p id="estadoUbicacion">📍 Si eliges a domicilio, se pedirá tu ubicación al guardar el pedido</p>
 
     <div class="quick-actions">
-      <button class="crepas pulse" onclick="crepas()">🥞 Crepas</button>
-      <button class="platanos pulse" onclick="platanos()">🍌 Plátanos</button>
-      <button class="papas pulse" onclick="papas()">🍟 Papas</button>
+      <button class="crepas" onclick="crepas()">🥞 Crepas</button>
+      <button class="platanos" onclick="platanos()">🍌 Plátanos</button>
+      <button class="papas" onclick="papas()">🍟 Papas</button>
     </div>
     <div class="quick-actions" style="margin-top:10px;">
-      <button class="hamb pulse" onclick="hamb()">🍔 Hamburguesas</button>
-      <button class="hot pulse" onclick="hot()">🌭 Hot Dogs</button>
-      <button class="frap pulse" onclick="frap()">🥤 Frappés</button>
+      <button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
+      <button class="hot" onclick="hot()">🌭 Hot Dogs</button>
+      <button class="frap" onclick="frap()">🥤 Frappés</button>
     </div>
   </div>
 
@@ -651,11 +581,9 @@ button:active{
     </div>
 
     <div id="carrito"></div>
-
     <div id="total">Total: $0</div>
-    <div class="scroll-hint">Desliza para ver más si tu pedido crece mucho ✨</div>
 
-    <button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
+    <button class="guardar" onclick="guardarPedido()">💾 Guardar pedido</button>
     <button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
     <button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
   </div>
@@ -665,11 +593,10 @@ button:active{
       <div>
         <div class="section-title" style="margin-bottom:4px;">
           <h2>📋 Historial de pedidos</h2>
-          <span>Se guarda automáticamente</span>
+          <span>Con estados y edición</span>
         </div>
-        <small id="historialInfo">Historial listo</small>
+        <small id="historialInfo">Sin pedidos guardados</small>
       </div>
-      <button class="limpiarHistorial" style="width:auto;padding:10px 14px;" onclick="limpiarHistorialManual()">🧹 Limpiar historial</button>
     </div>
     <div id="historialPedidos"></div>
   </div>
@@ -697,8 +624,8 @@ let flujo = [];
 let data = {};
 let maxSel = null;
 
-const HISTORY_KEY = "michi_historial_pedidos_v1";
-const HISTORY_RESET_KEY = "michi_historial_reset_v1";
+const HISTORY_KEY = "michi_historial_pedidos_v2";
+const HISTORY_RESET_KEY = "michi_historial_reset_v2";
 const HISTORY_DURATION_MS = 12 * 60 * 60 * 1000;
 
 let audioCtx = null;
@@ -718,21 +645,16 @@ function getAudioCtx(){
 function playTone(freq, duration=0.09, type="sine", volume=0.03, ramp=0.015, delay=0){
   const ctx = getAudioCtx();
   if(!ctx) return;
-
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   const start = ctx.currentTime + delay;
-
   osc.type = type;
   osc.frequency.setValueAtTime(freq, start);
-
   gain.gain.setValueAtTime(0.0001, start);
   gain.gain.exponentialRampToValueAtTime(volume, start + ramp);
   gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
   osc.connect(gain);
   gain.connect(ctx.destination);
-
   osc.start(start);
   osc.stop(start + duration + 0.02);
 }
@@ -751,7 +673,6 @@ document.addEventListener("click",(e)=>{
 function toast(msg,type="good"){
   if(type==="good") soundSuccess();
   if(type==="bad" || type==="warn") soundError();
-
   const wrap=document.getElementById("toastWrap");
   const el=document.createElement("div");
   el.className=`toast ${type}`;
@@ -773,10 +694,7 @@ function nowDateTime(){
     dateStyle: "full",
     timeStyle: "short"
   }).format(d);
-  return {
-    iso: d.toISOString(),
-    fecha
-  };
+  return { iso: d.toISOString(), fecha };
 }
 
 function getHistory(){
@@ -805,12 +723,10 @@ function setResetTimestamp(ts){
 function ensureHistoryFresh(){
   const now = Date.now();
   const resetTs = getResetTimestamp();
-
   if(!resetTs){
     setResetTimestamp(now);
     return;
   }
-
   if(now - resetTs >= HISTORY_DURATION_MS){
     localStorage.removeItem(HISTORY_KEY);
     setResetTimestamp(now);
@@ -825,48 +741,13 @@ function saveOrder(order){
   renderHistory();
 }
 
-function formatItemsForHistory(items){
-  return items.map(i => i.nombre).join(" | ");
-}
-
-function limpiarHistorialManual(){
-  localStorage.removeItem(HISTORY_KEY);
-  setResetTimestamp(Date.now());
-  renderHistory();
-  toast("Historial limpiado");
-}
-
-function renderHistory(){
-  ensureHistoryFresh();
-
+function updateOrderById(id, updater){
   const history = getHistory();
-  const box = document.getElementById("historialPedidos");
-  const info = document.getElementById("historialInfo");
-
-  info.textContent = history.length
-    ? `${history.length} pedido(s) guardado(s)`
-    : "Todavía no hay pedidos guardados";
-
-  if(!history.length){
-    box.innerHTML = `
-      <div style="text-align:center;padding:22px 10px;color:#475569;">
-        <div style="font-size:34px;">📋</div>
-        <div style="font-weight:800;margin-top:8px;">Historial vacío</div>
-        <div style="font-size:13px;margin-top:4px;">Los pedidos enviados aparecerán aquí automáticamente</div>
-      </div>
-    `;
-    return;
-  }
-
-  box.innerHTML = history.map((pedido, idx) => `
-    <div class="pedido-card" onclick="verPedidoGuardado(${idx})">
-      <strong>🧾 Pedido #${history.length - idx}</strong>
-      <div class="pedido-meta">🕒 ${pedido.fechaHora} • 👤 ${pedido.cliente}</div>
-      <div class="pedido-items">
-${escapeHtml(pedido.resumen)}
-      </div>
-    </div>
-  `).join("");
+  const idx = history.findIndex(p => p.id === id);
+  if(idx === -1) return;
+  history[idx] = updater({...history[idx]});
+  setHistory(history);
+  renderHistory();
 }
 
 function escapeHtml(str){
@@ -876,43 +757,115 @@ function escapeHtml(str){
     .replaceAll(">","&gt;");
 }
 
-function verPedidoGuardado(index){
+function renderHistory(){
+  ensureHistoryFresh();
   const history = getHistory();
-  const pedido = history[index];
+  const box = document.getElementById("historialPedidos");
+  const info = document.getElementById("historialInfo");
+
+  info.textContent = history.length ? `${history.length} pedido(s) guardado(s)` : "Sin pedidos guardados";
+
+  if(!history.length){
+    box.innerHTML = `
+      <div style="text-align:center;padding:22px 10px;color:#475569;">
+        <div style="font-size:34px;">📋</div>
+        <div style="font-weight:800;margin-top:8px;">Historial vacío</div>
+        <div style="font-size:13px;margin-top:4px;">Tus pedidos guardados aparecerán aquí</div>
+      </div>
+    `;
+    return;
+  }
+
+  box.innerHTML = history.map((pedido, idx) => {
+    const status = pedido.estado || "pendiente";
+    return `
+      <div class="pedido-card ${status}">
+        <div class="pedido-top">
+          <div>
+            <div class="pedido-title">🧾 Pedido #${history.length - idx} — ${escapeHtml(pedido.cliente || "Sin nombre")}</div>
+            <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")} • 🚚 ${escapeHtml(pedido.entrega || "")} • 💳 ${escapeHtml(pedido.pago || "")} • 💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
+          </div>
+          <div class="estado-chip ${status}">● ${estadoTexto(status)}</div>
+        </div>
+
+        <div class="pedido-items">${escapeHtml(pedido.detalles || pedido.resumen || "")}</div>
+
+        <div class="pedido-actions">
+          <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
+          <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
+          <button class="btn-finalizado" onclick="cambiarEstado(${pedido.id}, 'finalizado')">Finalizado</button>
+          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
+          <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function estadoTexto(estado){
+  switch(estado){
+    case "preparando": return "Preparando";
+    case "finalizado": return "Finalizado";
+    case "pagado": return "Pagado";
+    case "entregado": return "Entregado";
+    default: return "Pendiente";
+  }
+}
+
+function cambiarEstado(id, estado){
+  updateOrderById(id, pedido => {
+    pedido.estado = estado;
+    return pedido;
+  });
+  toast(`Pedido marcado como ${estadoTexto(estado).toLowerCase()}`);
+}
+
+function editarPedido(id){
+  const history = getHistory();
+  const pedido = history.find(p => p.id === id);
   if(!pedido) return;
 
-  const detalles = `
-Cliente: ${pedido.cliente}
-Entrega: ${pedido.entrega}
-Pago: ${pedido.pago}
-Fecha y hora: ${pedido.fechaHora}
+  const nuevoCliente = prompt("Editar nombre del cliente:", pedido.cliente || "");
+  if(nuevoCliente === null) return;
 
-Productos:
-${pedido.detalles}
+  const nuevaEntrega = prompt("Editar entrega:", pedido.entrega || "Recoger en local");
+  if(nuevaEntrega === null) return;
 
-Total: $${pedido.total}
-  `.trim();
+  const nuevoPago = prompt("Editar pago:", pedido.pago || "Efectivo");
+  if(nuevoPago === null) return;
 
-  alert(detalles);
+  const nuevoTotal = prompt("Editar total:", String(pedido.total ?? 0));
+  if(nuevoTotal === null) return;
+
+  const nuevosDetalles = prompt("Editar detalle del pedido:", pedido.detalles || pedido.resumen || "");
+  if(nuevosDetalles === null) return;
+
+  updateOrderById(id, old => {
+    old.cliente = nuevoCliente.trim() || old.cliente;
+    old.entrega = nuevaEntrega.trim() || old.entrega;
+    old.pago = nuevoPago.trim() || old.pago;
+    old.total = Number(nuevoTotal) || 0;
+    old.detalles = nuevosDetalles;
+    old.resumen = `${old.cliente} • $${old.total} • ${old.entrega} • ${old.pago}`;
+    old.fechaHoraEdit = nowDateTime().fecha;
+    return old;
+  });
+
+  toast("Pedido editado");
 }
 
 function actualizarResumen(){
-  document.getElementById("statItems").innerText = carrito.length;
-  document.getElementById("statTotal").innerText = "$" + totalCarrito();
-
-  const entrega = document.getElementById("tipoEntrega").value;
-  document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
+  document.getElementById("total").innerText = "Total: $" + totalCarrito();
 }
 
 function setCategoria(cat){
   soundOpen();
-  document.getElementById("modal").className="modal "+cat;
-  document.getElementById("modal").style.display="block";
+  document.getElementById("modal").className = "modal " + cat;
+  document.getElementById("modal").style.display = "block";
 }
 
 function getEmoji(nombre){
   nombre = nombre.toLowerCase();
-
   if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
   if(nombre.includes("hamburguesa") || nombre.includes("clásica") || nombre.includes("hawaiana") || nombre.includes("especial")) return "🍔";
   if(nombre.includes("crepa")) return "🥞";
@@ -954,21 +907,15 @@ function getSel(){
 
 function control(input){
   let checks=document.querySelectorAll("#ops input");
-
   if(input.value==="Ninguna" || input.value==="Ninguno" || input.value==="Con Todo"){
     if(input.checked){
-      checks.forEach(c=>{
-        if(c!==input) c.checked=false;
-      });
+      checks.forEach(c=>{ if(c!==input) c.checked=false; });
     }
   }else{
     checks.forEach(c=>{
-      if(c.value==="Ninguna" || c.value==="Ninguno" || c.value==="Con Todo"){
-        c.checked=false;
-      }
+      if(c.value==="Ninguna" || c.value==="Ninguno" || c.value==="Con Todo") c.checked=false;
     });
   }
-
   if(maxSel && getSel().length>maxSel){
     input.checked=false;
     toast("Solo puedes elegir el máximo permitido.", "warn");
@@ -977,15 +924,12 @@ function control(input){
 
 function next(){
   let sel=getSel();
-
   if(!sel.length){
     alert("Selecciona algo");
     return;
   }
-
   data[flujo[paso].key]=sel;
   paso++;
-
   if(paso<flujo.length){
     flujo[paso]();
   }else{
@@ -996,11 +940,7 @@ function next(){
 
 function add(txt,precio){
   soundAdd();
-  carrito.push({
-    nombre:txt,
-    precio
-  });
-
+  carrito.push({ nombre:txt, precio });
   render();
   actualizarResumen();
   toast("Producto agregado al carrito");
@@ -1009,7 +949,6 @@ function add(txt,precio){
 function render(){
   let div=document.getElementById("carrito");
   div.innerHTML="";
-
   let total=0;
 
   if(carrito.length===0){
@@ -1023,17 +962,15 @@ function render(){
   }else{
     carrito.forEach((i,idx)=>{
       let emoji=getEmoji(i.nombre);
-
-      div.innerHTML+=`
+      div.innerHTML += `
         <p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
           ${emoji} ${i.nombre.replace(/\n/g,"<br>")}
         </p>
       `;
-      total+=i.precio;
+      total += i.precio;
     });
   }
-
-  document.getElementById("total").innerText="Total: $"+total;
+  document.getElementById("total").innerText = "Total: $" + total;
   actualizarResumen();
 }
 
@@ -1070,7 +1007,6 @@ function obtenerUbicacionActual(){
       reject("Tu navegador no permite obtener ubicación.");
       return;
     }
-
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         let lat = pos.coords.latitude;
@@ -1079,308 +1015,106 @@ function obtenerUbicacionActual(){
         resolve({ lat, lon, link });
       },
       (err) => reject(err),
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0
-      }
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
   });
 }
 
 async function verificarEntrega(){
   let entrega=document.getElementById("tipoEntrega").value;
-  document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
-
   if(entrega==="A domicilio"){
-    document.getElementById("estadoUbicacion").innerText="📍 Solicitando permiso de ubicación...";
-    try{
-      await obtenerUbicacionActual();
-      document.getElementById("estadoUbicacion").innerText="✅ Ubicación lista para envío a domicilio";
-      toast("Permiso de ubicación listo", "good");
-    }catch{
-      document.getElementById("estadoUbicacion").innerText="❌ Debes permitir la ubicación para envío a domicilio";
-      toast("Activa la ubicación para continuar", "warn");
-    }
+    document.getElementById("estadoUbicacion").innerText="📍 La ubicación se pedirá al guardar el pedido";
   }else{
-    document.getElementById("estadoUbicacion").innerText="📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido";
+    document.getElementById("estadoUbicacion").innerText="📍 Si eliges a domicilio, se pedirá tu ubicación al guardar el pedido";
   }
 }
 
 /* CREPAS */
 function crepas(){
   setCategoria("crepas");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Bases",
-      [
-        "Nutella",
-        "Lechera",
-        "Cajeta",
-        "Queso Philadelphia",
-        "Mermelada de fresa",
-        "Mermelada de zarzamora"
-      ],
-      "checkbox",
-      2
-    ),
-
-    ()=>abrir(
-      "Frutas",
-      [
-        "Fresa",
-        "Plátano",
-        "Durazno",
-        "Uva",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
-
-    ()=>abrir(
-      "Decoración",
-      [
-        "Chocolate Hershey's",
-        "Lechera",
-        "Ninguna"
-      ],
-      "radio"
-    ),
-
-    ()=>abrir(
-      "Toppings",
-      [
-        "Granillo de chocolate",
-        "Granillo de arcoiris",
-        "Gotas de chocolate",
-        "Nuez",
-        "Lunetitas",
-        "Ninguno"
-      ],
-      "radio"
-    )
+    ()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
+    ()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
+    ()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
+    ()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
   ];
-
-  flujo[0].key="bases";
-  flujo[1].key="frutas";
-  flujo[2].key="dec";
-  flujo[3].key="top";
-
+  flujo[0].key="bases"; flujo[1].key="frutas"; flujo[2].key="dec"; flujo[3].key="top";
   flujo.fin=function(){
     let b=data.bases||[];
     let f=(data.frutas||[]).filter(x=>x!="Ninguna");
-
     if(b.length>=2 && f.length>=4){
       alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
-      paso=0;
-      data={};
-      flujo[0]();
-      return;
+      paso=0; data={}; flujo[0](); return;
     }
-
-    let nb=b.length;
-    let nf=f.length;
-
-    let precio=30;
+    let nb=b.length, nf=f.length, precio=30;
     if(nb==1 && nf==1) precio=40;
     else if(nb==2 && nf==0) precio=35;
     else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
     else if(nb>=1 && nf>=3) precio=50;
     else if(nb>=2 && nf>=2) precio=50;
-    else if(nb>=2 && nf>=3) precio=50;
-
-    let txt="Crepa";
-    txt+="\nBase: "+b.join(", ");
+    let txt="Crepa\nBase: "+b.join(", ");
     if(f.length) txt+="\nFruta: "+f.join(", ");
     if(data.dec && data.dec[0]!="Ninguna") txt+="\nDecoración: "+data.dec;
     if(data.top && data.top[0]!="Ninguno") txt+="\nToppings: "+data.top;
     txt+="\nPrecio: $"+precio;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
 /* PLATANOS */
 function platanos(){
   setCategoria("platanos");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Fritos - $30",
-        "Árabes - $40"
-      ],
-      "radio"
-    ),
-
-    ()=>abrir(
-      "Complementos",
-      [
-        "Crema",
-        "Lechera",
-        "Mermelada de fresa",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
-
-    ()=>abrir(
-      "Toppings",
-      [
-        "Granillo de chocolate",
-        "Granillo de arcoiris",
-        "Gotas de chocolate",
-        "Nuez",
-        "Lunetitas",
-        "Ninguno"
-      ],
-      "radio"
-    )
+    ()=>abrir("Tipo",["Fritos - $30","Árabes - $40"],"radio"),
+    ()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
+    ()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
   ];
-
-  flujo[0].key="tipo";
-  flujo[1].key="comp";
-  flujo[2].key="top";
-
+  flujo[0].key="tipo"; flujo[1].key="comp"; flujo[2].key="top";
   flujo.fin=function(){
     let precio=data.tipo[0].includes("30")?30:40;
     let txt="Plátanos "+data.tipo[0].split(" - ")[0];
-
-    if(data.comp && !data.comp.includes("Ninguna"))
-      txt+="\nComplementos: "+data.comp.join(", ");
-
-    if(data.top && !data.top.includes("Ninguno"))
-      txt+="\nToppings: "+data.top;
-
+    if(data.comp && !data.comp.includes("Ninguna")) txt+="\nComplementos: "+data.comp.join(", ");
+    if(data.top && !data.top.includes("Ninguno")) txt+="\nToppings: "+data.top;
     txt+="\nPrecio: $"+precio;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
 /* PAPAS */
 function papas(){
   setCategoria("papas");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Papas a la francesa - $35",
-        "Salchipulpos con papas - $45",
-        "Banderilla con papas - $35",
-        "Banderilla sola - $25"
-      ],
-      "radio"
-    ),
-
-    ()=>abrir(
-      "Aderezos",
-      [
-        "Catsup",
-        "Queso amarillo",
-        "Salsa",
-        "Ninguna"
-      ],
-      "checkbox"
-    )
+    ()=>abrir("Tipo",["Papas a la francesa - $35","Salchipulpos con papas - $45","Banderilla con papas - $35","Banderilla sola - $25"],"radio"),
+    ()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
   ];
-
-  flujo[0].key="tipo";
-  flujo[1].key="ad";
-
+  flujo[0].key="tipo"; flujo[1].key="ad";
   flujo.fin=function(){
     let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
     let txt=data.tipo[0].split(" - ")[0];
-
-    if(data.ad && !data.ad.includes("Ninguna"))
-      txt+="\nAderezos: "+data.ad.join(", ");
-
+    if(data.ad && !data.ad.includes("Ninguna")) txt+="\nAderezos: "+data.ad.join(", ");
     txt+="\nPrecio: $"+precio;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
 /* HAMBURGUESAS */
 function hamb(){
   setCategoria("hamb");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Tipo de Hamburguesa",
-      [
-        "Clásica - $55",
-        "Hawaiana - $60",
-        "Especial - $65"
-      ],
-      "radio"
-    ),
-
-    ()=>abrir(
-      "Omitir ingredientes",
-      [
-        "Jamón",
-        "Queso amarillo",
-        "Queso Oaxaca",
-        "Chiles en vinagre",
-        "Jitomate",
-        "Cebolla",
-        "Lechuga",
-        "Mayonesa",
-        "Mostaza",
-        "Catsup",
-        "Con Todo"
-      ],
-      "checkbox"
-    ),
-
-    ()=>abrir(
-      "Extras",
-      [
-        "Piña $8",
-        "Tocino $8",
-        "Salchicha $8",
-        "Carne $10",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
-
-    ()=>abrir(
-      "¿Con papas o sin papas?",
-      [
-        "Con papas (+$10)",
-        "Sin papas"
-      ],
-      "radio"
-    ),
-
+    ()=>abrir("Tipo de Hamburguesa",["Clásica - $55","Hawaiana - $60","Especial - $65"],"radio"),
+    ()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Con Todo"],"checkbox"),
+    ()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
+    ()=>abrir("¿Con papas o sin papas?",["Con papas (+$10)","Sin papas"],"radio"),
     ()=>{
       if(data.papas[0].includes("Con papas")){
-        abrir(
-          "Aderezos de papas",
-          [
-            "Catsup",
-            "Queso amarillo",
-            "Salsa",
-            "Ninguna"
-          ],
-          "checkbox"
-        );
+        abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
       }else{
         data.aderezos=["Ninguna"];
         cerrar();
@@ -1388,199 +1122,82 @@ function hamb(){
       }
     }
   ];
-
-  flujo[0].key="tipo";
-  flujo[1].key="sin";
-  flujo[2].key="extra";
-  flujo[3].key="papas";
-  flujo[4].key="aderezos";
-
+  flujo[0].key="tipo"; flujo[1].key="sin"; flujo[2].key="extra"; flujo[3].key="papas"; flujo[4].key="aderezos";
   flujo.fin=function(){
     let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
-
     if(data.papas[0].includes("Con papas")) precio+=10;
-
-    (data.extra||[]).forEach(e=>{
-      if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
-    });
-
+    (data.extra||[]).forEach(e=>{ if(e.includes("$")) precio+=parseInt(e.split("$")[1]); });
     let nombreHamb=data.tipo[0].split(" - ")[0];
     let txt="Hamburguesa "+nombreHamb;
-
-    txt+=data.papas[0].includes("Con papas")
-      ? "\nCon papas"
-      : "\nSin papas";
-
+    txt+=data.papas[0].includes("Con papas") ? "\nCon papas" : "\nSin papas";
     if(data.sin){
-      if(data.sin.includes("Con Todo")){
-        txt+="\nIngredientes: Con todo";
-      }else{
-        txt+="\nSin: "+data.sin.join(", ");
-      }
+      if(data.sin.includes("Con Todo")) txt+="\nIngredientes: Con todo";
+      else txt+="\nSin: "+data.sin.join(", ");
     }
-
     if(data.extra){
-      if(data.extra.includes("Ninguna")){
-        txt+="\nExtras: Ninguna";
-      }else{
-        txt+="\nExtras: "+data.extra.join(", ");
-      }
+      if(data.extra.includes("Ninguna")) txt+="\nExtras: Ninguna";
+      else txt+="\nExtras: "+data.extra.join(", ");
     }
-
     if(data.papas[0].includes("Con papas")){
       if(data.aderezos){
-        if(data.aderezos.includes("Ninguna")){
-          txt+="\nAderezos papas: Ninguna";
-        }else{
-          txt+="\nAderezos papas: "+data.aderezos.join(", ");
-        }
+        if(data.aderezos.includes("Ninguna")) txt+="\nAderezos papas: Ninguna";
+        else txt+="\nAderezos papas: "+data.aderezos.join(", ");
       }
     }
-
     txt+="\nPrecio: $"+precio;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
 /* HOT DOGS */
 function hot(){
   setCategoria("hot");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Sencillo",
-        "Especiales"
-      ],
-      "radio"
-    ),
-
-    ()=>{
-      if(data.tipo[0]==="Especiales"){
-        abrir(
-          "¿Qué cantidad?",
-          [
-            "1 $25",
-            "2 $50",
-            "3 $70"
-          ],
-          "radio"
-        );
-      }else{
-        abrir(
-          "¿Qué cantidad?",
-          [
-            "1 $20",
-            "2 $40",
-            "3 $55"
-          ],
-          "radio"
-        );
-      }
-    },
-
-    ()=>abrir(
-      "Omitir ingredientes",
-      [
-        "Mayonesa",
-        "Catsup",
-        "Jitomate",
-        "Chile jalapeño",
-        "Cebolla",
-        "Con Todo"
-      ],
-      "checkbox"
-    )
+    ()=>abrir("Tipo",["Sencillo","Especiales"],"radio"),
+    ()=> data.tipo[0]==="Especiales"
+      ? abrir("¿Qué cantidad?",["1 $25","2 $50","3 $70"],"radio")
+      : abrir("¿Qué cantidad?",["1 $20","2 $40","3 $55"],"radio"),
+    ()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Con Todo"],"checkbox")
   ];
-
-  flujo[0].key="tipo";
-  flujo[1].key="cant";
-  flujo[2].key="sin";
-
+  flujo[0].key="tipo"; flujo[1].key="cant"; flujo[2].key="sin";
   flujo.fin=function(){
     let cantidad=parseInt(data.cant[0]);
     let precio=parseInt(data.cant[0].match(/\d+/g).pop());
-
     let txt=`Hot Dog ${data.tipo[0]} x${cantidad}`;
-
     if(data.sin){
-      if(data.sin.includes("Con Todo")){
-        txt+="\nCon todo";
-      }else{
-        txt+="\nSin: "+data.sin.join(", ");
-      }
+      if(data.sin.includes("Con Todo")) txt+="\nCon todo";
+      else txt+="\nSin: "+data.sin.join(", ");
     }
-
     txt+="\nPrecio: $"+precio;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
 /* FRAPPES */
 function frap(){
   setCategoria("frap");
-  paso=0;
-  data={};
-
+  paso=0; data={};
   flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Galleta Oreo",
-        "Mazapán",
-        "Frapuccino",
-        "Fresa"
-      ],
-      "radio"
-    ),
-
-    ()=>{
-      if(data.tipo[0]==="Fresa"){
-        abrir(
-          "Tamaño",
-          [
-            "Chico $35",
-            "Grande $60"
-          ],
-          "radio"
-        );
-      }else{
-        abrir(
-          "Tamaño",
-          [
-            "Chico $30",
-            "Grande $50"
-          ],
-          "radio"
-        );
-      }
-    }
+    ()=>abrir("Tipo",["Galleta Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
+    ()=> data.tipo[0]==="Fresa"
+      ? abrir("Tamaño",["Chico $35","Grande $60"],"radio")
+      : abrir("Tamaño",["Chico $30","Grande $50"],"radio")
   ];
-
-  flujo[0].key="tipo";
-  flujo[1].key="tam";
-
+  flujo[0].key="tipo"; flujo[1].key="tam";
   flujo.fin=function(){
     let precio=parseInt(data.tam[0].match(/\d+/)[0]);
     let tamaño=data.tam[0].split(" $")[0];
-
     let txt=`Frappé ${data.tipo[0]} (${tamaño})`;
     txt+=`\nPrecio: $${precio}`;
     add(txt,precio);
   };
-
   flujo[0]();
 }
 
-/* ENVIAR */
-async function enviar(){
+async function guardarPedido(){
   soundTap();
 
   if(carrito.length===0){
@@ -1604,70 +1221,68 @@ async function enviar(){
     return;
   }
 
-  let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
-  txt+="👤 Cliente: "+nombre+"\n";
-  txt+="🚚 Entrega: "+entrega+"\n";
-  txt+="💳 Pago: "+pago+"\n\n";
-
+  let dt = nowDateTime();
+  let textoPedido = "";
   carrito.forEach(i=>{
     let emoji=getEmoji(i.nombre);
-    txt+=emoji+" "+i.nombre+"\n\n";
+    textoPedido += `${emoji} ${i.nombre}\n\n`;
   });
 
-  let ubicacionTexto = "";
-  if(entrega==="A domicilio"){
-    try{
-      document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
-      let ubicacion=await obtenerUbicacionActual();
-      txt+="📍 Ubicación del cliente:\n";
-      txt+=ubicacion.link+"\n\n";
-      ubicacionTexto = ubicacion.link;
-      document.getElementById("estadoUbicacion").innerText="📍 Ubicación agregada correctamente";
-    }catch(err){
-      document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
-      alert("Necesitamos tu ubicación para realizar el envío a domicilio. Activa el permiso de ubicación y vuelve a intentar.");
-      return;
-    }
-  }
-
-  txt+="💰 TOTAL: $"+total;
-
-  const dt = nowDateTime();
-  const detalles = carrito.map(i => {
-    return `• ${getEmoji(i.nombre)} ${i.nombre.replace(/\n/g, " ")}`;
-  }).join("\n");
-
-  saveOrder({
+  const order = {
     id: Date.now(),
     cliente: nombre,
     entrega,
     pago,
     total,
     fechaHora: dt.fecha,
-    detalles,
-    resumen: `${nombre} • $${total} • ${entrega} • ${pago}${ubicacionTexto ? " • 📍" : ""}`
+    fechaHoraIso: dt.iso,
+    detalles: textoPedido.trim(),
+    resumen: `${nombre} • $${total} • ${entrega} • ${pago}`,
+    estado: pago === "Transferencia" ? "pagado" : "pendiente"
+  };
+
+  saveOrder(order);
+
+  let mensaje = "🧾 PEDIDO EL MICHI 🐱\n\n";
+  mensaje += `👤 Cliente: ${nombre}\n`;
+  mensaje += `🚚 Entrega: ${entrega}\n`;
+  mensaje += `💳 Pago: ${pago}\n`;
+  mensaje += `📅 Fecha y hora: ${dt.fecha}\n\n`;
+  carrito.forEach(i=>{
+    let emoji=getEmoji(i.nombre);
+    mensaje += `${emoji} ${i.nombre}\n\n`;
   });
+  mensaje += `💰 TOTAL: $${total}`;
+
+  if(entrega==="A domicilio"){
+    try{
+      document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
+      let ubicacion=await obtenerUbicacionActual();
+      mensaje += `\n\n📍 Ubicación del cliente:\n${ubicacion.link}`;
+      document.getElementById("estadoUbicacion").innerText="📍 Ubicación agregada correctamente";
+    }catch{
+      document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
+      alert("Necesitamos tu ubicación para realizar el envío a domicilio. Activa el permiso de ubicación y vuelve a intentar.");
+      return;
+    }
+  }
 
   carrito=[];
   seleccionado=null;
   render();
-  actualizarResumen();
 
   let telefono="525532416109";
-  let mensaje=encodeURIComponent(txt);
-  let url="whatsapp://send?phone="+telefono+"&text="+mensaje;
-
-  toast("Abriendo WhatsApp para enviar el pedido");
+  let mensajeURL=encodeURIComponent(mensaje);
+  let url="whatsapp://send?phone="+telefono+"&text="+mensajeURL;
+  toast("Pedido guardado en el historial");
   window.location.href=url;
-
   setTimeout(()=>{
     if(document.visibilityState==="visible"){
-      window.location.href="https://wa.me/"+telefono+"?text="+mensaje;
+      window.location.href="https://wa.me/"+telefono+"?text="+mensajeURL;
     }
   },900);
 }
 
-/* estado inicial */
 function initApp(){
   ensureHistoryFresh();
   render();
