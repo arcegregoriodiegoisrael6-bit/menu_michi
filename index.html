@@ -609,9 +609,6 @@ let flujo = [];
 let data = {};
 let maxSel = null;
 
-/* NUEVO */
-let editingOrderId = null;
-
 const HISTORY_KEY = "michi_historial_pedidos_v2";
 const HISTORY_RESET_KEY = "michi_historial_reset_v2";
 const HISTORY_DURATION_MS = 12 * 60 * 60 * 1000;
@@ -663,7 +660,7 @@ function toast(msg,type="good"){
   if(type==="bad" || type==="warn") soundError();
   const wrap=document.getElementById("toastWrap");
   const el=document.createElement("div");
-  el.className=`toast ${type}`;
+  el.className=toast ${type};
   el.textContent=msg;
   wrap.appendChild(el);
   setTimeout(()=>{ el.style.opacity="0"; el.style.transform="translateY(8px)"; }, 2600);
@@ -762,22 +759,22 @@ function renderHistory(){
   const box = document.getElementById("historialPedidos");
   const info = document.getElementById("historialInfo");
 
-  info.textContent = history.length ? `${history.length} pedido(s) guardado(s)` : "Sin pedidos guardados";
+  info.textContent = history.length ? ${history.length} pedido(s) guardado(s) : "Sin pedidos guardados";
 
   if(!history.length){
-    box.innerHTML = `
+    box.innerHTML = 
       <div style="text-align:center;padding:22px 10px;color:#475569;">
         <div style="font-size:34px;">📋</div>
         <div style="font-weight:800;margin-top:8px;">Historial vacío</div>
         <div style="font-size:13px;margin-top:4px;">Tus pedidos guardados aparecerán aquí</div>
       </div>
-    `;
+    ;
     return;
   }
 
   box.innerHTML = history.map((pedido, idx) => {
     const status = pedido.estado || "pendiente";
-    return `
+    return 
       <div class="pedido-card ${status}">
         <div class="pedido-top">
           <div>
@@ -796,7 +793,7 @@ function renderHistory(){
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
-    `;
+    ;
   }).join("");
 }
 
@@ -815,7 +812,7 @@ function cambiarEstado(id, estado){
     pedido.estado = estado;
     return pedido;
   });
-  toast(`Pedido marcado como ${estadoTexto(estado).toLowerCase()}`);
+  toast(Pedido marcado como ${estadoTexto(estado).toLowerCase()});
 }
 
 function editarPedido(id){
@@ -861,12 +858,12 @@ function abrir(titulo,ops,tipo,max=null){
   maxSel=max;
   let html="";
   ops.forEach(o=>{
-    html+=`
+    html+=
       <label>
         <input type="${tipo}" name="opcion" value="${o}" onclick="control(this)">
         <span>${o}</span>
       </label>
-    `;
+    ;
   });
   document.getElementById("ops").innerHTML=html;
 }
@@ -933,21 +930,21 @@ function render(){
   let total=0;
 
   if(carrito.length===0){
-    div.innerHTML = `
+    div.innerHTML = 
       <div style="text-align:center;padding:22px 10px;color:#475569;">
         <div style="font-size:34px;">🛒</div>
         <div style="font-weight:800;margin-top:8px;">Tu carrito está vacío</div>
         <div style="font-size:13px;margin-top:4px;">Agrega productos para armar tu pedido</div>
       </div>
-    `;
+    ;
   }else{
     carrito.forEach((i,idx)=>{
       let emoji=getEmoji(i.nombre);
-      div.innerHTML += `
+      div.innerHTML += 
         <p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
           ${emoji} ${i.nombre.replace(/\n/g,"<br>")}
         </p>
-      `;
+      ;
       total += i.precio;
     });
   }
@@ -1122,7 +1119,7 @@ function hot(){
   flujo.fin=function(){
     let cantidad=parseInt(data.cant[0]);
     let precio=parseInt(data.cant[0].match(/\d+/g).pop());
-    let txt=`Hot Dog ${data.tipo[0]} x${cantidad}`;
+    let txt=Hot Dog ${data.tipo[0]} x${cantidad};
     if(data.sin){
       if(data.sin.includes("Con Todo")) txt+="\nCon todo";
       else txt+="\nSin: "+data.sin.join(", ");
@@ -1147,8 +1144,8 @@ function frap(){
   flujo.fin=function(){
     let precio=parseInt(data.tam[0].match(/\d+/)[0]);
     let tamaño=data.tam[0].split(" $")[0];
-    let txt=`Frappé ${data.tipo[0]} (${tamaño})`;
-    txt+=`\nPrecio: $${precio}`;
+    let txt=Frappé ${data.tipo[0]} (${tamaño});
+    txt+=\nPrecio: $${precio};
     add(txt,precio);
   };
   flujo[0]();
@@ -1156,10 +1153,9 @@ function frap(){
 
 
 async function guardarPedido(){
-
   soundTap();
 
-  if(carrito.length === 0){
+  if(carrito.length===0){
     alert("Agrega productos al carrito");
     return;
   }
@@ -1168,50 +1164,10 @@ async function guardarPedido(){
   let dt = nowDateTime();
 
   let textoPedido = "";
+  carrito.forEach(i=>{
+    let emoji=getEmoji(i.nombre);
+    textoPedido += ${emoji} ${i.nombre}
 
-  carrito.forEach(i => {
-
-    let emoji = getEmoji(i.nombre);
-
-    textoPedido += `${emoji} ${i.nombre}
-
-`;
-
-  });
-
-  const order = {
-
-    id: editingOrderId ? editingOrderId : Date.now(),
-
-    total: total,
-
-    fechaHora: dt.fecha,
-
-    fechaHoraIso: dt.iso,
-
-    detalles: textoPedido.trim(),
-
-    resumen: `Pedido • $${total}`,
-
-    estado: "pendiente",
-
-    items: carrito.map(i => ({...i}))
-
-  };
-
-  saveOrder(order);
-
-  carrito = [];
-
-  seleccionado = null;
-
-  editingOrderId = null;
-
-  render();
-
-  toast("Pedido guardado en el historial");
-
-}
 ;
   });
 
@@ -1221,7 +1177,7 @@ async function guardarPedido(){
     fechaHora: dt.fecha,
     fechaHoraIso: dt.iso,
     detalles: textoPedido.trim(),
-    resumen: `Pedido • $${total}`,
+    resumen: Pedido • $${total},
     estado: "pendiente",
     items: carrito.map(i => ({...i}))
   };
