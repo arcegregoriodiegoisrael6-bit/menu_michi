@@ -1,4 +1,210 @@
+# Sistema de Pedidos Guardados - EL MICHI 🐱
+
+```html
 <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL MICHI - Sistema de Pedidos</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f172a;
+  color:white;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+h1,h2{
+  text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:20px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  margin-top:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.producto{
+  background:#1e293b;
+  margin:10px 0;
+  padding:12px;
+  border-radius:12px;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+.agregar{
+  background:#22c55e;
+  color:white;
+}
+
+.guardar{
+  background:#3b82f6;
+  color:white;
+}
+
+.eliminar{
+  background:#ef4444;
+  color:white;
+}
+
+.ticket{
+  background:white;
+  color:black;
+  padding:15px;
+  border-radius:15px;
+  margin-top:15px;
+}
+
+.lista-pedidos{
+  max-height:600px;
+  overflow:auto;
+}
+
+.pedido-guardado{
+  background:#1e293b;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+
+.total{
+  font-size:24px;
+  font-weight:bold;
+  text-align:center;
+  margin-top:15px;
+}
+
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🐱 EL MICHI - SISTEMA DE PEDIDOS</h1>
+
+<div class="grid">
+
+<div class="card">
+<h2>🛒 Nuevo Pedido</h2>
+
+<input type="text" id="cliente" placeholder="Nombre del cliente">
+
+<select id="producto">
+<option value="Crepa|30">🥞 Crepa - $30</option>
+<option value="Plátanos fritos|30">🍌 Plátanos fritos - $30</option>
+<option value="Plátanos árabes|40">🍌 Plátanos árabes - $40</option>
+<option value="Papas a la francesa|35">🍟 Papas a la francesa - $35</option>
+<option value="Salchipulpos con papas|45">🍟 Salchipulpos con papas - $45</option>
+<option value="Banderilla con papas|35">🍟 Banderilla con papas - $35</option>
+<option value="Banderilla sola|25">🍟 Banderilla sola - $25</option>
+<option value="Hamburguesa clásica|55">🍔 Hamburguesa clásica - $55</option>
+<option value="Hamburguesa hawaiana|60">🍔 Hamburguesa hawaiana - $60</option>
+<option value="Hamburguesa especial|65">🍔 Hamburguesa especial - $65</option>
+<option value="Hot Dog sencillo|20">🌭 Hot Dog sencillo - $20</option>
+<option value="Hot Dog especial|25">🌭 Hot Dog especial - $25</option>
+<option value="Frappé Oreo chico|30">🥤 Frappé Oreo chico - $30</option>
+<option value="Frappé Oreo grande|50">🥤 Frappé Oreo grande - $50</option>
+<option value="Frappé Mazapán chico|30">🥤 Frappé Mazapán chico - $30</option>
+<option value="Frappé Mazapán grande|50">🥤 Frappé Mazapán grande - $50</option>
+<option value="Frappé Fresa chico|35">🥤 Frappé Fresa chico - $35</option>
+<option value="Frappé Fresa grande|60">🥤 Frappé Fresa grande - $60</option>
+</select>
+
+<button class="agregar" onclick="agregarProducto()">➕ Agregar Producto</button>
+
+<div id="carrito"></div>
+
+<div class="total" id="total">Total: $0</div>
+
+<button class="guardar" onclick="guardarPedido()">💾 Guardar Pedido</button>
+<button class="eliminar" onclick="vaciarCarrito()">🗑 Vaciar</button>
+
+</div>
+
+<div class="card">
+<h2>📋 Pedidos Guardados</h2>
+<div class="lista-pedidos" id="listaPedidos"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let carrito=[];
+
+function agregarProducto(){
+  let producto=document.getElementById("producto").value;
+
+  let nombre=producto.split("|")[0];
+  let precio=parseInt(producto.split("|")[1]);
+
+  carrito.push({
+    nombre,
+    precio
+  });
+
+  renderCarrito();
+}
+
+function renderCarrito(){
+  let div=document.getElementById("carrito");
+  div.innerHTML="";
+
+  let total=0;
+
+  carrito.forEach((item,index)=>{
+    total+=item.precio;
+
+    div.innerHTML+=`
+      <div class="producto">
+        <strong>${item.nombre}</strong><br>
+        Precio: $${item.precio}
+      </div>
+    `;
+  });
+
+  document.getElementById("total").innerText="Total: $"+total;
+}
+
+function guardarPedido(){
   let cliente=document.getElementById("cliente").value.trim();
 
   if(cliente===""){
@@ -84,3 +290,5 @@ mostrarPedidos();
 
 </body>
 </html>
+```
+
