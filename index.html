@@ -459,7 +459,7 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 .pedido-meta{
   font-size:12px;
   color:#475569;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
 .pedido-precio{
@@ -804,6 +804,39 @@ function escapeHtml(str){
     .replaceAll(">","&gt;");
 }
 
+function estadoTexto(input){
+  if(typeof input === "string"){
+    switch(input){
+      case "preparando": return "Preparando";
+      case "finalizado": return "Finalizado";
+      case "pagado": return "Pagado";
+      case "entregado": return "Entregado";
+      default: return "Pendiente";
+    }
+  }
+
+  const pedido = input || {};
+  const estados = [];
+
+  if(pedido.pagado){
+    estados.push("Pagado");
+  }
+
+  if(pedido.estado === "preparando"){
+    estados.push("Preparando");
+  }else if(pedido.estado === "entregado"){
+    estados.push("Entregado");
+  }else if(pedido.estado === "finalizado"){
+    estados.push("Finalizado");
+  }
+
+  if(estados.length === 0){
+    return "Pendiente";
+  }
+
+  return estados.join(" • ");
+}
+
 function renderHistory(){
   ensureHistoryFresh();
   const history = getHistory();
@@ -833,7 +866,7 @@ function renderHistory(){
             <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")}</div>
             <div class="pedido-precio">💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
           </div>
-          <div class="estado-chip ${status}">● ${estadoTexto(status)}</div>
+          <div class="estado-chip ${status}">● ${estadoTexto(pedido)}</div>
         </div>
 
         <div class="pedido-items">${escapeHtml(pedido.detalles || pedido.resumen || "")}</div>
@@ -841,7 +874,7 @@ function renderHistory(){
         <div class="pedido-actions">
           <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
           <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
-          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
+          ${pedido.pagado ? "" : `<button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>`}
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
@@ -849,22 +882,21 @@ function renderHistory(){
   }).join("");
 }
 
-function estadoTexto(estado){
-  switch(estado){
-    case "preparando": return "Preparando";
-    case "finalizado": return "Finalizado";
-    case "pagado": return "Pagado";
-    case "entregado": return "Entregado";
-    default: return "Pendiente";
-  }
-}
-
 function cambiarEstado(id, estado){
   updateOrderById(id, pedido => {
-    pedido.estado = estado;
+    if(estado === "pagado"){
+      pedido.pagado = true;
+    }else{
+      pedido.estado = estado;
+    }
     return pedido;
   });
-  toast(`Pedido marcado como ${estadoTexto(estado).toLowerCase()}`);
+
+  if(estado === "pagado"){
+    toast("Pedido marcado como pagado");
+  }else{
+    toast(`Pedido marcado como ${estadoTexto(estado).toLowerCase()}`);
+  }
 }
 
 function editarPedido(id){
@@ -1219,7 +1251,6 @@ async function guardarPedido(){
 
   const history = getHistory();
   const pedidoAnterior = estabaEditando ? history.find(p => p.id === editingOrderId) : null;
-  const estadoPrevio = pedidoAnterior?.estado || "pendiente";
 
   const order = {
     id: estabaEditando ? editingOrderId : Date.now(),
@@ -1228,7 +1259,8 @@ async function guardarPedido(){
     fechaHoraIso: dt.iso,
     detalles: textoPedido.trim(),
     resumen: `Pedido • $${total}`,
-    estado: estadoPrevio,
+    estado: pedidoAnterior?.estado || "pendiente",
+    pagado: pedidoAnterior?.pagado || false,
     items: carrito.map(i => ({...i}))
   };
 
@@ -1238,6 +1270,7 @@ async function guardarPedido(){
   seleccionado=null;
   editingOrderId=null;
   render();
+  actualizarResumen();
 
   if(estabaEditando){
     toast("Pedido actualizado en el historial");
