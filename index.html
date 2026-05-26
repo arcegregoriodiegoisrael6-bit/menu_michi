@@ -270,14 +270,16 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
 #carrito, #historialPedidos{
   background:rgba(255,255,255,.95);
   color:#0f172a;
-  padding:10px;
+  padding:12px;
   border-radius:24px;
   margin:12px 0;
-  max-height:260px;
-  overflow:auto;
-  min-height:90px;
+  max-height:520px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  min-height:140px;
   border:1px solid rgba(15,23,42,.08);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+  scroll-behavior:smooth;
 }
 
 #carrito p{
@@ -519,6 +521,42 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
   .top-bar button{width:100%}
   .pedido-actions{grid-template-columns:1fr 1fr}
   button{font-size:15px}
+
+  #historialPedidos{
+    max-height:75vh;
+    min-height:240px;
+    padding:14px;
+    border-radius:22px;
+  }
+
+  .pedido-card{
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .pedido-items{
+    font-size:14px;
+    line-height:1.55;
+    padding:12px;
+  }
+
+  .pedido-actions{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .pedido-actions button{
+    padding:12px 10px;
+    font-size:13px;
+  }
+
+  .pedido-title{
+    font-size:16px;
+  }
+
+  .pedido-meta{
+    font-size:13px;
+  }
 }
 </style>
 </head>
@@ -531,10 +569,10 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
         <div class="logo">🐱</div>
         <div>
           <h1>MENÚ EL MICHI</h1>
-</div>
+          <div class="subtitle">Pedidos, carrito e historial con estados</div>
+        </div>
       </div>
-<div class="badge">📋 Historial</div>
-      </div>
+      <div class="badge">📋 Historial</div>
     </div>
   </div>
 
@@ -547,7 +585,8 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
     <p style="background:rgba(255,255,255,.9);color:#0f172a;padding:12px 14px;border-radius:18px;margin:10px 0 8px;font-size:14px;line-height:1.45;border:1px solid rgba(15,23,42,.06);">
       📦 El pedido se guardará en el historial cuando presiones <b>Guardar pedido</b>
     </p>
-<div class="quick-actions">
+
+    <div class="quick-actions">
       <button class="crepas" onclick="crepas()">🥞 Crepas</button>
       <button class="platanos" onclick="platanos()">🍌 Plátanos</button>
       <button class="papas" onclick="papas()">🍟 Papas</button>
@@ -608,6 +647,7 @@ let paso = 0;
 let flujo = [];
 let data = {};
 let maxSel = null;
+let editingOrderId = null;
 
 const HISTORY_KEY = "michi_historial_pedidos_v2";
 const HISTORY_RESET_KEY = "michi_historial_reset_v2";
@@ -719,7 +759,6 @@ function ensureHistoryFresh(){
   }
 }
 
-
 function saveOrder(order){
   const history = getHistory();
   if(editingOrderId !== null){
@@ -789,7 +828,7 @@ function renderHistory(){
         <div class="pedido-actions">
           <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
           <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
-                    <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
+          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
@@ -832,7 +871,6 @@ function editarPedido(id){
 }
 
 function actualizarResumen(){
-
   document.getElementById("total").innerText = "Total: $" + totalCarrito();
 }
 
@@ -949,7 +987,6 @@ function render(){
     });
   }
   document.getElementById("total").innerText = "Total: $" + total;
-  actualizarResumen();
 }
 
 function seleccionar(i){
@@ -978,7 +1015,6 @@ function vaciar(){
 function totalCarrito(){
   return carrito.reduce((acc,item)=>acc+item.precio,0);
 }
-
 
 function verificarEntrega(){}
 
@@ -1150,7 +1186,6 @@ function frap(){
   flujo[0]();
 }
 
-
 async function guardarPedido(){
   soundTap();
 
@@ -1159,19 +1194,18 @@ async function guardarPedido(){
     return;
   }
 
+  const estabaEditando = editingOrderId !== null;
   let total = totalCarrito();
   let dt = nowDateTime();
 
   let textoPedido = "";
   carrito.forEach(i=>{
     let emoji=getEmoji(i.nombre);
-    textoPedido += `${emoji} ${i.nombre}
-
-`;
+    textoPedido += `${emoji} ${i.nombre}\n\n`;
   });
 
   const order = {
-    id: editingOrderId || Date.now(),
+    id: estabaEditando ? editingOrderId : Date.now(),
     total,
     fechaHora: dt.fecha,
     fechaHoraIso: dt.iso,
@@ -1185,9 +1219,14 @@ async function guardarPedido(){
 
   carrito=[];
   seleccionado=null;
+  editingOrderId=null;
   render();
 
-  toast(editingOrderId === null ? "Pedido guardado en el historial" : "Pedido actualizado en el historial");
+  if(estabaEditando){
+    toast("Pedido actualizado en el historial");
+  }else{
+    toast("Pedido guardado en el historial");
+  }
 }
 
 function initApp(){
