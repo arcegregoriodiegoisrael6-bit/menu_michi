@@ -572,7 +572,7 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
           <div class="subtitle">Pedidos, carrito e historial con estados</div>
         </div>
       </div>
-      <div class="badge">📋 Historial</div>
+      <div class="badge">📋 Pedidos</div>
     </div>
   </div>
 
@@ -616,8 +616,8 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
     <div class="history-header">
       <div>
         <div class="section-title" style="margin-bottom:4px;">
-          <h2>📋 Historial de pedidos</h2>
-          <span>Con estados y edición</span>
+          <h2>📋 Pedidos guardados</h2>
+          <span>Pedidos guardados</span>
         </div>
         <small id="historialInfo">Sin pedidos guardados</small>
       </div>
@@ -804,7 +804,7 @@ function renderHistory(){
     box.innerHTML = `
       <div style="text-align:center;padding:22px 10px;color:#475569;">
         <div style="font-size:34px;">📋</div>
-        <div style="font-weight:800;margin-top:8px;">Historial vacío</div>
+        <div style="font-weight:800;margin-top:8px;">Sin pedidos guardados</div>
         <div style="font-size:13px;margin-top:4px;">Tus pedidos guardados aparecerán aquí</div>
       </div>
     `;
@@ -827,8 +827,8 @@ function renderHistory(){
 
         <div class="pedido-actions">
           <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
-          <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
-          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
+          ${status === "pagado" ? "" : `<button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>`}
+          ${status === "pagado" ? "" : `<button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>`}
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
@@ -847,6 +847,20 @@ function estadoTexto(estado){
 }
 
 function cambiarEstado(id, estado){
+  const history = getHistory();
+  const pedidoActual = history.find(p => p.id === id);
+  if(!pedidoActual) return;
+
+  if(pedidoActual.estado === "pagado" && estado !== "pagado"){
+    toast("Este pedido ya está pagado y no se puede cambiar.", "warn");
+    return;
+  }
+
+  if(pedidoActual.estado === "pagado" && estado === "pagado"){
+    toast("Este pedido ya está pagado.", "warn");
+    return;
+  }
+
   updateOrderById(id, pedido => {
     pedido.estado = estado;
     return pedido;
@@ -1204,6 +1218,10 @@ async function guardarPedido(){
     textoPedido += `${emoji} ${i.nombre}\n\n`;
   });
 
+  const history = getHistory();
+  const pedidoAnterior = estabaEditando ? history.find(p => p.id === editingOrderId) : null;
+  const estadoPrevio = pedidoAnterior?.estado || "pendiente";
+
   const order = {
     id: estabaEditando ? editingOrderId : Date.now(),
     total,
@@ -1211,7 +1229,7 @@ async function guardarPedido(){
     fechaHoraIso: dt.iso,
     detalles: textoPedido.trim(),
     resumen: `Pedido • $${total}`,
-    estado: "pendiente",
+    estado: estadoPrevio,
     items: carrito.map(i => ({...i}))
   };
 
