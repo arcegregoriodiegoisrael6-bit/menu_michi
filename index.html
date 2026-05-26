@@ -462,6 +462,14 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
   margin-bottom:8px;
 }
 
+.pedido-precio{
+  font-size:28px;
+  font-weight:950;
+  color:#0f172a;
+  line-height:1;
+  margin-bottom:4px;
+}
+
 .pedido-items{
   white-space:pre-wrap;
   font-size:13px;
@@ -557,6 +565,10 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
   .pedido-meta{
     font-size:13px;
   }
+
+  .pedido-precio{
+    font-size:30px;
+  }
 }
 </style>
 </head>
@@ -569,10 +581,10 @@ button:active{ transform:translateY(0) scale(.99); opacity:.96; }
         <div class="logo">🐱</div>
         <div>
           <h1>MENÚ EL MICHI</h1>
-          <div class="subtitle">Pedidos, carrito e historial con estados</div>
+          <div class="subtitle">Pedidos, carrito y seguimiento</div>
         </div>
       </div>
-      <div class="badge">📋 Pedidos</div>
+      <div class="badge">🧾 Pedidos</div>
     </div>
   </div>
 
@@ -818,7 +830,8 @@ function renderHistory(){
         <div class="pedido-top">
           <div>
             <div class="pedido-title">🧾 Pedido #${history.length - idx}</div>
-            <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")} • 💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
+            <div class="pedido-meta">🕒 ${escapeHtml(pedido.fechaHora || "")}</div>
+            <div class="pedido-precio">💰 $${escapeHtml(String(pedido.total ?? 0))}</div>
           </div>
           <div class="estado-chip ${status}">● ${estadoTexto(status)}</div>
         </div>
@@ -827,8 +840,8 @@ function renderHistory(){
 
         <div class="pedido-actions">
           <button class="btn-editar" onclick="editarPedido(${pedido.id})">Editar</button>
-          ${status === "pagado" ? "" : `<button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>`}
-          ${status === "pagado" ? "" : `<button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>`}
+          <button class="btn-preparando" onclick="cambiarEstado(${pedido.id}, 'preparando')">Preparando</button>
+          <button class="btn-pagado" onclick="cambiarEstado(${pedido.id}, 'pagado')">Pagado</button>
           <button class="btn-entregado" onclick="cambiarEstado(${pedido.id}, 'entregado')">Entregado</button>
         </div>
       </div>
@@ -847,20 +860,6 @@ function estadoTexto(estado){
 }
 
 function cambiarEstado(id, estado){
-  const history = getHistory();
-  const pedidoActual = history.find(p => p.id === id);
-  if(!pedidoActual) return;
-
-  if(pedidoActual.estado === "pagado" && estado !== "pagado"){
-    toast("Este pedido ya está pagado y no se puede cambiar.", "warn");
-    return;
-  }
-
-  if(pedidoActual.estado === "pagado" && estado === "pagado"){
-    toast("Este pedido ya está pagado.", "warn");
-    return;
-  }
-
   updateOrderById(id, pedido => {
     pedido.estado = estado;
     return pedido;
@@ -1256,7 +1255,6 @@ function initApp(){
 
 setInterval(()=>{
   ensureHistoryFresh();
-  renderHistory();
 }, 5 * 60 * 1000);
 
 window.addEventListener("storage", (e) => {
